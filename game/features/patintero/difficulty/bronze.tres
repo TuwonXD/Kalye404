@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="PatinteroDifficulty" format=3 uid="uid://g45qgb5senpc"]
+
+[ext_resource type="Script" uid="uid://bewp1r4jjfpe5" path="res://features/patintero/difficulty/patintero_difficulty.gd" id="1_dmd3c"]
+
+[resource]
+script = ExtResource("1_dmd3c")
+tier_name = "Bronze Grunt"
+metadata/_custom_type_script = "uid://bewp1r4jjfpe5"
