@@ -20,9 +20,19 @@ Dialogic="*uid://ds2q0uclmolvu"
 
 [dialogic]
 
-directories/dch_directory={}
-directories/dtl_directory={}
+directories/dch_directory={
+"Kiko": "res://features/story/characters/Kiko.dch",
+"Mama": "res://features/story/characters/Mama.dch",
+"Totoy ": "res://features/story/characters/Totoy .dch"
+}
+directories/dtl_directory={
+"prologue_intro": "res://features/story/timelines/prologue_intro.dtl"
+}
 layout/style_directory={}
+layout/style_list=["res://shared/ui/dialogue/kalye_dialogue_style.tres"]
+layout/default_style="res://shared/ui/dialogue/kalye_dialogue_style.tres"
+variables={}
+glossary/default_case_sensitive=true
 
 [editor_plugins]
 
