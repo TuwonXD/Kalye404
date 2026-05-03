@@ -8,6 +8,13 @@ extends Node2D
 ## Emitted when the match ends. Connect from overworld in Session E.
 signal match_ended(result: String)
 
+## Emitted when the tutorial overlay is clicked.
+signal tutorial_clicked
+
+var tutorial_overlay: CanvasLayer
+var tutorial_root: Control
+var tutorial_label: Label
+
 # ── State Enum ────────────────────────────────────────────────────────────────
 
 enum State { INTRO, PRE_DUEL, OBSERVATION, EXECUTION, TAGGED, FADE_OUT, ADVANCING, VICTORY, GAME_OVER }
@@ -72,6 +79,8 @@ func _ready() -> void:
 	timer_bar.value = 1.0
 	fade_rect.modulate.a = 0.0
 
+	_setup_tutorial_overlay()
+
 	# Fallback if no difficulty assigned in Inspector.
 	if difficulty == null:
 		push_warning("PatinteroGame: No difficulty assigned. Using default values.")
@@ -92,6 +101,75 @@ func _process(_delta: float) -> void:
 			timer_bar.modulate = Color.WHITE
 	elif _state != State.EXECUTION:
 		timer_bar.modulate = Color.WHITE
+
+# ── Tutorial System ───────────────────────────────────────────────────────────
+
+func _setup_tutorial_overlay() -> void:
+	tutorial_overlay = CanvasLayer.new()
+	tutorial_overlay.layer = 100 # Ensure it's on top of everything
+	tutorial_overlay.visible = false
+	add_child(tutorial_overlay)
+	
+	tutorial_root = Control.new()
+	tutorial_root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tutorial_overlay.add_child(tutorial_root)
+	
+	var bg = ColorRect.new()
+	bg.color = Color(0, 0, 0, 0.7)
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tutorial_root.add_child(bg)
+	
+	tutorial_label = Label.new()
+	tutorial_label.add_theme_font_size_override("font_size", 32)
+	tutorial_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tutorial_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	tutorial_label.custom_minimum_size = Vector2(800, 0)
+	tutorial_label.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	tutorial_label.grow_vertical = Control.GROW_DIRECTION_BOTH
+	tutorial_label.set_anchors_preset(Control.PRESET_CENTER)
+	tutorial_root.add_child(tutorial_label)
+	
+	var click_hint = Label.new()
+	click_hint.text = "Press Space/Enter or Click to continue..."
+	click_hint.add_theme_font_size_override("font_size", 24)
+	click_hint.modulate = Color.GRAY
+	click_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	click_hint.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	click_hint.grow_vertical = Control.GROW_DIRECTION_BOTH
+	click_hint.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	click_hint.position.y -= 50
+	tutorial_root.add_child(click_hint)
+
+func _play_tutorial_message(text: String) -> void:
+	if difficulty.tier_name != "Tutorial Grunt":
+		return
+	
+	tutorial_label.text = text
+	tutorial_root.modulate.a = 0.0 # Start completely transparent
+	tutorial_overlay.visible = true
+	
+	# Fade In
+	var tween_in := create_tween()
+	tween_in.tween_property(tutorial_root, "modulate:a", 1.0, FADE_DURATION).set_trans(Tween.TRANS_SINE)
+	await tween_in.finished
+	
+	# Wait for the player to click anywhere
+	await self.tutorial_clicked
+	
+	# Fade Out
+	var tween_out := create_tween()
+	tween_out.tween_property(tutorial_root, "modulate:a", 0.0, FADE_DURATION).set_trans(Tween.TRANS_SINE)
+	await tween_out.finished
+	
+	tutorial_overlay.visible = false
+
+func _input(event: InputEvent) -> void:
+	if tutorial_overlay != null and tutorial_overlay.visible:
+		var clicked = event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT
+		var pressed = event.is_action_pressed("ui_accept")
+		if clicked or pressed:
+			tutorial_clicked.emit()
+			get_viewport().set_input_as_handled()
 
 # ── State Machine ─────────────────────────────────────────────────────────────
 
@@ -152,6 +230,10 @@ func _enter_pre_duel() -> void:
 	progress_label.text = "Line %d/3 — Round %d/%d" % [line_num, round_num, total_rounds]
 
 	await get_tree().create_timer(PRE_DUEL_PAUSE).timeout
+	
+	if difficulty.tier_name == "Tutorial Grunt" and _current_line == 0 and _current_round == 0:
+		await _play_tutorial_message("Welcome to Patintero!\n\nYou must pass the guard to advance to the next line.")
+		
 	_current_sequence = SequenceGenerator.generate(difficulty.sequence_length)
 	_change_state(State.OBSERVATION)
 
@@ -180,6 +262,9 @@ func _enter_observation() -> void:
 	await a_tween.finished
 	alert.queue_free()
 
+	if difficulty.tier_name == "Tutorial Grunt" and _current_line == 0 and _current_round == 0:
+		await _play_tutorial_message("Watch the guard's pattern carefully...\n\nMemorize the sequence of arrows!")
+
 	# show_sequence is a coroutine — awaiting it waits for reveal + hold to finish.
 	await seq_display.show_sequence(
 		_current_sequence,
@@ -191,6 +276,9 @@ func _enter_observation() -> void:
 # ── EXECUTION ─────────────────────────────────────────────────────────────────
 
 func _enter_execution() -> void:
+	if difficulty.tier_name == "Tutorial Grunt" and _current_line == 0 and _current_round == 0:
+		await _play_tutorial_message("Now it's your turn!\n\nPress the arrow keys in the exact order before the chalk line disappears!")
+
 	# Pre-Execution Alert ("GO!")
 	var go_label := Label.new()
 	go_label.text = "GO!"

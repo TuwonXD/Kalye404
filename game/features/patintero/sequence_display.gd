@@ -50,8 +50,29 @@ func show_sequence(sequence: Array[String], reveal_time: float, hold_time: float
 		await tween.finished
 		await get_tree().create_timer(reveal_time * 0.5).timeout
 
-	# Hold phase: all arrows are now visible. Wait for hold_time.
-	await get_tree().create_timer(hold_time).timeout
+	# Hold phase: Delayed Heartbeat
+	if hold_time > 1.0:
+		# Wait perfectly still for most of the hold time
+		await get_tree().create_timer(hold_time - 1.0).timeout
+		
+		# Exactly 1.0 second left: do 1 slow, deep receding pulse
+		var throb_tween := create_tween()
+		for label in labels:
+			# Shrink down and fade out slowly (0.5s)
+			throb_tween.parallel().tween_property(label, "scale", Vector2.ONE * 0.7, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			throb_tween.parallel().tween_property(label, "modulate:a", 0.3, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		
+		throb_tween.chain().tween_interval(0.0) # Break parallel
+		
+		for label in labels:
+			# Swell back to normal slowly (0.5s)
+			throb_tween.parallel().tween_property(label, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			throb_tween.parallel().tween_property(label, "modulate:a", 1.0, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		
+		await throb_tween.finished
+	else:
+		# If hold time is extremely short, just wait it out
+		await get_tree().create_timer(hold_time).timeout
 
 	# Hide all arrows instantly.
 	_clear()

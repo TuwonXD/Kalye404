@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://wwopifxsaly0" path="res://features/patintero/sequence_display.gd" id="1_0uwwj"]
 [ext_resource type="Script" uid="uid://u2tc82puyxtn" path="res://features/patintero/patintero_game.gd" id="1_lujxl"]
 [ext_resource type="Script" uid="uid://bkyivxmoyfwd1" path="res://features/patintero/stamina_manager.gd" id="1_yllgc"]
-[ext_resource type="Resource" uid="uid://g45qgb5senpc" path="res://features/patintero/difficulty/bronze.tres" id="2_epsbs"]
+[ext_resource type="Resource" uid="uid://dn7mg4x1t1xwu" path="res://features/patintero/difficulty/tutorial.tres" id="2_epsbs"]
 [ext_resource type="Script" uid="uid://duxfknawle4sp" path="res://features/patintero/input_handler.gd" id="3_lujxl"]
 
 [node name="PatinteroGame" type="Node2D" unique_id=399122401]
@@ -72,6 +72,7 @@ offset_left = 176.0
 offset_top = 260.0
 offset_right = 976.0
 offset_bottom = 330.0
+theme_override_constants/separation = 20
 alignment = 1
 script = ExtResource("1_0uwwj")
 
@@ -81,6 +82,7 @@ offset_left = 176.0
 offset_top = 340.0
 offset_right = 976.0
 offset_bottom = 390.0
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="TimerBar" type="ProgressBar" parent="UI/UIRoot" unique_id=834585959]
