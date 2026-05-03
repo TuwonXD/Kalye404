@@ -2,7 +2,7 @@
 "@path": "res://addons/dialogic/Resources/character.gd",
 "@subpath": NodePath(""),
 &"_translation_id": "",
-&"color": Color(0.912284, 0.921875, 0.15460013, 1),
+&"color": Color(0.2545613, 0.4946926, 0.953125, 1),
 &"custom_info": {
 "prefix": "",
 "sound_mood_default": "",
@@ -12,7 +12,7 @@
 },
 &"default_portrait": "",
 &"description": "",
-&"display_name": "Kiko",
+&"display_name": "Totoy",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),

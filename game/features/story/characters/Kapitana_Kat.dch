@@ -2,7 +2,7 @@
 "@path": "res://addons/dialogic/Resources/character.gd",
 "@subpath": NodePath(""),
 &"_translation_id": "",
-&"color": Color(0.31158206, 0.5160209, 0.940625, 1),
+&"color": Color(0.4884023, 0.12131213, 0.78125, 1),
 &"custom_info": {
 "prefix": "",
 "sound_mood_default": "",
@@ -12,7 +12,7 @@
 },
 &"default_portrait": "",
 &"description": "",
-&"display_name": "Totoy",
+&"display_name": "Kapitana Kat",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
