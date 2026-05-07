@@ -1,0 +1,9 @@
+[background fade="1.0"]
+join Kiko left
+join Totoy right
+Kiko: Ito na yung pinaka-final na laro. Luksong Baka, Lods.
+Kiko: Lalakad si Totoy papalapit sa Baka. May lalabas na prompt ng keys. I-press mo ng eksaktong oras para makatalon nang maayos.
+Totoy: Parang QTE sa RPG?
+Kiko: Exactly! At pag nagmali ka o mabagal ka, mabibigo ang jump at mawawalan ka ng life. Tatlong buhay ka lang, ha. Ingat.
+Totoy: Tatlong buhay... classic. Okay, kaya ko 'to.
+[signal value="start_tutorial_luksong_baka"]

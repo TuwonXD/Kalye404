@@ -1,0 +1,19 @@
+[background fade="0.5"]
+join Kuya_Talon center
+Kuya_Talon: Huwaaaat?! Nalampasan mo talaga ang talon ko?! Dalawang taon! Dalawang taon na wala akong natalo, tapos ikaw—
+join Totoy left
+Totoy: Haa... haa... kailangan ko ng tubig.
+Kuya_Talon: Hahahaha! Mayroon ka talagang kalooban, bata. Alam mo kung ano ang masasabi ko sa'yo?
+Kuya_Talon: Ikaw na ang bagong hari ng Covered Court. Ikaw na ang pinaka-magaling sa Kalye 404.
+join Kiko right
+Kiko: TOTOY! NARINIG MO YAN?! CHAMPION TAYO!
+Totoy: Hehe...
+[wait time="1.0"]
+Totoy: ...Sabi na nga ba eh.
+[background fade="2.0"]
+[wait time="2.0"]
+join Totoy center
+Totoy: ...
+[wait time="1.5"]
+Totoy: Bukas ulit.
+[signal value="roll_credits"]
