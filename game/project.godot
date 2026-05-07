@@ -14,10 +14,6 @@ config/name="Kalye 404"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
-[display]
-
-window/stretch/mode="canvas_items"
-
 [autoload]
 
 Dialogic="*uid://ds2q0uclmolvu"
@@ -90,6 +86,10 @@ audio/channel_defaults={
 "volume": 0.0
 }
 }
+
+[display]
+
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
