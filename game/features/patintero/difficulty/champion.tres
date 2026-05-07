@@ -7,6 +7,6 @@ script = ExtResource("1_6i81k")
 tier_name = "Kalye Champion"
 sequence_length = 6
 reveal_time_per_arrow = 0.30000000000000004
-hold_time = 1.5
+hold_time = 2.5
 rounds_per_line = Array[int]([2, 2, 3])
 metadata/_custom_type_script = "uid://bewp1r4jjfpe5"
