@@ -1,0 +1,10 @@
+[background fade="0.5"]
+join Boy_Tsinelas center
+Boy_Tsinelas: Imposible... nabasa mo ang galaw ng hangin?
+join Totoy left
+Totoy: Hindi ah, nag-adjust lang ako ng angle para sakto sa hitbox ng lata.
+Boy_Tsinelas: Magaling... tanggapin mo 'to. Ang Legendary Slipper. Ang katunayan na natalo mo ang alamat ng Eskinita. Pwede ka na pumunta sa Main Street.
+join Kiko right
+Kiko: Grabe Lods! Unang laro mo pa lang, champion ka na agad sa Eskinita!
+Totoy: Haa... saan na naman 'yung suka... baka magunaw na bahay namin.
+[signal value="end_act_1"]
