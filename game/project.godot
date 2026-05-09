@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="HD 2D Practice"
+config/name="Kalye 404"
 run/main_scene="uid://cde5er00m0vfc"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
