@@ -1,0 +1,9 @@
+[background fade="1.0"]
+join Kiko left
+join Totoy right
+Kiko: Okay Lods, pakinggan mo muna ako. Ito ang Tumbang Preso. Simple lang.
+Kiko: May dalawang power bar ang lalabas. Isa para sa lakas ng ihagis, isa para sa direksyon. I-time mo ng tama ang bawat isa.
+Totoy: Parang shooting mechanic?
+Kiko: Halos ganun! Ang unang makasampal ng lima sa lata, siya ang mananalo. Ready ka na ba?
+Totoy: ...ready.
+[signal value="start_tutorial_tumbang_preso"]
