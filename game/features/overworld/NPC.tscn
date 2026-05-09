@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bqeg2kdfoabye"]
+
+[ext_resource type="Script" uid="uid://crotyd5uheuim" path="res://features/overworld/npc.gd" id="1_tdvfm"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oy2ll"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tdvfm"]
+albedo_color = Color(1, 0.31, 0.31, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tdvfm"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=1281539092]
+script = ExtResource("1_tdvfm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=857742369]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_oy2ll")
+surface_material_override/0 = SubResource("StandardMaterial3D_tdvfm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=47146032]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_tdvfm")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=575032559]
+path_desired_distance = 0.5
