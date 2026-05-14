@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bbr3dy5um7abw"]
+
+[ext_resource type="PackedScene" uid="uid://cascibvb802lu" path="res://power_bar_easy.tscn" id="1_gl814"]
+
+[node name="TumbangPreso" type="Node2D" unique_id=120766366]
+
+[node name="PowerBarEasy" parent="." unique_id=692389063 instance=ExtResource("1_gl814")]
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 43.0
+offset_bottom = 43.0

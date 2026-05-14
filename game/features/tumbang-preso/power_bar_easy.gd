@@ -1,0 +1,134 @@
+extends Control
+
+@export var bar_width: float = 50.0
+@export var bar_height: float = 400.0
+
+# pixels per second
+@export var arrow_speed: float = 200.0  
+
+# Zones are expressed as vertical ranges in normalized bar space.
+# 0.0 = bottom, 1.0 = top
+
+# green start and end (0-11.25%)
+@export var min_zone: Vector2 = Vector2(0.0, 0.1125)  
+
+ # orange (11.25%-26.25%)
+@export var mid_zone: Vector2 = Vector2(0.1125, 0.2625) 
+
+ # red (26.25%-100%)
+@export var max_zone: Vector2 = Vector2(0.2625, 1.0) 
+
+@onready var arrow = $Arrow
+@onready var green_zone = $GreenZone
+@onready var orange_zone = $OrangeZone
+@onready var red_zone = $RedZone
+@onready var background = $Background
+@onready var label = $Label
+
+# 0.0 to 1.0, bottom to top
+var arrow_position: float = 0.0  
+
+# 1 = up, -1 = down
+var arrow_direction: float = 1.0  
+
+var is_active: bool = false
+var stopped: bool = false
+var stopped_position: float = 0.0
+
+signal power_bar_stopped(position: float, zone: String)
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	size = Vector2(bar_width, bar_height)
+	background.position = Vector2.ZERO
+	background.size = Vector2(bar_width, bar_height)
+
+	green_zone.position = Vector2.ZERO
+	green_zone.size = Vector2(bar_width, bar_height * (min_zone.y - min_zone.x))
+
+	orange_zone.position = Vector2(0, bar_height * mid_zone.x)
+	orange_zone.size = Vector2(bar_width, bar_height * (mid_zone.y - mid_zone.x))
+
+	red_zone.position = Vector2(0, bar_height * max_zone.x)
+	red_zone.size = Vector2(bar_width, bar_height * (max_zone.y - max_zone.x))
+
+	arrow.position = Vector2.ZERO
+
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	if not is_active or stopped:
+		return
+
+	arrow_position += arrow_direction * arrow_speed * delta / bar_height
+
+	if arrow_position >= 1.0:
+		arrow_position = 1.0
+		arrow_direction = -1.0
+		
+	elif arrow_position <= 0.0:
+		arrow_position = 0.0
+		arrow_direction = 1.0
+
+	arrow.position.y = bar_height - (arrow_position * bar_height)
+
+
+func start():
+	is_active = true
+	stopped = false
+	arrow_position = 0.0
+	arrow_direction = 1.0
+	arrow.position.y = bar_height
+	if label:
+		label.text = ""
+
+
+func stop():
+	if not is_active:
+		return
+
+	is_active = false
+	stopped = true
+	stopped_position = arrow_position
+
+	var zone = get_zone_at_position(stopped_position)
+	if label:
+		if zone == "unknown":
+			label.text = "Stopped at Unknown"
+		else:
+			label.text = "Stopped at %sZone" % zone.capitalize()
+	
+	power_bar_stopped.emit(stopped_position * 100.0, zone)
+
+
+func _input(event):
+	if event.is_action_pressed("StopArrow"):
+		if is_active and not stopped:
+			stop()
+		elif not is_active and not stopped:
+			start()
+
+
+func get_zone_at_position(pos: float) -> String:
+	var pos_from_top := 1.0 - pos
+
+	if pos_from_top >= min_zone.x and pos_from_top < min_zone.y:
+		return "green"
+		
+	elif pos_from_top >= mid_zone.x and pos_from_top < mid_zone.y:
+		return "orange"
+		
+	elif pos_from_top >= max_zone.x and pos_from_top <= max_zone.y:
+		return "red"
+		
+	return "unknown"
+
+func reset():
+	is_active = false
+	stopped = false
+	arrow_position = 0.0
+	arrow_direction = 1.0
+	arrow.position.y = bar_height
+	if label:
+		label.text = ""
