@@ -1,0 +1,17 @@
+[background fade="1.0"]
+join Totoy center
+Totoy: Haa... haa... ang sakit ng binti ko. Grabe, mas hirap pa 'to sa mga boss fights sa loob ng game...
+join Mama left
+join Totoy right
+Mama: O, bakit ganyan ka? Inabot ka yata ng siyam-siyam sa pagbili ng suka?
+Totoy: Ah... eto po Ma.
+Mama: At bakit dusty-dusty ka? Natumba ka ba daan?
+Totoy: Hindi naman po... nadapa lang ng konti.
+leave Mama
+Mama: O siya. Mag-punas ka na ng pawis mo. Malapit na ang hapunan.
+[wait time="1.0"]
+join Totoy center
+Totoy: ...
+[wait time="1.5"]
+Totoy: Bukas ulit.
+[signal value="fade_to_day_2"]

@@ -1,9 +1,11 @@
 [background fade="1.0"]
 join Kiko left
 join Totoy right
-Kiko: Okay pre, pakinggan mo muna. Patintero 'to. Hindi ito basta-basta.
-Kiko: May lalabas na sequence ng arrows. Tinitignan mo muna, pagkatapos mawala, i-type mo na yung tamang order. Huwag magkamali, huwag mabagal.
-Totoy: Parang memory game?
-Kiko: Oo! At kung madikit ka, babalik ka sa simula ng linya. Kapag ubos na ang stamina mo, game over. Kaya mag-ingat ka.
-Totoy: Sige, gets ko na.
+Kiko: Lods! Buti nakatakas ka ulit! Main Street na tayo, iba na ang level dito.
+Kiko: Patintero 'to. May lalabas na sequence ng arrows. Tinitignan mo muna, pagkatapos mawala, i-type mo na yung tamang order. Huwag magkamali, huwag mabagal.
+Totoy: Ah, memory game. Parang quick-time event lang.
+Kiko: Oo! At kung madikit ka, babalik ka sa simula ng linya. Kapag ubos na ang stamina mo, game over.
+Totoy: Sige. Asan na yung Boy Tsinelas ng lugar na 'to?
+Kiko: Ssshh! Wag kang maingay Lods! Si Kapitana Kat ang may hawak dito. Sabi nila, parang pusa daw mata nun... walang nakakalusot.
+Kiko: Magpa-rank up ka muna ulit sa Board bago ka mapansin nun!
 [signal value="start_tutorial_patintero"]

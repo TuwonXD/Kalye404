@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://6jdguonjc00p" path="res://features/overworld/sprites/idle/Sprite Sheet/idle full sprite sheet (transparent BG).png" id="2_vgqql"]
 [ext_resource type="Texture2D" uid="uid://co27enml71tpu" path="res://features/overworld/sprites/walk/Sprite Sheet/walk complete sprite sheet (transparent BG).png" id="3_fkybt"]
 [ext_resource type="Texture2D" uid="uid://bshbqtjmxvh7h" path="res://features/overworld/sprites/run/Sprite Sheets/run complete sprite sheet (transparent BG).png" id="4_x3wgy"]
+[ext_resource type="Script" uid="uid://bellvao2yk012" path="res://features/overworld/interaction/player_interaction.gd" id="5_ydvhw"]
+[ext_resource type="Script" uid="uid://drp3xlun7h3ck" path="res://features/overworld/interaction/label.gd" id="6_d1ubw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3smsa"]
 atlas = ExtResource("2_vgqql")
@@ -1212,6 +1214,9 @@ animations = [{
 radius = 0.11279297
 height = 0.28764343
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_d1ubw"]
+radius = 0.3
+
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=763602366]
 script = ExtResource("1_cvnsp")
 
@@ -1246,3 +1251,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028175354, 0)
 shape = SubResource("CapsuleShape3D_vgqql")
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1578228778]
+
+[node name="InteractionScanner" type="Area3D" parent="." unique_id=38695892]
+script = ExtResource("5_ydvhw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionScanner" unique_id=1714520172]
+shape = SubResource("SphereShape3D_d1ubw")
+
+[node name="InteractUI" type="CanvasLayer" parent="." unique_id=365860238]
+
+[node name="Label" type="Label" parent="InteractUI" unique_id=1593183068]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -61.0
+offset_top = -69.0
+offset_right = 61.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Press [E] to Talk"
+script = ExtResource("6_d1ubw")
+
+[connection signal="prompt_updated" from="InteractionScanner" to="InteractUI/Label" method="_on_interaction_scanner_prompt_updated"]

@@ -1,11 +1,11 @@
 [background fade="1.0"]
 join Kiko left
 join Totoy right
-Kiko: Main Street na tayo Lods. Iba na ang level dito. Mas mabilis, mas mahirap. Nandyan na siya... si Kapitana Kat.
+Kiko: Nandyan na siya Lods... si Kapitana Kat.
 join Kapitana_Kat center
-Kapitana_Kat: Aba, may bagong mukha. Ikaw ba 'yung galing sa Eskinita? Sabi ni Boy Tsinelas, mabilis daw.
+Kapitana_Kat: Aba, bumalik ang bagong mukha. Nakita ko yung laro mo sa board. Mabilis daw.
 Totoy: Sinabi mo pa.
 Kapitana_Kat: Confident. Maganda. Pero dito sa kalsada ko, hindi reflexes lang ang kailangan. Kailangan din ng memorya. Handa ka na ba?
-Totoy: Memorya? Ano bang laro 'to—
-Kapitana_Kat: Patintero. Huwag kang madikit. Game na!
+Totoy: Memorya? Oo. Gets ko na yung pattern.
+Kapitana_Kat: Tingnan natin. Huwag kang madikit. Game na!
 [signal value="start_patintero_game"]

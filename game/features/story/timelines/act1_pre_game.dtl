@@ -1,9 +1,10 @@
 [background fade="1.0"]
 join Kiko left
 join Totoy right
-Kiko: Lods, mag-ingat ka. Siya 'yan. Si Boy Tsinelas. Ang alamat ng Eskinita. Isang maling galaw mo lang... BAM. Taya ka na agad.
-join Boy_Tsinelas center
-Boy_Tsinelas: Bago ka sa kalsada... naamoy ko agad. Laro na tayo.
-Totoy: Hala... maliit nga ang lata niya. Kailangan talaga asintado 'to.
-Boy_Tsinelas: Tama na ang salita. Ihanda mo na 'yang tsinelas mo!
-[signal value="start_tumbang_preso_game"]
+Kiko: Lods... ang tangkad niya. Sigurado 'to?
+join Kuya_Talon center
+Kuya_Talon: Hoy hoy hoy... sino 'tong mga batang 'to? Ikaw ang kumatok sa pintuan ng Covered Court?
+Totoy: Oo. Tapos na 'ko mag-practice. Handa na ako.
+Kuya_Talon: Hahahaha! Gusto ko ang kumpiyansa mo, bata. Pero alam mo bang hindi ako natatalunan ng sinuman dito sa loob ng dalawang taon? Malayo pa ang talon mo sa akin.
+Totoy: Sigurado ako.
+[signal value="start_luksong_baka_game"]

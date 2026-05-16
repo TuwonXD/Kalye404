@@ -1,0 +1,11 @@
+[background fade="1.0"]
+join Mama left
+join Totoy right
+Mama: Totoy, bumili ka nga ng pandesal dun sa panaderya malapit sa Simbahan.
+Totoy: Sige po, Ma.
+Mama: At wag ka nang makipag-harutan sa kalsada, kalalaba ko lang ng damit mo!
+Totoy: Opo...
+leave Totoy
+[wait time="0.5"]
+Mama: ...pero mag-ingat ka dun, ah. Wag magpapagutom.
+[signal value="start_overworld_act2"]

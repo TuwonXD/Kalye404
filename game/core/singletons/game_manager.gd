@@ -32,6 +32,39 @@ var SAVE_PATH = "user://kalye404_save.json"
 
 func _ready():
 	load_game()
+	# Connect to Dialogic signals to advance story naturally
+	if Dialogic:
+		Dialogic.signal_event.connect(_on_dialogic_signal)
+
+func _on_dialogic_signal(argument: String):
+	print("GameManager received Dialogic signal: ", argument)
+	match argument:
+		"start_overworld_act1":
+			if current_story_state == StoryState.DAY1_INTRO: advance_story_state()
+		"eskinita_intro_done":
+			if current_story_state == StoryState.DAY1_ESKINITA: advance_story_state()
+		"start_tutorial_tumbang_preso":
+			pass # TODO: Load minigame scene
+		"end_act_1":
+			if current_story_state == StoryState.DAY1_BOSS: advance_story_state()
+		"fade_to_day_2":
+			if current_story_state == StoryState.DAY1_OUTRO: advance_story_state()
+		"start_overworld_act2":
+			if current_story_state == StoryState.DAY2_INTRO: advance_story_state()
+		"start_tutorial_patintero":
+			pass # TODO: Load minigame scene
+		"end_act_2":
+			if current_story_state == StoryState.DAY2_BOSS: advance_story_state()
+		"fade_to_day_3":
+			if current_story_state == StoryState.DAY2_OUTRO: advance_story_state()
+		"start_overworld_act3":
+			if current_story_state == StoryState.DAY3_INTRO: advance_story_state()
+		"start_tutorial_luksong_baka":
+			pass # TODO: Load minigame scene
+		"end_act_3":
+			if current_story_state == StoryState.DAY3_BOSS: advance_story_state()
+		"roll_credits":
+			print("GAME FINISHED! Roll Credits.")
 
 func advance_story_state():
 	if current_story_state < StoryState.EPILOGUE:
@@ -45,12 +78,22 @@ func advance_story_state():
 			
 		emit_signal("story_state_changed", current_story_state)
 		save_game()
-		print("DEV SKIP: Advanced to state: ", current_story_state)
+		print("STORY ADVANCED TO: ", current_story_state)
+
+func reverse_story_state():
+	if current_story_state > 0:
+		current_story_state = (current_story_state - 1) as StoryState
+		emit_signal("story_state_changed", current_story_state)
+		save_game()
+		print("DEV REVERSE: Went back to state: ", current_story_state)
 
 func _input(event):
-	# F12 Dev Skip
+	# F12 Dev Skip Forward
 	if event.is_action_pressed("dev_skip"):
 		advance_story_state()
+	# F11 Dev Skip Backward
+	if event.is_action_pressed("dev_reverse"):
+		reverse_story_state()
 
 func set_story_state(new_state: StoryState):
 	current_story_state = new_state
