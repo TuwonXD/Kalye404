@@ -2,6 +2,7 @@ extends Control
 
 @export var bar_width: float = 50.0
 @export var bar_height: float = 400.0
+@export var enemy_accuracy: int = 100
 
 # pixels per second
 @export var arrow_speed: float = 200.0  
@@ -44,6 +45,33 @@ signal max_score_reached(score: int)
 @export var max_score: int = 5
 var score: int = 0
 
+
+func apply_enemy_accuracy(accuracy: int) -> void:
+	enemy_accuracy = 100 - accuracy
+	var enemy_accuracy_float := 100.0 - float(accuracy)
+
+	var halfOfOrange := (enemy_accuracy_float / 2.0) / 2.0
+	
+	var green_zone_end := (enemy_accuracy_float - halfOfOrange) / 100
+	var orange_zone_end := (green_zone_end * 100 + (halfOfOrange * 2)) / 100
+
+	green_zone_end = clampf(green_zone_end, 0.0, 1.0)
+	orange_zone_end = clampf(orange_zone_end, green_zone_end, 1.0)
+	
+	if is_equal_approx(green_zone_end, 0.0):
+		green_zone_end = 0.05
+		orange_zone_end = 0.1
+
+	min_zone = Vector2(0.0, green_zone_end)
+	mid_zone = Vector2(green_zone_end, orange_zone_end)
+	max_zone = Vector2(mid_zone.y, 1.0)
+	
+	print("green zone: 0 to ", green_zone_end)
+	print("orange zone: ", green_zone_end, " to ", orange_zone_end)
+	print("red zone: ", mid_zone.y, " to 1")
+
+	_update_zone_visuals()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	size = Vector2(bar_width, bar_height)
@@ -60,6 +88,7 @@ func _ready():
 	red_zone.size = Vector2(bar_width, bar_height * (max_zone.y - max_zone.x))
 
 	arrow.position = Vector2.ZERO
+	apply_enemy_accuracy(enemy_accuracy)
 
 
 
@@ -68,25 +97,38 @@ func _process(delta):
 	if not is_active or stopped:
 		return
 
-	arrow_position += arrow_direction * arrow_speed * delta / bar_height
+	var usable_height = get_usable_height()
 
-	if arrow_position >= 1.0:
-		arrow_position = 1.0
+	arrow_position += arrow_direction * arrow_speed * delta / usable_height
+
+	# Clamp normalized value
+	arrow_position = clampf(arrow_position, 0.0, 1.0)
+
+	# Bounce
+	if arrow_position == 1.0:
 		arrow_direction = -1.0
-		
-	elif arrow_position <= 0.0:
-		arrow_position = 0.0
+	elif arrow_position == 0.0:
 		arrow_direction = 1.0
 
-	arrow.position.y = bar_height - (arrow_position * bar_height)
+	# Convert normalized -> pixels
+	arrow.position.y = usable_height * (1.0 - arrow_position)
 
+func _update_zone_visuals():
+	green_zone.position = Vector2.ZERO
+	green_zone.size = Vector2(bar_width, bar_height * (min_zone.y - min_zone.x))
+
+	orange_zone.position = Vector2(0, bar_height * mid_zone.x)
+	orange_zone.size = Vector2(bar_width, bar_height * (mid_zone.y - mid_zone.x))
+
+	red_zone.position = Vector2(0, bar_height * max_zone.x)
+	red_zone.size = Vector2(bar_width, bar_height * (max_zone.y - max_zone.x))
 
 func start():
 	is_active = true
 	stopped = false
 	arrow_position = 0.0
 	arrow_direction = 1.0
-	arrow.position.y = bar_height
+	arrow.position.y = get_usable_height()
 
 
 func stop():
@@ -153,5 +195,7 @@ func reset():
 	stopped = false
 	arrow_position = 0.0
 	arrow_direction = 1.0
-	arrow.position.y = bar_height
-		 
+	arrow.position.y = bar_height - arrow.size.y
+
+func get_usable_height() -> float:
+	return bar_height - arrow.size.y

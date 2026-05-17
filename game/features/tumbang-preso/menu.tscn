@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://du8ksfivomg61"]
+
+[ext_resource type="Script" uid="uid://0d4d075rknj0" path="res://menu.gd" id="1_lti8b"]
+
+[node name="Menu" type="Control" unique_id=56611537]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_lti8b")
+
+[node name="AccuracyLabel" type="Label" parent="." unique_id=1960304599]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 170.0
+offset_right = 437.0
+offset_bottom = 207.0
+text = "Accuracy :"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpeedLabel" type="Label" parent="." unique_id=373798383]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 220.0
+offset_right = 460.0
+offset_bottom = 257.0
+text = "Speed :"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyStatsLabel" type="Label" parent="." unique_id=1519943935]
+layout_mode = 0
+offset_left = 454.0
+offset_top = 119.0
+offset_right = 615.0
+offset_bottom = 169.0
+text = "Enemy Status"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyAccuracyInput" type="LineEdit" parent="." unique_id=177268545]
+layout_mode = 0
+offset_left = 474.0
+offset_top = 175.0
+offset_right = 589.0
+offset_bottom = 206.0
+placeholder_text = "0 - 100"
+
+[node name="StartButton" type="Button" parent="." unique_id=514756460]
+layout_mode = 0
+offset_left = 483.0
+offset_top = 260.0
+offset_right = 583.0
+offset_bottom = 320.0
+text = "Start"

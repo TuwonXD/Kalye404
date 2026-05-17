@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cascibvb802lu"]
 
-[ext_resource type="Script" uid="uid://c2puo7veaor62" path="res://power_bar_easy.gd" id="1_hutyk"]
+[ext_resource type="Script" uid="uid://c2puo7veaor62" path="res://power_bar.gd" id="1_hutyk"]
 
 [node name="PowerBarEasy" type="Control" unique_id=692389063]
 layout_mode = 3
@@ -42,4 +42,4 @@ offset_bottom = 400.0
 layout_mode = 0
 offset_top = 400.0
 offset_right = 50.0
-offset_bottom = 410.0
+offset_bottom = 405.0
