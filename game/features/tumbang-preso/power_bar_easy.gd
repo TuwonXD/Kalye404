@@ -6,6 +6,9 @@ extends Control
 # pixels per second
 @export var arrow_speed: float = 200.0  
 
+
+# manipulates the size of the zones
+
 # Zones are expressed as vertical ranges in normalized bar space.
 # 0.0 = bottom, 1.0 = top
 
@@ -23,7 +26,6 @@ extends Control
 @onready var orange_zone = $OrangeZone
 @onready var red_zone = $RedZone
 @onready var background = $Background
-@onready var label = $Label
 
 # 0.0 to 1.0, bottom to top
 var arrow_position: float = 0.0  
@@ -36,6 +38,11 @@ var stopped: bool = false
 var stopped_position: float = 0.0
 
 signal power_bar_stopped(position: float, zone: String)
+signal score_changed(score: int)
+signal max_score_reached(score: int)
+
+@export var max_score: int = 5
+var score: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -80,8 +87,6 @@ func start():
 	arrow_position = 0.0
 	arrow_direction = 1.0
 	arrow.position.y = bar_height
-	if label:
-		label.text = ""
 
 
 func stop():
@@ -93,13 +98,32 @@ func stop():
 	stopped_position = arrow_position
 
 	var zone = get_zone_at_position(stopped_position)
-	if label:
-		if zone == "unknown":
-			label.text = "Stopped at Unknown"
-		else:
-			label.text = "Stopped at %sZone" % zone.capitalize()
+	var scored: bool = false
+
+	if zone == "green":
+		if score < max_score:
+			score += 1
+			scored = true
+	elif zone == "orange":
+		var rng = RandomNumberGenerator.new()
+		rng.randomize()
+		if rng.randi_range(0, 1) == 1:
+			if score < max_score:
+				score += 1
+				scored = true
+	# red and unknown give no score
 	
 	power_bar_stopped.emit(stopped_position * 100.0, zone)
+	score_changed.emit(score)
+
+	if score >= max_score:
+		max_score_reached.emit(score)
+		# reached target; leave stopped state
+		return
+
+	# otherwise, restart the bar after a short delay
+	await get_tree().create_timer(0.5).timeout
+	start()
 
 
 func _input(event):
@@ -130,5 +154,4 @@ func reset():
 	arrow_position = 0.0
 	arrow_direction = 1.0
 	arrow.position.y = bar_height
-	if label:
-		label.text = ""
+		 

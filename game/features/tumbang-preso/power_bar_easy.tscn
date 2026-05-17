@@ -43,11 +43,3 @@ layout_mode = 0
 offset_top = 400.0
 offset_right = 50.0
 offset_bottom = 410.0
-
-[node name="Label" type="Label" parent="." unique_id=228886846]
-layout_mode = 0
-offset_left = 60.0
-offset_top = 180.0
-offset_right = 240.0
-offset_bottom = 220.0
-text = "Click spacebar to stop"
