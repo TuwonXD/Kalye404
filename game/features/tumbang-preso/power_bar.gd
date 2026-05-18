@@ -2,7 +2,6 @@ extends Control
 
 @export var bar_width: float = 50.0
 @export var bar_height: float = 400.0
-@export var enemy_accuracy: int = 100
 
 # pixels per second
 @export var arrow_speed: float = 200.0  
@@ -46,30 +45,10 @@ signal max_score_reached(score: int)
 var score: int = 0
 
 
-func apply_enemy_accuracy(accuracy: int) -> void:
-	enemy_accuracy = 100 - accuracy
-	var enemy_accuracy_float := 100.0 - float(accuracy)
-
-	var halfOfOrange := (enemy_accuracy_float / 2.0) / 2.0
-	
-	var green_zone_end := (enemy_accuracy_float - halfOfOrange) / 100
-	var orange_zone_end := (green_zone_end * 100 + (halfOfOrange * 2)) / 100
-
-	green_zone_end = clampf(green_zone_end, 0.0, 1.0)
-	orange_zone_end = clampf(orange_zone_end, green_zone_end, 1.0)
-	
-	if is_equal_approx(green_zone_end, 0.0):
-		green_zone_end = 0.05
-		orange_zone_end = 0.1
-
-	min_zone = Vector2(0.0, green_zone_end)
-	mid_zone = Vector2(green_zone_end, orange_zone_end)
+func set_zone_ranges(green_zone_end: float, orange_zone_end: float) -> void:
+	min_zone = Vector2(0.0, clampf(green_zone_end, 0.0, 1.0))
+	mid_zone = Vector2(min_zone.y, clampf(orange_zone_end, min_zone.y, 1.0))
 	max_zone = Vector2(mid_zone.y, 1.0)
-	
-	print("green zone: 0 to ", green_zone_end)
-	print("orange zone: ", green_zone_end, " to ", orange_zone_end)
-	print("red zone: ", mid_zone.y, " to 1")
-
 	_update_zone_visuals()
 
 # Called when the node enters the scene tree for the first time.
@@ -88,7 +67,7 @@ func _ready():
 	red_zone.size = Vector2(bar_width, bar_height * (max_zone.y - max_zone.x))
 
 	arrow.position = Vector2.ZERO
-	apply_enemy_accuracy(enemy_accuracy)
+	_update_zone_visuals()
 
 
 

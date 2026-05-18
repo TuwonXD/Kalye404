@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://bbr3dy5um7abw"]
 
 [ext_resource type="PackedScene" uid="uid://cascibvb802lu" path="res://power_bar.tscn" id="1_gl814"]
+[ext_resource type="Script" uid="uid://bvrog5qlbphhu" path="res://tumbang_preso.gd" id="1_iiiae"]
 [ext_resource type="PackedScene" uid="uid://divalb05tbeer" path="res://ui.tscn" id="1_ui001"]
 
 [node name="TumbangPreso" type="Node2D" unique_id=120766366]
+script = ExtResource("1_iiiae")
 
 [node name="PowerBar" parent="." unique_id=692389063 instance=ExtResource("1_gl814")]
 offset_left = 1077.0

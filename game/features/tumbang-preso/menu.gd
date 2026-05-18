@@ -22,12 +22,10 @@ func _on_start_button_pressed() -> void:
 		return
 
 	var next_scene = packed_scene.instantiate()
+	next_scene.setup(_read_enemy_accuracy())
 
 	get_tree().root.add_child(next_scene)
 	get_tree().current_scene = next_scene
-
-	var power_bar = next_scene.get_node("PowerBar")
-	power_bar.apply_enemy_accuracy(_read_enemy_accuracy())
 
 	queue_free()
 
