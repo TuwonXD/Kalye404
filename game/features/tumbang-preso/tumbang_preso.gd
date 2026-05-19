@@ -1,46 +1,184 @@
 extends Node2D
 
+enum TurnPhase { PLAYER_TURN, PLAYER_ESCAPE, ENEMY_TURN, ENEMY_ESCAPE }
+
+@export var max_score: int = 5
+
 var enemy_accuracy: int = 0
+var enemy_speed: int = 0
+var player_score: int = 0
+var enemy_score: int = 0
+var setup_complete: bool = false
+var current_phase: TurnPhase = TurnPhase.PLAYER_TURN
 
 @onready var power_bar = $PowerBar
 
+signal player_score_changed(score: int)
+signal enemy_score_changed(score: int)
+signal player_max_score_reached(score: int)
+signal enemy_max_score_reached(score: int)
+signal phase_changed(text: String)
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
-	# _apply_enemy_accuracy(enemy_accuracy)
-	power_bar.set_zone_ranges(0.1, 0.2)
+	if not power_bar.power_bar_stopped.is_connected(_on_power_bar_stopped):
+		power_bar.power_bar_stopped.connect(_on_power_bar_stopped)
+
+	if setup_complete:
+		_apply_current_mode()
+		power_bar.start()
 
 
-func setup(accuracy: int) -> void:
+func setup(accuracy: int, speed: int) -> void:
 	enemy_accuracy = clampi(accuracy, 0, 100)
+	enemy_speed = clampi(speed, 0, 100)
+	player_score = 0
+	enemy_score = 0
+	current_phase = TurnPhase.PLAYER_TURN
+	setup_complete = true
+	power_bar.set_restart_enabled(true)
+	power_bar.reset()
+
 	if is_node_ready():
-		power_bar.set_zone_ranges(0.5, 0.6)
-		# _apply_enemy_accuracy(enemy_accuracy)
+		_apply_current_mode()
+		power_bar.start()
 
-# func apply_enemy_accuracy(accuracy: int) -> void:
-#	enemy_accuracy = 100 - accuracy
-#	var enemy_accuracy_float := 100.0 - float(accuracy)
 
-#	var halfOfOrange := (enemy_accuracy_float / 2.0) / 2.0
-	
-#	var green_zone_end := (enemy_accuracy_float - halfOfOrange) / 100
-#	var orange_zone_end := (green_zone_end * 100 + (halfOfOrange * 2)) / 100
+func _apply_current_mode() -> void:
+	match current_phase:
+		TurnPhase.PLAYER_TURN:
+			_enter_player_turn()
+		TurnPhase.PLAYER_ESCAPE:
+			_enter_player_escape()
+		TurnPhase.ENEMY_TURN:
+			_enter_enemy_turn()
+		TurnPhase.ENEMY_ESCAPE:
+			_enter_enemy_escape()
 
-#	green_zone_end = clampf(green_zone_end, 0.0, 1.0)
-#	orange_zone_end = clampf(orange_zone_end, green_zone_end, 1.0)
-	
-#	if is_equal_approx(green_zone_end, 0.0):
-#		green_zone_end = 0.05
-#		orange_zone_end = 0.1
+
+func _enter_player_turn() -> void:
+	current_phase = TurnPhase.PLAYER_TURN
+	power_bar.set_zone_ranges(0.1, 0.25)
+	var arrow_speed := ((float(enemy_accuracy) + float(enemy_speed)) / 10.0) * 100.0
+	power_bar.set_arrow_speed(arrow_speed)
+	phase_changed.emit("Player's Turn")
+
+
+func _enter_player_escape() -> void:
+	current_phase = TurnPhase.PLAYER_ESCAPE
+	_apply_escape_mode(enemy_speed)
+	phase_changed.emit("Player's Escape Mode")
+
 
 func _apply_enemy_accuracy(accuracy: int) -> void:
 	var clamped_accuracy := clampi(accuracy, 0, 100)
-	var green_zone_end := clampf(float(clamped_accuracy) * 0.0075, 0.0, 1.0)
-	var orange_zone_end := clampf(green_zone_end + 0.05, green_zone_end, 1.0)
+	var inverted_accuracy := 100 - clamped_accuracy
+
+	_apply_half_orange_zones(inverted_accuracy)
+
+
+func _apply_escape_mode(speed: int) -> void:
+	var clamped_speed := clampi(speed, 0, 100)
+	var inverted_speed := 100 - clamped_speed
+
+	_apply_half_orange_zones(inverted_speed)
+
+
+func _apply_half_orange_zones(value: int) -> void:
+	var half_of_orange := (value / 2.0) / 2.0
+
+	var green_zone_end := clampf((value - half_of_orange) / 100.0, 0.0, 1.0)
+	var orange_zone_end := clampf((green_zone_end * 100.0 + (half_of_orange * 2.0)) / 100.0, green_zone_end, 1.0)
+
+	# If the enemy has 100 in either accuracy or speed.
+	if is_equal_approx(green_zone_end, 0.0):
+		orange_zone_end = 0.15
 
 	power_bar.set_zone_ranges(green_zone_end, orange_zone_end)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	return
+func _enter_enemy_turn() -> void:
+	current_phase = TurnPhase.ENEMY_TURN
+	_apply_enemy_accuracy(enemy_accuracy)
+	phase_changed.emit("Enemy's Turn")
+
+
+func _enter_enemy_escape() -> void:
+	current_phase = TurnPhase.ENEMY_ESCAPE
+	_apply_escape_mode(enemy_speed)
+	phase_changed.emit("Enemy's Escape Mode")
+
+
+func _on_power_bar_stopped(_position: float, zone: String) -> void:
+	match current_phase:
+		TurnPhase.PLAYER_TURN:
+			var scored := _did_score(zone)
+			if scored:
+				player_score += 1
+				player_score_changed.emit(player_score)
+				if player_score >= max_score:
+					power_bar.set_restart_enabled(false)
+					player_max_score_reached.emit(player_score)
+					return
+
+			if scored:
+				_enter_player_escape()
+			else:
+				_enter_enemy_turn()
+		TurnPhase.PLAYER_ESCAPE:
+			if _did_score(zone):
+				_enter_player_turn()
+			else:
+				_enter_enemy_turn()
+		TurnPhase.ENEMY_TURN:
+			var enemy_scored := _did_enemy_score(zone)
+			if enemy_scored:
+				enemy_score += 1
+				enemy_score_changed.emit(enemy_score)
+				if enemy_score >= max_score:
+					power_bar.set_restart_enabled(false)
+					enemy_max_score_reached.emit(enemy_score)
+					return
+
+			if enemy_scored:
+				_enter_enemy_escape()
+			else:
+				_enter_player_turn()
+		TurnPhase.ENEMY_ESCAPE:
+			if _did_enemy_escape(zone):
+				_enter_enemy_turn()
+			else:
+				_enter_player_turn()
+
+
+func _did_score(zone: String) -> bool:
+	if zone == "green":
+		return true
+
+	if zone == "orange":
+		return _roll_half_chance()
+
+	return false
+
+
+func _did_enemy_score(zone: String) -> bool:
+	if zone == "green":
+		return false
+
+	if zone == "red":
+		return true
+
+	if zone == "orange":
+		return _roll_half_chance()
+
+	return false
+
+
+func _did_enemy_escape(zone: String) -> bool:
+	return zone == "green" or (zone == "orange" and _roll_half_chance())
+
+
+func _roll_half_chance() -> bool:
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	return rng.randi_range(0, 1) == 1

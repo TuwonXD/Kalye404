@@ -4,7 +4,7 @@ extends Control
 @export var bar_height: float = 400.0
 
 # pixels per second
-@export var arrow_speed: float = 200.0  
+@export var arrow_speed: float = 200.0
 
 
 # manipulates the size of the zones
@@ -36,13 +36,9 @@ var arrow_direction: float = 1.0
 var is_active: bool = false
 var stopped: bool = false
 var stopped_position: float = 0.0
+var restart_enabled: bool = true
 
 signal power_bar_stopped(position: float, zone: String)
-signal score_changed(score: int)
-signal max_score_reached(score: int)
-
-@export var max_score: int = 5
-var score: int = 0
 
 
 func set_zone_ranges(green_zone_end: float, orange_zone_end: float) -> void:
@@ -50,6 +46,14 @@ func set_zone_ranges(green_zone_end: float, orange_zone_end: float) -> void:
 	mid_zone = Vector2(min_zone.y, clampf(orange_zone_end, min_zone.y, 1.0))
 	max_zone = Vector2(mid_zone.y, 1.0)
 	_update_zone_visuals()
+
+
+func set_arrow_speed(speed: float) -> void:
+	arrow_speed = maxf(10.0, speed)
+
+
+func set_restart_enabled(enabled: bool) -> void:
+	restart_enabled = enabled
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -119,30 +123,13 @@ func stop():
 	stopped_position = arrow_position
 
 	var zone = get_zone_at_position(stopped_position)
-	var scored: bool = false
-
-	if zone == "green":
-		if score < max_score:
-			score += 1
-			scored = true
-	elif zone == "orange":
-		var rng = RandomNumberGenerator.new()
-		rng.randomize()
-		if rng.randi_range(0, 1) == 1:
-			if score < max_score:
-				score += 1
-				scored = true
-	# red and unknown give no score
 	
 	power_bar_stopped.emit(stopped_position * 100.0, zone)
-	score_changed.emit(score)
-
-	if score >= max_score:
-		max_score_reached.emit(score)
-		# reached target; leave stopped state
-		return
 
 	# otherwise, restart the bar after a short delay
+	if not restart_enabled:
+		return
+
 	await get_tree().create_timer(0.5).timeout
 	start()
 

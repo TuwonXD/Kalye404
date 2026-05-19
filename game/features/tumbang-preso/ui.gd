@@ -35,10 +35,12 @@ func _bind_player_score_source() -> void:
 
 	var power_bar = get_node_or_null(player_power_bar_path)
 	if power_bar:
-		if not power_bar.score_changed.is_connected(set_player_score):
-			power_bar.score_changed.connect(set_player_score)
-		if not power_bar.max_score_reached.is_connected(_on_player_max_score_reached):
-			power_bar.max_score_reached.connect(_on_player_max_score_reached)
+		if not power_bar.phase_changed.is_connected(_on_phase_changed):
+			power_bar.phase_changed.connect(_on_phase_changed)
+		if not power_bar.player_score_changed.is_connected(set_player_score):
+			power_bar.player_score_changed.connect(set_player_score)
+		if not power_bar.player_max_score_reached.is_connected(_on_player_max_score_reached):
+			power_bar.player_max_score_reached.connect(_on_player_max_score_reached)
 
 
 func _bind_enemy_score_source() -> void:
@@ -47,10 +49,10 @@ func _bind_enemy_score_source() -> void:
 
 	var power_bar = get_node_or_null(enemy_power_bar_path)
 	if power_bar:
-		if not power_bar.score_changed.is_connected(set_enemy_score):
-			power_bar.score_changed.connect(set_enemy_score)
-		if not power_bar.max_score_reached.is_connected(_on_enemy_max_score_reached):
-			power_bar.max_score_reached.connect(_on_enemy_max_score_reached)
+		if not power_bar.enemy_score_changed.is_connected(set_enemy_score):
+			power_bar.enemy_score_changed.connect(set_enemy_score)
+		if not power_bar.enemy_max_score_reached.is_connected(_on_enemy_max_score_reached):
+			power_bar.enemy_max_score_reached.connect(_on_enemy_max_score_reached)
 
 
 func _set_can_row_score(can_icons: Array[TextureRect], score: int) -> void:
@@ -85,6 +87,13 @@ func _on_player_max_score_reached(score: int) -> void:
 
 func _on_enemy_max_score_reached(score: int) -> void:
 	_declare_result("Game over")
+
+
+func _on_phase_changed(text: String) -> void:
+	if result_locked:
+		return
+
+	set_result_text(text)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

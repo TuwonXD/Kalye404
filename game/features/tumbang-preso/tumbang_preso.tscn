@@ -14,4 +14,5 @@ offset_right = 1117.0
 offset_bottom = 58.0
 
 [node name="UI" parent="." unique_id=138204179 instance=ExtResource("1_ui001")]
-player_power_bar_path = NodePath("../PowerBar")
+player_power_bar_path = NodePath("..")
+enemy_power_bar_path = NodePath("..")
