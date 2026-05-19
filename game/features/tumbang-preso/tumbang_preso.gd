@@ -59,7 +59,7 @@ func _apply_current_mode() -> void:
 func _enter_player_turn() -> void:
 	current_phase = TurnPhase.PLAYER_TURN
 	power_bar.set_zone_ranges(0.1, 0.25)
-	var arrow_speed := ((float(enemy_accuracy) + float(enemy_speed)) / 10.0) * 100.0
+	var arrow_speed := ((float(enemy_accuracy) + float(enemy_speed)) / 15.0) * 100.0
 	power_bar.set_arrow_speed(arrow_speed)
 	phase_changed.emit("Player's Turn")
 
@@ -146,9 +146,9 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				_enter_player_turn()
 		TurnPhase.ENEMY_ESCAPE:
 			if _did_enemy_escape(zone):
-				_enter_enemy_turn()
-			else:
 				_enter_player_turn()
+			else:
+				_enter_enemy_turn()
 
 
 func _did_score(zone: String) -> bool:
