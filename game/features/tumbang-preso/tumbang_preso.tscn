@@ -8,10 +8,10 @@
 script = ExtResource("1_iiiae")
 
 [node name="PowerBar" parent="." unique_id=692389063 instance=ExtResource("1_gl814")]
-offset_left = 1077.0
-offset_top = 18.0
-offset_right = 1117.0
-offset_bottom = 58.0
+offset_left = 1055.0
+offset_top = 104.0
+offset_right = 1105.0
+offset_bottom = 504.0
 
 [node name="UI" parent="." unique_id=138204179 instance=ExtResource("1_ui001")]
 player_power_bar_path = NodePath("..")
