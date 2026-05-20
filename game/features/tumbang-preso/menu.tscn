@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://du8ksfivomg61"]
 
 [ext_resource type="Script" uid="uid://0d4d075rknj0" path="res://menu.gd" id="1_lti8b"]
+[ext_resource type="Texture2D" uid="uid://dvcxssguappkm" path="res://sprites/man-icon.png" id="2_ouk20"]
 
 [node name="Menu" type="Control" unique_id=56611537]
 layout_mode = 3
@@ -9,69 +10,440 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_lti8b")
 
-[node name="AccuracyLabel" type="Label" parent="." unique_id=1960304599]
-layout_mode = 0
-offset_left = 416.0
-offset_top = 467.0
-offset_right = 503.0
-offset_bottom = 504.0
-text = "Accuracy :"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="SpeedLabel" type="Label" parent="." unique_id=373798383]
-layout_mode = 0
-offset_left = 416.0
-offset_top = 517.0
-offset_right = 526.0
-offset_bottom = 554.0
-text = "Speed :"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="EnemyStatsLabel" type="Label" parent="." unique_id=1519943935]
-layout_mode = 0
-offset_left = 520.0
-offset_top = 416.0
-offset_right = 681.0
-offset_bottom = 466.0
-text = "Enemy Status"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="EnemyAccuracyInput" type="LineEdit" parent="." unique_id=177268545]
-layout_mode = 0
-offset_left = 540.0
-offset_top = 472.0
-offset_right = 655.0
-offset_bottom = 503.0
-placeholder_text = "0 - 100"
-
-[node name="EnemySpeedInput" type="LineEdit" parent="." unique_id=485365465]
-layout_mode = 0
-offset_left = 540.0
-offset_top = 517.0
-offset_right = 655.0
-offset_bottom = 548.0
-placeholder_text = "0 - 100"
-
-[node name="StartButton" type="Button" parent="." unique_id=514756460]
-layout_mode = 0
-offset_left = 680.0
-offset_top = 488.0
-offset_right = 780.0
-offset_bottom = 548.0
-text = "Challenge"
-
-[node name="Bronze Boss" type="Control" parent="." unique_id=177675154]
+[node name="BronzeBoss" type="Control" parent="." unique_id=177675154]
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 856.0
+offset_top = 8.0
+offset_right = 1112.0
+offset_bottom = 152.0
 
-[node name="Name" type="Label" parent="Bronze Boss" unique_id=629592948]
+[node name="Name" type="Label" parent="BronzeBoss" unique_id=629592948]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 120.0
 offset_right = 119.0
 offset_bottom = 143.0
 text = "Bronze Boss"
+
+[node name="ProfilePicture" type="TextureRect" parent="BronzeBoss" unique_id=1702301476]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="Stats" type="Label" parent="BronzeBoss" unique_id=1631955653]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 32.0
+offset_right = 241.0
+offset_bottom = 81.0
+text = "Accuracy:   50
+     Speed:   50"
+
+[node name="ChallengeButton" type="Button" parent="BronzeBoss" unique_id=441343427]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 128.0
+text = "Challenge"
+
+[node name="BronzeGruntA" type="Control" parent="." unique_id=1170600336]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 264.0
+offset_bottom = 152.0
+
+[node name="Name" type="Label" parent="BronzeGruntA" unique_id=447589039]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 120.0
+offset_right = 119.0
+offset_bottom = 143.0
+text = "Bronze Grunt A"
+
+[node name="ProfilePicture" type="TextureRect" parent="BronzeGruntA" unique_id=1062353523]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="Stats" type="Label" parent="BronzeGruntA" unique_id=759419374]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 32.0
+offset_right = 241.0
+offset_bottom = 81.0
+text = "Accuracy:   30
+     Speed:   40"
+
+[node name="ChallengeButton" type="Button" parent="BronzeGruntA" unique_id=1596811180]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 128.0
+text = "Challenge"
+
+[node name="BronzeGruntB" type="Control" parent="." unique_id=1896416493]
+anchors_preset = 0
+offset_left = 432.0
+offset_top = 8.0
+offset_right = 720.0
+offset_bottom = 152.0
+
+[node name="Name" type="Label" parent="BronzeGruntB" unique_id=1555169008]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 120.0
+offset_right = 119.0
+offset_bottom = 143.0
+text = "Bronze Grunt B"
+
+[node name="ProfilePicture" type="TextureRect" parent="BronzeGruntB" unique_id=362494089]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="Stats" type="Label" parent="BronzeGruntB" unique_id=1010005241]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 32.0
+offset_right = 241.0
+offset_bottom = 81.0
+text = "Accuracy:   45
+     Speed:   37"
+
+[node name="ChallengeButton" type="Button" parent="BronzeGruntB" unique_id=515276943]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 128.0
+text = "Challenge"
+
+[node name="SilverBoss" type="Control" parent="." unique_id=1805170600]
+anchors_preset = 0
+offset_left = 856.0
+offset_top = 152.0
+offset_right = 1112.0
+offset_bottom = 296.0
+
+[node name="Name" type="Label" parent="SilverBoss" unique_id=1296657500]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 120.0
+offset_right = 127.0
+offset_bottom = 143.0
+text = "Silver Boss"
+
+[node name="ProfilePicture" type="TextureRect" parent="SilverBoss" unique_id=1948145504]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="Stats" type="Label" parent="SilverBoss" unique_id=2118314997]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 32.0
+offset_right = 241.0
+offset_bottom = 81.0
+text = "Accuracy:   80
+     Speed:   80"
+
+[node name="ChallengeButton" type="Button" parent="SilverBoss" unique_id=745695212]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 128.0
+text = "Challenge"
+
+[node name="SilverGruntA" type="Control" parent="." unique_id=1170600337]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 152.0
+offset_right = 264.0
+offset_bottom = 296.0
+
+[node name="Name" type="Label" parent="SilverGruntA" unique_id=447589040]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 120.0
+offset_right = 119.0
+offset_bottom = 143.0
+text = "Silver Grunt A"
+
+[node name="ProfilePicture" type="TextureRect" parent="SilverGruntA" unique_id=1062353524]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="Stats" type="Label" parent="SilverGruntA" unique_id=759419375]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 32.0
+offset_right = 241.0
+offset_bottom = 81.0
+text = "Accuracy:   65
+     Speed:   70"
+
+[node name="ChallengeButton" type="Button" parent="SilverGruntA" unique_id=1596811181]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 128.0
+text = "Challenge"
+
+[node name="SilverGruntB" type="Control" parent="." unique_id=1896416494]
+anchors_preset = 0
+offset_left = 432.0
+offset_top = 152.0
+offset_right = 720.0
+offset_bottom = 296.0
+
+[node name="Name" type="Label" parent="SilverGruntB" unique_id=1555169009]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 120.0
+offset_right = 119.0
+offset_bottom = 143.0
+text = "Silver Grunt B"
+
+[node name="ProfilePicture" type="TextureRect" parent="SilverGruntB" unique_id=362494090]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="Stats" type="Label" parent="SilverGruntB" unique_id=1010005242]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 32.0
+offset_right = 241.0
+offset_bottom = 81.0
+text = "Accuracy:   75
+     Speed:   65"
+
+[node name="ChallengeButton" type="Button" parent="SilverGruntB" unique_id=515276944]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 128.0
+text = "Challenge"
+
+[node name="GoldBoss" type="Control" parent="." unique_id=881742287]
+anchors_preset = 0
+offset_left = 856.0
+offset_top = 304.0
+offset_right = 1112.0
+offset_bottom = 448.0
+
+[node name="Name" type="Label" parent="GoldBoss" unique_id=1418830349]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 120.0
+offset_right = 120.0
+offset_bottom = 143.0
+text = "Gold Boss"
+
+[node name="ProfilePicture" type="TextureRect" parent="GoldBoss" unique_id=1759025137]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="Stats" type="Label" parent="GoldBoss" unique_id=1065098340]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 32.0
+offset_right = 241.0
+offset_bottom = 81.0
+text = "Accuracy:   100
+     Speed:   100"
+
+[node name="ChallengeButton" type="Button" parent="GoldBoss" unique_id=172900593]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 128.0
+text = "Challenge"
+
+[node name="GoldGruntA" type="Control" parent="." unique_id=1170600338]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 304.0
+offset_right = 264.0
+offset_bottom = 448.0
+
+[node name="Name" type="Label" parent="GoldGruntA" unique_id=447589041]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 120.0
+offset_right = 119.0
+offset_bottom = 143.0
+text = "Gold Grunt A"
+
+[node name="ProfilePicture" type="TextureRect" parent="GoldGruntA" unique_id=1062353525]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="Stats" type="Label" parent="GoldGruntA" unique_id=759419376]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 32.0
+offset_right = 241.0
+offset_bottom = 81.0
+text = "Accuracy:   85
+     Speed:   90"
+
+[node name="ChallengeButton" type="Button" parent="GoldGruntA" unique_id=1596811182]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 128.0
+text = "Challenge"
+
+[node name="GoldGruntB" type="Control" parent="." unique_id=1896416495]
+anchors_preset = 0
+offset_left = 432.0
+offset_top = 304.0
+offset_right = 720.0
+offset_bottom = 448.0
+
+[node name="Name" type="Label" parent="GoldGruntB" unique_id=1555169010]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 120.0
+offset_right = 119.0
+offset_bottom = 143.0
+text = "Gold Grunt B"
+
+[node name="ProfilePicture" type="TextureRect" parent="GoldGruntB" unique_id=362494091]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="Stats" type="Label" parent="GoldGruntB" unique_id=1010005243]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 32.0
+offset_right = 241.0
+offset_bottom = 81.0
+text = "Accuracy:   95
+     Speed:   80"
+
+[node name="ChallengeButton" type="Button" parent="GoldGruntB" unique_id=515276945]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 128.0
+text = "Challenge"
+
+[node name="ModifiedEnemy" type="Control" parent="." unique_id=1419057364]
+anchors_preset = 0
+offset_left = 392.0
+offset_top = 448.0
+offset_right = 768.0
+offset_bottom = 624.0
+
+[node name="AccuracyLabel" type="Label" parent="ModifiedEnemy" unique_id=1960304599]
+layout_mode = 0
+offset_top = 75.0
+offset_right = 87.0
+offset_bottom = 112.0
+text = "Accuracy :"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpeedLabel" type="Label" parent="ModifiedEnemy" unique_id=373798383]
+layout_mode = 0
+offset_top = 125.0
+offset_right = 110.0
+offset_bottom = 162.0
+text = "Speed :"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyStatsLabel" type="Label" parent="ModifiedEnemy" unique_id=1519943935]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 24.0
+offset_right = 265.0
+offset_bottom = 74.0
+text = "Enemy Status"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyAccuracyInput" type="LineEdit" parent="ModifiedEnemy" unique_id=177268545]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 80.0
+offset_right = 239.0
+offset_bottom = 111.0
+placeholder_text = "0 - 100"
+
+[node name="EnemySpeedInput" type="LineEdit" parent="ModifiedEnemy" unique_id=485365465]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 125.0
+offset_right = 239.0
+offset_bottom = 156.0
+placeholder_text = "0 - 100"
+
+[node name="ChallengeButton" type="Button" parent="ModifiedEnemy" unique_id=514756460]
+layout_mode = 0
+offset_left = 264.0
+offset_top = 96.0
+offset_right = 364.0
+offset_bottom = 156.0
+text = "Challenge"
+
+[connection signal="pressed" from="BronzeBoss/ChallengeButton" to="." method="_on_challenge_bronzeBoss_button_pressed"]
+[connection signal="pressed" from="BronzeGruntA/ChallengeButton" to="." method="_on_challenge_bronzeGruntA_button_pressed"]
+[connection signal="pressed" from="BronzeGruntB/ChallengeButton" to="." method="_on_challenge_bronzeGruntB_button_pressed"]
+[connection signal="pressed" from="SilverBoss/ChallengeButton" to="." method="_on_challenge_silverBoss_button_pressed"]
+[connection signal="pressed" from="SilverGruntA/ChallengeButton" to="." method="_on_challenge_silverGruntA_button_pressed"]
+[connection signal="pressed" from="SilverGruntB/ChallengeButton" to="." method="_on_challenge_silverGruntB_button_pressed"]
+[connection signal="pressed" from="GoldBoss/ChallengeButton" to="." method="_on_challenge_goldBoss_button_pressed"]
+[connection signal="pressed" from="GoldGruntA/ChallengeButton" to="." method="_on_challenge_goldGruntA_button_pressed"]
+[connection signal="pressed" from="GoldGruntB/ChallengeButton" to="." method="_on_challenge_goldGruntB_button_pressed"]
