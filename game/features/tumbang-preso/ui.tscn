@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://divalb05tbeer"]
 
-[ext_resource type="Texture2D" uid="uid://lnrxja1x3r8o" path="res://can.png" id="1_fyqef"]
 [ext_resource type="Script" uid="uid://86lxojr2q2rf" path="res://ui.gd" id="1_m6e0p"]
+[ext_resource type="Texture2D" uid="uid://j6to3b0w58fn" path="res://sprites/can.png" id="2_m6e0p"]
 
 [node name="UI" type="Control" unique_id=1296784210]
 layout_mode = 3
@@ -25,34 +25,34 @@ offset_top = 5.0
 offset_right = 341.0
 offset_bottom = 55.0
 
-[node name="Can1" type="TextureRect" parent="PlayerCanRow" unique_id=688135070]
+[node name="Can1" type="TextureRect" parent="PlayerCanRow" unique_id=1661710735]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture = ExtResource("1_fyqef")
+texture = ExtResource("2_m6e0p")
 expand_mode = 1
 
-[node name="Can2" type="TextureRect" parent="PlayerCanRow" unique_id=2005238445]
+[node name="Can2" type="TextureRect" parent="PlayerCanRow" unique_id=1536489941]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture = ExtResource("1_fyqef")
+texture = ExtResource("2_m6e0p")
 expand_mode = 1
 
-[node name="Can3" type="TextureRect" parent="PlayerCanRow" unique_id=2016774513]
+[node name="Can3" type="TextureRect" parent="PlayerCanRow" unique_id=256092430]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture = ExtResource("1_fyqef")
+texture = ExtResource("2_m6e0p")
 expand_mode = 1
 
-[node name="Can4" type="TextureRect" parent="PlayerCanRow" unique_id=1401579950]
+[node name="Can4" type="TextureRect" parent="PlayerCanRow" unique_id=2092878842]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture = ExtResource("1_fyqef")
+texture = ExtResource("2_m6e0p")
 expand_mode = 1
 
-[node name="Can5" type="TextureRect" parent="PlayerCanRow" unique_id=1577012981]
+[node name="Can5" type="TextureRect" parent="PlayerCanRow" unique_id=1472445595]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture = ExtResource("1_fyqef")
+texture = ExtResource("2_m6e0p")
 expand_mode = 1
 
 [node name="EnemyLabel" type="Label" parent="." unique_id=381756659]
@@ -73,31 +73,31 @@ offset_bottom = 125.0
 [node name="Can1" type="TextureRect" parent="EnemyCanRow" unique_id=64651968]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture = ExtResource("1_fyqef")
+texture = ExtResource("2_m6e0p")
 expand_mode = 1
 
-[node name="Can2" type="TextureRect" parent="EnemyCanRow" unique_id=1737486036]
+[node name="Can2" type="TextureRect" parent="EnemyCanRow" unique_id=1517560915]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture = ExtResource("1_fyqef")
+texture = ExtResource("2_m6e0p")
 expand_mode = 1
 
-[node name="Can3" type="TextureRect" parent="EnemyCanRow" unique_id=1336797850]
+[node name="Can3" type="TextureRect" parent="EnemyCanRow" unique_id=1646906074]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture = ExtResource("1_fyqef")
+texture = ExtResource("2_m6e0p")
 expand_mode = 1
 
-[node name="Can4" type="TextureRect" parent="EnemyCanRow" unique_id=1838217762]
+[node name="Can4" type="TextureRect" parent="EnemyCanRow" unique_id=1361760873]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture = ExtResource("1_fyqef")
+texture = ExtResource("2_m6e0p")
 expand_mode = 1
 
-[node name="Can5" type="TextureRect" parent="EnemyCanRow" unique_id=454303058]
+[node name="Can5" type="TextureRect" parent="EnemyCanRow" unique_id=318307011]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture = ExtResource("1_fyqef")
+texture = ExtResource("2_m6e0p")
 expand_mode = 1
 
 [node name="ResultLabel" type="Label" parent="." unique_id=2060106351]
