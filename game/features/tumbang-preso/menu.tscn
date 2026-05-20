@@ -287,7 +287,7 @@ offset_top = 32.0
 offset_right = 241.0
 offset_bottom = 81.0
 text = "Accuracy:   100
-     Speed:   100"
+     Speed:   90"
 
 [node name="ChallengeButton" type="Button" parent="GoldBoss" unique_id=172900593]
 layout_mode = 0
