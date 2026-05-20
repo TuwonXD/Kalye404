@@ -40,8 +40,8 @@ offset_left = 136.0
 offset_top = 32.0
 offset_right = 241.0
 offset_bottom = 81.0
-text = "Accuracy:   50
-     Speed:   50"
+text = "Accuracy:   55
+     Speed:   55"
 
 [node name="ChallengeButton" type="Button" parent="BronzeBoss" unique_id=441343427]
 layout_mode = 0
@@ -205,7 +205,7 @@ offset_top = 32.0
 offset_right = 241.0
 offset_bottom = 81.0
 text = "Accuracy:   65
-     Speed:   70"
+     Speed:   74"
 
 [node name="ChallengeButton" type="Button" parent="SilverGruntA" unique_id=1596811181]
 layout_mode = 0
@@ -245,8 +245,8 @@ offset_left = 136.0
 offset_top = 32.0
 offset_right = 241.0
 offset_bottom = 81.0
-text = "Accuracy:   75
-     Speed:   65"
+text = "Accuracy:   78
+     Speed:   67"
 
 [node name="ChallengeButton" type="Button" parent="SilverGruntB" unique_id=515276944]
 layout_mode = 0
@@ -327,8 +327,8 @@ offset_left = 136.0
 offset_top = 32.0
 offset_right = 241.0
 offset_bottom = 81.0
-text = "Accuracy:   85
-     Speed:   90"
+text = "Accuracy:   83
+     Speed:   94"
 
 [node name="ChallengeButton" type="Button" parent="GoldGruntA" unique_id=1596811182]
 layout_mode = 0
@@ -369,7 +369,7 @@ offset_top = 32.0
 offset_right = 241.0
 offset_bottom = 81.0
 text = "Accuracy:   95
-     Speed:   80"
+     Speed:   84"
 
 [node name="ChallengeButton" type="Button" parent="GoldGruntB" unique_id=515276945]
 layout_mode = 0

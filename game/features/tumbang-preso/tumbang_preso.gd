@@ -58,7 +58,10 @@ func _apply_current_mode() -> void:
 
 func _enter_player_turn() -> void:
 	current_phase = TurnPhase.PLAYER_TURN
-	power_bar.set_zone_ranges(0.1, 0.25)
+
+	var accuracy = 100 - ((float(enemy_accuracy) + float(enemy_speed)) / 2.0)
+	_apply_half_orange_zones(accuracy)
+
 	var arrow_speed := ((float(enemy_accuracy) + float(enemy_speed)) / 15.0) * 100.0
 	power_bar.set_arrow_speed(arrow_speed)
 	phase_changed.emit("Player's Turn")
@@ -92,7 +95,7 @@ func _apply_half_orange_zones(value: int) -> void:
 
 	# If the enemy has 100 in either accuracy or speed.
 	if is_equal_approx(green_zone_end, 0.0):
-		orange_zone_end = 0.15
+		orange_zone_end = 0.2
 
 	power_bar.set_zone_ranges(green_zone_end, orange_zone_end)
 

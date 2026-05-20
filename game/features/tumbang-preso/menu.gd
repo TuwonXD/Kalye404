@@ -53,6 +53,21 @@ func _read_enemy_speed() -> int:
 	return clampi(int(enemy_speed_input.text), 0, 100)
 
 
+func _on_challenge_goldBoss_button_pressed() -> void:
+	var stats = _parse_stats_from_label(gold_stats_label)
+	_start_with_stats(stats[0], stats[1])
+
+
+func _on_challenge_silverBoss_button_pressed() -> void:
+	var stats = _parse_stats_from_label(silver_stats_label)
+	_start_with_stats(stats[0], stats[1])
+
+
+func _on_challenge_bronzeBoss_button_pressed() -> void:
+	var stats = _parse_stats_from_label(bronze_stats_label)
+	_start_with_stats(stats[0], stats[1])
+
+
 func _parse_stats_from_label(label_node: Label) -> Array:
 	var text := str(label_node.text)
 	# Robustly extract integer sequences from the label text (works on Godot's String API)
@@ -73,24 +88,6 @@ func _parse_stats_from_label(label_node: Label) -> Array:
 		return [clampi(nums[0], 0, 100), clampi(nums[1], 0, 100)]
 
 	return [50, 50]
-
-
-
-
-func _on_challenge_bronzeBoss_button_pressed() -> void:
-	var stats = _parse_stats_from_label(bronze_stats_label)
-	_start_with_stats(stats[0], stats[1])
-
-
-func _on_challenge_silverBoss_button_pressed() -> void:
-	var stats = _parse_stats_from_label(silver_stats_label)
-	_start_with_stats(stats[0], stats[1])
-
-
-func _on_challenge_goldBoss_button_pressed() -> void:
-	var stats = _parse_stats_from_label(gold_stats_label)
-	_start_with_stats(stats[0], stats[1])
-
 
 
 func _on_challenge_bronzeGruntA_button_pressed() -> void:
