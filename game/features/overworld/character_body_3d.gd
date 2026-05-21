@@ -1,5 +1,5 @@
 extends CharacterBody3D
-const WALKSPEED = 1.0
+const WALKSPEED = 0.7
 const RUNSPEED = 1.5
 var current_speed: float = WALKSPEED
 @onready var animated_sprite = $AnimatedSprite3D
