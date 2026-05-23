@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 
 enum TurnPhase { PLAYER_TURN, PLAYER_ESCAPE, ENEMY_TURN, ENEMY_ESCAPE }
 
@@ -14,7 +14,8 @@ var enemy_phase: int = 1
 var setup_complete: bool = false
 var current_phase: TurnPhase = TurnPhase.PLAYER_TURN
 
-@onready var power_bar = $PowerBar
+@onready var power_bar = $Camera3D/UI/SubViewport/PowerBar
+@onready var totoy = $Totoy
 
 signal player_score_changed(score: int)
 signal enemy_score_changed(score: int)
@@ -118,11 +119,18 @@ func _enter_enemy_escape() -> void:
 
 
 func _on_power_bar_stopped(_position: float, zone: String) -> void:
+	print("[TumbangPreso] _on_power_bar_stopped received -> position=", _position, " zone=", zone, " phase=", current_phase, " player_score=", player_score, " enemy_score=", enemy_score)
+	# Play Totoy's throw animation whenever the bar stops
+	if totoy and totoy.has_method("play_throw"):
+		totoy.play_throw()
+	else:
+		print("[TumbangPreso] Totoy node is missing play_throw()")
 	match current_phase:
 		TurnPhase.PLAYER_TURN:
 			var scored := _did_score(zone)
 			if scored:
 				player_score += 1
+				print("[TumbangPreso] player scored -> new player_score=", player_score)
 				player_score_changed.emit(player_score)
 				if player_score >= max_score:
 					if enemy_phase == 1:

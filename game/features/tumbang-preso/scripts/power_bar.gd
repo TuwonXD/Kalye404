@@ -77,6 +77,14 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	# Poll the action each frame so input still works when this Control
+	# is placed inside a SubViewport/viewport attached to the camera.
+	if Input.is_action_just_pressed("StopArrow"):
+		if is_active and not stopped:
+			stop()
+		elif not is_active and not stopped:
+			start()
+
 	if not is_active or stopped:
 		return
 
@@ -123,7 +131,8 @@ func stop():
 	stopped_position = arrow_position
 
 	var zone = get_zone_at_position(stopped_position)
-	
+	print("[PowerBar] stop() -> pos=", stopped_position, " zone=", zone)
+
 	power_bar_stopped.emit(stopped_position * 100.0, zone)
 
 	# otherwise, restart the bar after a short delay

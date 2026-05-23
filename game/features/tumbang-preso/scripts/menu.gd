@@ -8,7 +8,7 @@ extends Control
 @onready var enemy_speed_input = $ModifiedEnemy/EnemySpeedInput
 @onready var custom_challenge_button = $ModifiedEnemy/ChallengeButton
 
-const TUMBANG_PRESO_SCENE := "res://features/tumbang-preso/scenes/tumbang_preso.tscn"
+const TUMBANG_PRESO_SCENE := "res://features/tumbang-preso/scenes/game.tscn"
 
 func _ready() -> void:
 	bronze_challenge_button.pressed.connect(_on_bronze_challenge_pressed)
