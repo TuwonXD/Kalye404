@@ -1,0 +1,168 @@
+[gd_scene format=3 uid="uid://du8ksfivomg61"]
+
+[ext_resource type="Script" uid="uid://0d4d075rknj0" path="res://features/tumbang-preso/scripts/menu.gd" id="1_lti8b"]
+[ext_resource type="Texture2D" uid="uid://dvcxssguappkm" path="res://features/tumbang-preso/assets/man-icon.png" id="2_ouk20"]
+
+[node name="Menu" type="Control" unique_id=56611537]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_lti8b")
+
+[node name="Bronze" type="Control" parent="." unique_id=177675154]
+anchors_preset = 0
+offset_left = 56.0
+offset_top = 152.0
+offset_right = 312.0
+offset_bottom = 296.0
+
+[node name="Name" type="Label" parent="Bronze" unique_id=629592948]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 120.0
+offset_right = 104.0
+offset_bottom = 143.0
+text = "Bronze"
+
+[node name="ProfilePicture" type="TextureRect" parent="Bronze" unique_id=1702301476]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="ChallengeButton" type="Button" parent="Bronze" unique_id=441343427]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 40.0
+offset_right = 256.0
+offset_bottom = 112.0
+text = "Challenge"
+
+[node name="Silver" type="Control" parent="." unique_id=1805170600]
+anchors_preset = 0
+offset_left = 440.0
+offset_top = 152.0
+offset_right = 696.0
+offset_bottom = 296.0
+
+[node name="Name" type="Label" parent="Silver" unique_id=1296657500]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 120.0
+offset_right = 104.0
+offset_bottom = 143.0
+text = "Silver"
+
+[node name="ProfilePicture" type="TextureRect" parent="Silver" unique_id=1948145504]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="ChallengeButton" type="Button" parent="Silver" unique_id=1864882764]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 40.0
+offset_right = 256.0
+offset_bottom = 112.0
+text = "Challenge"
+
+[node name="Gold" type="Control" parent="." unique_id=881742287]
+anchors_preset = 0
+offset_left = 816.0
+offset_top = 152.0
+offset_right = 1072.0
+offset_bottom = 296.0
+
+[node name="Name" type="Label" parent="Gold" unique_id=1418830349]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 120.0
+offset_right = 104.0
+offset_bottom = 143.0
+text = "Gold"
+
+[node name="ProfilePicture" type="TextureRect" parent="Gold" unique_id=1759025137]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 116.0
+texture = ExtResource("2_ouk20")
+expand_mode = 1
+
+[node name="ChallengeButton" type="Button" parent="Gold" unique_id=702622946]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 40.0
+offset_right = 256.0
+offset_bottom = 112.0
+text = "Challenge"
+
+[node name="ModifiedEnemy" type="Control" parent="." unique_id=1419057364]
+anchors_preset = 0
+offset_left = 368.0
+offset_top = 352.0
+offset_right = 744.0
+offset_bottom = 528.0
+
+[node name="AccuracyLabel" type="Label" parent="ModifiedEnemy" unique_id=1960304599]
+layout_mode = 0
+offset_top = 75.0
+offset_right = 87.0
+offset_bottom = 112.0
+text = "Accuracy :"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpeedLabel" type="Label" parent="ModifiedEnemy" unique_id=373798383]
+layout_mode = 0
+offset_top = 125.0
+offset_right = 110.0
+offset_bottom = 162.0
+text = "Speed :"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyStatsLabel" type="Label" parent="ModifiedEnemy" unique_id=1519943935]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 24.0
+offset_right = 265.0
+offset_bottom = 74.0
+text = "Enemy Status"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyAccuracyInput" type="LineEdit" parent="ModifiedEnemy" unique_id=177268545]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 80.0
+offset_right = 239.0
+offset_bottom = 111.0
+placeholder_text = "0 - 100"
+
+[node name="EnemySpeedInput" type="LineEdit" parent="ModifiedEnemy" unique_id=485365465]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 125.0
+offset_right = 239.0
+offset_bottom = 156.0
+placeholder_text = "0 - 100"
+
+[node name="ChallengeButton" type="Button" parent="ModifiedEnemy" unique_id=514756460]
+layout_mode = 0
+offset_left = 264.0
+offset_top = 96.0
+offset_right = 364.0
+offset_bottom = 156.0
+text = "Challenge"
+
+[connection signal="pressed" from="Bronze/ChallengeButton" to="." method="_on_challenge_bronzeBoss_button_pressed"]

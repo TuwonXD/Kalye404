@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://divalb05tbeer"]
+
+[ext_resource type="Script" uid="uid://86lxojr2q2rf" path="res://features/tumbang-preso/scripts/ui.gd" id="1_m6e0p"]
+[ext_resource type="Texture2D" uid="uid://cbtqe7f0fi4h4" path="res://features/tumbang-preso/assets/can.png" id="2_24g5n"]
+
+[node name="UI" type="Control" unique_id=1296784210]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_m6e0p")
+
+[node name="PlayerLabel" type="Label" parent="." unique_id=1115191702]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 20.0
+offset_right = 63.0
+offset_bottom = 43.0
+text = "Totoy :"
+
+[node name="PlayerCanRow" type="HBoxContainer" parent="." unique_id=184429430]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 5.0
+offset_right = 341.0
+offset_bottom = 55.0
+
+[node name="Can1" type="TextureRect" parent="PlayerCanRow" unique_id=1661710735]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_24g5n")
+expand_mode = 1
+
+[node name="Can2" type="TextureRect" parent="PlayerCanRow" unique_id=2129145384]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_24g5n")
+expand_mode = 1
+
+[node name="Can3" type="TextureRect" parent="PlayerCanRow" unique_id=1476088370]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_24g5n")
+expand_mode = 1
+
+[node name="Can4" type="TextureRect" parent="PlayerCanRow" unique_id=1654362059]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_24g5n")
+expand_mode = 1
+
+[node name="Can5" type="TextureRect" parent="PlayerCanRow" unique_id=605117091]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_24g5n")
+expand_mode = 1
+
+[node name="EnemyLabel" type="Label" parent="." unique_id=381756659]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 88.0
+offset_right = 76.0
+offset_bottom = 111.0
+text = "Enemy :"
+
+[node name="EnemyCanRow" type="HBoxContainer" parent="." unique_id=184377764]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 75.0
+offset_right = 341.0
+offset_bottom = 125.0
+
+[node name="Can1" type="TextureRect" parent="EnemyCanRow" unique_id=64651968]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_24g5n")
+expand_mode = 1
+
+[node name="Can2" type="TextureRect" parent="EnemyCanRow" unique_id=1517560915]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_24g5n")
+expand_mode = 1
+
+[node name="Can3" type="TextureRect" parent="EnemyCanRow" unique_id=1646906074]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_24g5n")
+expand_mode = 1
+
+[node name="Can4" type="TextureRect" parent="EnemyCanRow" unique_id=1361760873]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_24g5n")
+expand_mode = 1
+
+[node name="Can5" type="TextureRect" parent="EnemyCanRow" unique_id=318307011]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_24g5n")
+expand_mode = 1
+
+[node name="ResultLabel" type="Label" parent="." unique_id=2060106351]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 405.0
+offset_top = 252.0
+offset_right = 645.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
