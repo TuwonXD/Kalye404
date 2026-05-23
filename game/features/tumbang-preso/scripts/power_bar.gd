@@ -139,7 +139,7 @@ func stop():
 	if not restart_enabled:
 		return
 
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1).timeout
 	start()
 
 
