@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://ch74tm74m01q1"]
+
+[ext_resource type="Texture2D" uid="uid://cbtqe7f0fi4h4" path="res://features/tumbang-preso/assets/can.png" id="1_cep7e"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uowq0"]
+radius = 3.659668
+height = 9.5619545
+
+[node name="Can" type="Area3D" unique_id=784681409]
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=935008813]
+texture = ExtResource("1_cep7e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1640197629]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22625542, 0)
+shape = SubResource("CapsuleShape3D_uowq0")
