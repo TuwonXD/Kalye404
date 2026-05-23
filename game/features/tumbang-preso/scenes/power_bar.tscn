@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://cascibvb802lu"]
+
+[ext_resource type="Script" uid="uid://c2puo7veaor62" path="res://features/tumbang-preso/scripts/power_bar.gd" id="1_hutyk"]
+
+[node name="PowerBar" type="Control" unique_id=692389063]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 50.0
+offset_bottom = 400.0
+script = ExtResource("1_hutyk")
+
+[node name="Background" type="Panel" parent="." unique_id=235869608]
+modulate = Color(0.2, 0.2, 0.2, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GreenZone" type="ColorRect" parent="." unique_id=338500956]
+modulate = Color(0, 0.61960787, 0, 1)
+layout_mode = 0
+offset_right = 50.0
+offset_bottom = 45.0
+
+[node name="OrangeZone" type="ColorRect" parent="." unique_id=1345213673]
+modulate = Color(1, 0.64705884, 0, 1)
+layout_mode = 0
+offset_top = 45.0
+offset_right = 50.0
+offset_bottom = 105.0
+
+[node name="RedZone" type="ColorRect" parent="." unique_id=1692737512]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_top = 105.0
+offset_right = 50.0
+offset_bottom = 400.0
+
+[node name="Arrow" type="ColorRect" parent="." unique_id=1825658202]
+layout_mode = 0
+offset_top = 400.0
+offset_right = 50.0
+offset_bottom = 405.0
