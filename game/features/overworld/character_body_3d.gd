@@ -21,11 +21,19 @@ func _physics_process(delta: float) -> void:
 			direction_offset += target_angle - camera_angle
 			camera_angle = target_angle
 			is_rotating = true
+			last_direction = "up"
+			var is_moving = velocity.x != 0 or velocity.z != 0
+			var is_sprinting = Input.is_action_pressed("sprint")
+			if is_moving:
+				animated_sprite.play("run up" if is_sprinting else "walk up")
+			else:
+				animated_sprite.play("Idle up")
 			var tween = create_tween()
 			tween.set_ease(Tween.EASE_OUT)
 			tween.set_trans(Tween.TRANS_CUBIC)
 			tween.tween_property(camera_pivot, "rotation_degrees:y", camera_angle, 0.3)
 			tween.tween_callback(func(): is_rotating = false)
+
 	var input_dir := Input.get_vector("left", "right", "up", "down")
 	var direction := Vector3.ZERO
 	if input_dir != Vector2.ZERO:
@@ -41,26 +49,28 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction.x * current_speed
 		velocity.z = direction.z * current_speed
 		animated_sprite.flip_h = false
-		if input_dir.x > 0:
-			last_direction = "right"
-			animated_sprite.play("run right" if is_sprinting else "walk right")
-		elif input_dir.x < 0:
-			last_direction = "left"
-			animated_sprite.play("run left" if is_sprinting else "walk left")
-		elif input_dir.y < 0:
-			last_direction = "up"
-			animated_sprite.play("run up" if is_sprinting else "walk up")
-		elif input_dir.y > 0:
-			last_direction = "down"
-			animated_sprite.play("run down" if is_sprinting else "walk down")
+		if not is_rotating:
+			if input_dir.x > 0:
+				last_direction = "right"
+				animated_sprite.play("run right" if is_sprinting else "walk right")
+			elif input_dir.x < 0:
+				last_direction = "left"
+				animated_sprite.play("run left" if is_sprinting else "walk left")
+			elif input_dir.y < 0:
+				last_direction = "up"
+				animated_sprite.play("run up" if is_sprinting else "walk up")
+			elif input_dir.y > 0:
+				last_direction = "down"
+				animated_sprite.play("run down" if is_sprinting else "walk down")
 	else:
 		velocity.x = move_toward(velocity.x, 0, current_speed)
 		velocity.z = move_toward(velocity.z, 0, current_speed)
-		match last_direction:
-			"right": animated_sprite.play("Idle right")
-			"left":  animated_sprite.play("Idle left")
-			"up":    animated_sprite.play("Idle up")
-			"down":  animated_sprite.play("Idle down")
+		if not is_rotating:
+			match last_direction:
+				"right": animated_sprite.play("Idle right")
+				"left":  animated_sprite.play("Idle left")
+				"up":    animated_sprite.play("Idle up")
+				"down":  animated_sprite.play("Idle down")
 	move_and_slide()
 
 func get_camera_angle_for_direction(dir: String) -> float:
