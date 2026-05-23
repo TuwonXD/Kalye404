@@ -6,8 +6,11 @@ enum TurnPhase { PLAYER_TURN, PLAYER_ESCAPE, ENEMY_TURN, ENEMY_ESCAPE }
 
 var enemy_accuracy: int = 0
 var enemy_speed: int = 0
+var enemy_phase_two_accuracy: int = 0
+var enemy_phase_two_speed: int = 0
 var player_score: int = 0
 var enemy_score: int = 0
+var enemy_phase: int = 1
 var setup_complete: bool = false
 var current_phase: TurnPhase = TurnPhase.PLAYER_TURN
 
@@ -29,11 +32,14 @@ func _ready() -> void:
 		power_bar.start()
 
 
-func setup(accuracy: int, speed: int) -> void:
+func setup(accuracy: int, speed: int, second_accuracy: int, second_speed: int) -> void:
 	enemy_accuracy = clampi(accuracy, 0, 100)
 	enemy_speed = clampi(speed, 0, 100)
+	enemy_phase_two_accuracy = clampi(second_accuracy, 0, 100)
+	enemy_phase_two_speed = clampi(second_speed, 0, 100)
 	player_score = 0
 	enemy_score = 0
+	enemy_phase = 1
 	current_phase = TurnPhase.PLAYER_TURN
 	setup_complete = true
 	power_bar.set_restart_enabled(true)
@@ -116,6 +122,9 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				player_score += 1
 				player_score_changed.emit(player_score)
 				if player_score >= max_score:
+					if enemy_phase == 1:
+						_advance_enemy_phase()
+						return
 					power_bar.set_restart_enabled(false)
 					player_max_score_reached.emit(player_score)
 					return
@@ -148,6 +157,19 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				_enter_player_turn()
 			else:
 				_enter_enemy_turn()
+
+
+func _advance_enemy_phase() -> void:
+	enemy_phase = 2
+	enemy_accuracy = enemy_phase_two_accuracy
+	enemy_speed = enemy_phase_two_speed
+	player_score = 0
+	enemy_score = 0
+	player_score_changed.emit(player_score)
+	enemy_score_changed.emit(enemy_score)
+	current_phase = TurnPhase.PLAYER_TURN
+	_apply_current_mode()
+	phase_changed.emit("Enemy's Second Phase")
 
 
 func _did_score(zone: String) -> bool:
