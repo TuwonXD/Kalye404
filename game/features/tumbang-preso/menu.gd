@@ -31,7 +31,7 @@ func _on_silver_challenge_pressed() -> void:
 
 
 func _on_gold_challenge_pressed() -> void:
-	_start_with_stats(100, 90, 100, 100)
+	_start_with_stats(95, 90, 100, 100)
 
 
 func _on_custom_challenge_pressed() -> void:

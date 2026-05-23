@@ -99,6 +99,9 @@ func _apply_half_orange_zones(value: int) -> void:
 	var green_zone_end := clampf((value - half_of_orange) / 100.0, 0.0, 1.0)
 	var orange_zone_end := clampf((green_zone_end * 100.0 + (half_of_orange * 2.0)) / 100.0, green_zone_end, 1.0)
 
+	if green_zone_end == 0:
+		orange_zone_end = 0.1
+
 	power_bar.set_zone_ranges(green_zone_end, orange_zone_end)
 
 
