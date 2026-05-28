@@ -21,11 +21,13 @@ func _process(delta: float) -> void:
 	elif needle.position.x <= 0:
 		needle_direction = 1.0
 
-func activate(speed: float) -> void:
+func activate(speed: float, zone_width: float = 60.0) -> void:
 	is_active = true
 	needle_speed = speed
 	needle.position.x = 0
 	needle_direction = 1.0
+	green_zone.size.x = zone_width
+	green_zone.position.x = (bg.size.x - zone_width) / 2.0
 
 func deactivate() -> void:
 	is_active = false

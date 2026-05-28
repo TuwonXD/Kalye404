@@ -15,6 +15,9 @@ var current_level: int = 0
 var lives: int = 3
 
 func _ready() -> void:
+	current_tier = GameManager.luksong_baka_tier
+	lives = 3
+	current_level = 0
 	_start_level()
 
 func _start_level() -> void:
@@ -49,6 +52,7 @@ func _advance_level() -> void:
 	if current_level >= 5:
 		current_level = 0
 		current_tier += 1
+		lives = 3  # ← add this
 		if current_tier >= difficulties.size():
 			_game_complete()
 			return
@@ -59,9 +63,25 @@ func _game_over() -> void:
 	lives = 3
 	current_level = 0
 	current_tier = 0
-	hud.show_message("GAME OVER!")
-	await get_tree().create_timer(2.0).timeout
-	_start_level()
+	player.reset_position()
+	hud.show_game_over()
+	
+	var retry = hud.get_node("HUD_Root/GameOverPanel/RestartButton")
+	var overworld = hud.get_node("HUD_Root/GameOverPanel/OverworldButton")
+	
+	if not retry.pressed.is_connected(_on_restart):
+		retry.pressed.connect(_on_restart)
+	if not overworld.pressed.is_connected(_on_overworld):
+		overworld.pressed.connect(_on_overworld)
 
 func _game_complete() -> void:
 	hud.show_message("YOU WIN!")
+
+
+func _on_restart() -> void:
+	hud.get_node("HUD_Root/GameOverPanel").visible = false
+	_start_level()
+
+
+func _on_overworld() -> void:
+	get_tree().change_scene_to_file("res://features/overworld/overworld.tscn")
