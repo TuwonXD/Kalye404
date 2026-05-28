@@ -15,4 +15,4 @@ Mama: *(smiles)* O sige. Wag kayong magpapa-gabi ah.
 Kiko: YOWN! Tara Lods, laro na ulit!
 [wait time="1.0"]
 [background fade="2.0"]
-[signal value="roll_credits"]
+[signal arg="roll_credits"]

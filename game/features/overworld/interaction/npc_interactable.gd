@@ -6,7 +6,43 @@ enum NpcType { MAMA, KIKO, BOY_TSINELAS, KAPITANA_KAT, KUYA_TALON, COURT_BOARD }
 
 signal focused(is_focused)
 
+# Returns true if this NPC has something to say at the current story state
+func has_dialogue() -> bool:
+	var state = GameManager.current_story_state
+	match npc_type:
+		NpcType.MAMA:
+			return state in [
+				GameManager.StoryState.DAY1_INTRO,
+				GameManager.StoryState.DAY1_OUTRO,
+				GameManager.StoryState.DAY2_INTRO,
+				GameManager.StoryState.DAY2_OUTRO,
+				GameManager.StoryState.DAY3_INTRO,
+				GameManager.StoryState.EPILOGUE
+			]
+		NpcType.KIKO:
+			return state in [
+				GameManager.StoryState.DAY1_TUMBANG_TUTORIAL,
+				GameManager.StoryState.DAY2_PATINTERO_TUTORIAL,
+				GameManager.StoryState.DAY3_LUKSONG_TUTORIAL
+			]
+		NpcType.BOY_TSINELAS:
+			return state == GameManager.StoryState.DAY1_BOSS
+		NpcType.KAPITANA_KAT:
+			return state == GameManager.StoryState.DAY2_BOSS
+		NpcType.KUYA_TALON:
+			return state == GameManager.StoryState.DAY3_BOSS
+		NpcType.COURT_BOARD:
+			return state in [
+				GameManager.StoryState.DAY1_TUMBANG_GRIND,
+				GameManager.StoryState.DAY2_PATINTERO_GRIND,
+				GameManager.StoryState.DAY3_LUKSONG_GRIND
+			]
+	return false
+
 func interact():
+	if not has_dialogue():
+		return
+		
 	var state = GameManager.current_story_state
 	print("Interacted with NPC Type: ", npc_type, " at State: ", state)
 	
@@ -19,7 +55,6 @@ func interact():
 				GameManager.StoryState.DAY2_OUTRO: Dialogic.start("act2_outro")
 				GameManager.StoryState.DAY3_INTRO: Dialogic.start("act3_intro")
 				GameManager.StoryState.EPILOGUE: Dialogic.start("epilogue")
-				_: print("Mama: Nagluluto pa ako.")
 					
 		NpcType.KIKO:
 			match state:
@@ -27,22 +62,15 @@ func interact():
 				GameManager.StoryState.DAY1_TUMBANG_TUTORIAL: Dialogic.start("tutorial_tumbang")
 				GameManager.StoryState.DAY2_PATINTERO_TUTORIAL: Dialogic.start("tutorial_patintero")
 				GameManager.StoryState.DAY3_LUKSONG_TUTORIAL: Dialogic.start("tutorial_luksong")
-				_: print("Kiko: Lods! Laro tayo sa Board!")
 				
 		NpcType.BOY_TSINELAS:
-			match state:
-				GameManager.StoryState.DAY1_BOSS: Dialogic.start("act1_pre_game")
-				_: print("Boy Tsinelas: Bumalik ka pag handa ka na.")
+			if state == GameManager.StoryState.DAY1_BOSS: Dialogic.start("act1_pre_game")
 					
 		NpcType.KAPITANA_KAT:
-			match state:
-				GameManager.StoryState.DAY2_BOSS: Dialogic.start("act2_pre_game")
-				_: print("Kapitana Kat: Practice muna.")
+			if state == GameManager.StoryState.DAY2_BOSS: Dialogic.start("act2_pre_game")
 					
 		NpcType.KUYA_TALON:
-			match state:
-				GameManager.StoryState.DAY3_BOSS: Dialogic.start("act3_pre_game")
-				_: print("Kuya Talon: Kulang pa sa talon.")
+			if state == GameManager.StoryState.DAY3_BOSS: Dialogic.start("act3_pre_game")
 					
 		NpcType.COURT_BOARD:
 			# Placeholder for the Court Board UI Menu

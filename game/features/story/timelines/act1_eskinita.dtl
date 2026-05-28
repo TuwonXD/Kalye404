@@ -1,8 +1,8 @@
-[background fade="1.0"]
+[background arg="res://" fade="1.0"]
 join Totoy center
 Totoy: Ang init... at ang ingay. Gusto ko na bumalik sa kwarto ko...
 [wait time="0.5"]
-[signal value="play_sfx_slipper_thud"]
+[signal]
 [wait time="0.3"]
 Totoy: ARAY! Ano ba—
 join Kiko right
@@ -13,4 +13,4 @@ Totoy: Ah... hindi kaya, bibili lang ako ng suka saka babalik na 'ko—
 Kiko: Kunsabagay! Kulang nga kami ng isa. Halika dito, laro muna bago ka pumunta sa tindahan!
 leave Kiko
 leave Totoy
-[signal value="eskinita_intro_done"]
+[signal]

@@ -16,12 +16,20 @@ func _process(_delta):
 		if closest_interactable != null:
 			_set_closest(null)
 		return
+	
+	# Filter to only NPCs that actually have something to say
+	var talkable = interactables_in_range.filter(func(npc): return npc.has_method("has_dialogue") and npc.has_dialogue())
+	
+	if talkable.is_empty():
+		if closest_interactable != null:
+			_set_closest(null)
+		return
 		
-	var new_closest = interactables_in_range[0]
+	var new_closest = talkable[0]
 	var min_dist = global_position.distance_squared_to(new_closest.global_position)
 	
-	for i in range(1, interactables_in_range.size()):
-		var interactable = interactables_in_range[i]
+	for i in range(1, talkable.size()):
+		var interactable = talkable[i]
 		var dist = global_position.distance_squared_to(interactable.global_position)
 		if dist < min_dist:
 			min_dist = dist
@@ -50,7 +58,6 @@ func _input(event):
 			closest_interactable.interact()
 
 func _on_area_entered(area):
-	# FIX: Using has_method instead of class_name to prevent Godot compilation errors
 	if area.has_method("interact") and not interactables_in_range.has(area):
 		interactables_in_range.append(area)
 

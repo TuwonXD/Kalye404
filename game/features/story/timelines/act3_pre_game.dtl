@@ -8,4 +8,4 @@ Totoy: Oo. Handa na ako.
 Kuya_Talon: Hahahaha! Gusto ko ang kumpiyansa mo, bata. Pero alam mo bang hindi ako natatalunan ng sinuman dito sa loob ng dalawang taon? Luksong Baka ang laro ko. At malayo pa ang talon mo sa akin.
 Kiko: Lods... ang tangkad niya. Sigurado 'to?
 Totoy: Sigurado.
-[signal value="start_luksong_baka_game"]
+[signal arg="start_luksong_baka_game"]

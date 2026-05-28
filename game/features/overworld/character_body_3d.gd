@@ -23,6 +23,13 @@ func _ready() -> void:
 	outline_sprite.visible = false
 
 func _physics_process(delta: float) -> void:
+	if GameManager.is_dialogue_active:
+		velocity.x = 0
+		velocity.z = 0
+		animated_sprite.stop()
+		move_and_slide()
+		return
+
 	handle_sprint()
 
 	if not is_on_floor():

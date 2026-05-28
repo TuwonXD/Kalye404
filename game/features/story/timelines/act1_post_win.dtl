@@ -7,4 +7,4 @@ Boy_Tsinelas: Magaling... tanggapin mo 'to. Ang Legendary Slipper. Ang katunayan
 join Kiko right
 Kiko: Grabe Lods! Unang araw mo pa lang, champion ka na agad sa Eskinita!
 Totoy: Haa... saan na naman 'yung suka... baka magunaw na bahay namin.
-[signal value="end_act_1"]
+[signal arg="end_act_1"]

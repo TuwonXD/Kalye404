@@ -30,11 +30,16 @@ var game_progress: Dictionary = {
 var player_position: Vector3 = Vector3.ZERO
 var SAVE_PATH = "user://kalye404_save.json"
 
+# Track if dialogue is running so we can freeze the player
+var is_dialogue_active: bool = false
+
 func _ready():
 	load_game()
 	# Connect to Dialogic signals to advance story naturally
 	if Dialogic:
 		Dialogic.signal_event.connect(_on_dialogic_signal)
+		Dialogic.timeline_started.connect(func(): is_dialogue_active = true)
+		Dialogic.timeline_ended.connect(func(): is_dialogue_active = false)
 
 func _on_dialogic_signal(argument: String):
 	print("GameManager received Dialogic signal: ", argument)
@@ -44,7 +49,8 @@ func _on_dialogic_signal(argument: String):
 		"eskinita_intro_done":
 			if current_story_state == StoryState.DAY1_ESKINITA: advance_story_state()
 		"start_tutorial_tumbang_preso":
-			pass # TODO: Load minigame scene
+			# Temporarily advance state here so you don't get softlocked while we don't have the minigame connected!
+			if current_story_state == StoryState.DAY1_TUMBANG_TUTORIAL: advance_story_state()
 		"end_act_1":
 			if current_story_state == StoryState.DAY1_BOSS: advance_story_state()
 		"fade_to_day_2":
@@ -52,7 +58,7 @@ func _on_dialogic_signal(argument: String):
 		"start_overworld_act2":
 			if current_story_state == StoryState.DAY2_INTRO: advance_story_state()
 		"start_tutorial_patintero":
-			pass # TODO: Load minigame scene
+			if current_story_state == StoryState.DAY2_PATINTERO_TUTORIAL: advance_story_state()
 		"end_act_2":
 			if current_story_state == StoryState.DAY2_BOSS: advance_story_state()
 		"fade_to_day_3":
@@ -60,7 +66,7 @@ func _on_dialogic_signal(argument: String):
 		"start_overworld_act3":
 			if current_story_state == StoryState.DAY3_INTRO: advance_story_state()
 		"start_tutorial_luksong_baka":
-			pass # TODO: Load minigame scene
+			if current_story_state == StoryState.DAY3_LUKSONG_TUTORIAL: advance_story_state()
 		"end_act_3":
 			if current_story_state == StoryState.DAY3_BOSS: advance_story_state()
 		"roll_credits":
@@ -72,9 +78,9 @@ func advance_story_state():
 		
 		# Auto-unlock things during dev skip so the logic doesn't break
 		match current_story_state:
-			StoryState.DAY1_BOSS: game_progress["tumbang"] = max(game_progress["tumbang"], 3)
-			StoryState.DAY2_BOSS: game_progress["patintero"] = max(game_progress["patintero"], 3)
-			StoryState.DAY3_BOSS: game_progress["luksong"] = max(game_progress["luksong"], 3)
+			StoryState.DAY1_BOSS: game_progress["tumbang"] = max(game_progress["tumbang"], 4)
+			StoryState.DAY2_BOSS: game_progress["patintero"] = max(game_progress["patintero"], 4)
+			StoryState.DAY3_BOSS: game_progress["luksong"] = max(game_progress["luksong"], 4)
 			
 		emit_signal("story_state_changed", current_story_state)
 		save_game()
