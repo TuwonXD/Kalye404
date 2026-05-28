@@ -42,8 +42,11 @@ directories/dtl_directory={
 "prologue_day1_end": "res://features/story/timelines/prologue_day1_end.dtl",
 "prologue_eskinita": "res://features/story/timelines/prologue_eskinita.dtl",
 "prologue_intro": "res://features/story/timelines/prologue_intro.dtl",
+"tutorial_fail": "res://features/luksong_baka/dialogues/tutorial_fail.dtl",
+"tutorial_intro": "res://features/luksong_baka/dialogues/tutorial_intro.dtl",
 "tutorial_luksong": "res://features/story/timelines/tutorial_luksong.dtl",
 "tutorial_patintero": "res://features/story/timelines/tutorial_patintero.dtl",
+"tutorial_success": "res://features/luksong_baka/dialogues/tutorial_success.dtl",
 "tutorial_tumbang": "res://features/story/timelines/tutorial_tumbang.dtl"
 }
 layout/style_directory={

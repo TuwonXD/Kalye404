@@ -45,7 +45,19 @@ func do_jump() -> void:
 	velocity.y = JUMP_FORCE
 	velocity.x = RUN_SPEED
 	anim_player.play("jump")
-
+	
+func do_trip() -> void:
+	# Fixed jump height, flies over but faceplants on landing
+	is_jumping = true
+	velocity.y = -400.0
+	velocity.x = RUN_SPEED
+	anim_player.play("jump")
+	# Wait for peak of jump then switch to fail
+	await get_tree().create_timer(0.4).timeout
+	anim_player.play("fail")
+	# Let gravity bring them down naturally
+	await get_tree().create_timer(0.8).timeout
+	reset_position()
 func reset_position() -> void:
 	is_running = false
 	is_jumping = false
