@@ -4,14 +4,14 @@ importer="wavefront_obj"
 importer_version=1
 type="Mesh"
 uid="uid://csywclksee2y6"
-path="res://.godot/imported/street404.obj-da57ef5f9753700564f83a4c1f9f942f.mesh"
+path="res://.godot/imported/street404.obj-bf62e207a725f4961cb2979b82ddaa83.mesh"
 
 [deps]
 
-files=["res://.godot/imported/street404.obj-da57ef5f9753700564f83a4c1f9f942f.mesh"]
+files=["res://.godot/imported/street404.obj-bf62e207a725f4961cb2979b82ddaa83.mesh"]
 
-source_file="res://features/overworld/street404.obj"
-dest_files=["res://.godot/imported/street404.obj-da57ef5f9753700564f83a4c1f9f942f.mesh", "res://.godot/imported/street404.obj-da57ef5f9753700564f83a4c1f9f942f.mesh"]
+source_file="res://features/overworld/assets/street404.obj"
+dest_files=["res://.godot/imported/street404.obj-bf62e207a725f4961cb2979b82ddaa83.mesh", "res://.godot/imported/street404.obj-bf62e207a725f4961cb2979b82ddaa83.mesh"]
 
 [params]
 
