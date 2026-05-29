@@ -13,12 +13,16 @@ var enemy_score: int = 0
 var enemy_phase: int = 1
 var setup_complete: bool = false
 var current_phase: TurnPhase = TurnPhase.PLAYER_TURN
+var pending_player_escape_sequence: bool = false
+var pending_player_turn_after_escape_return: bool = false
+var player_escape_timeout_token: int = 0
 
 @onready var power_bar = $PowerBar
 @onready var totoy = $Totoy
 @onready var slipper: Area2D = $Slipper
 @onready var can: Area2D = $Can
 
+var totoy_start_position: Vector2 = Vector2.ZERO
 var slipper_start_position: Vector2 = Vector2.ZERO
 var can_start_position: Vector2 = Vector2.ZERO
 
@@ -33,6 +37,7 @@ func _ready() -> void:
 	if not power_bar.power_bar_stopped.is_connected(_on_power_bar_stopped):
 		power_bar.power_bar_stopped.connect(_on_power_bar_stopped)
 
+	_record_totoy_position()
 	_record_slipper_and_can_positions()
 	_set_slipper_visibility(false)
 	_set_totoy_idle()
@@ -56,6 +61,7 @@ func setup(accuracy: int, speed: int, second_accuracy: int, second_speed: int) -
 	power_bar.reset()
 
 	if is_node_ready():
+		_record_totoy_position()
 		_record_slipper_and_can_positions()
 		_set_slipper_visibility(false)
 		_set_totoy_idle()
@@ -77,6 +83,9 @@ func _apply_current_mode() -> void:
 
 func _enter_player_turn() -> void:
 	current_phase = TurnPhase.PLAYER_TURN
+	_clear_player_escape_state()
+	pending_player_turn_after_escape_return = false
+	power_bar.set_restart_enabled(true)
 
 	var accuracy = 100 - ((float(enemy_accuracy) + float(enemy_speed)) / 2.0)
 	_apply_half_orange_zones(accuracy)
@@ -88,6 +97,7 @@ func _enter_player_turn() -> void:
 
 func _enter_player_escape() -> void:
 	current_phase = TurnPhase.PLAYER_ESCAPE
+	power_bar.set_restart_enabled(true)
 	_apply_escape_mode(enemy_speed)
 	phase_changed.emit("Player's Escape Mode")
 
@@ -120,12 +130,18 @@ func _apply_half_orange_zones(value: int) -> void:
 
 func _enter_enemy_turn() -> void:
 	current_phase = TurnPhase.ENEMY_TURN
+	_clear_player_escape_state()
+	pending_player_turn_after_escape_return = false
+	power_bar.set_restart_enabled(true)
 	_apply_enemy_accuracy(enemy_accuracy)
 	phase_changed.emit("Enemy's Turn")
 
 
 func _enter_enemy_escape() -> void:
 	current_phase = TurnPhase.ENEMY_ESCAPE
+	_clear_player_escape_state()
+	pending_player_turn_after_escape_return = false
+	power_bar.set_restart_enabled(true)
 	_apply_escape_mode(enemy_speed)
 	phase_changed.emit("Enemy's Escape Mode")
 
@@ -143,12 +159,16 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 			var scored := _did_score(zone)
 
 			if scored:
+				pending_player_escape_sequence = true
+				power_bar.set_restart_enabled(false)
 				_fly_slipper_to_can()
 
 				player_score += 1
 				print("[TumbangPreso] player scored -> new player_score=", player_score)
 				player_score_changed.emit(player_score)
 				if player_score >= max_score:
+					pending_player_escape_sequence = false
+					_cancel_player_escape_timeout()
 					if enemy_phase == 1:
 						_advance_enemy_phase()
 						return
@@ -156,13 +176,12 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 					player_max_score_reached.emit(player_score)
 					return
 
-			if scored:
-				_enter_player_escape()
-			else:
+			if not scored:
 				_fly_slipper_to_can_side_then_enemy_turn()
 		TurnPhase.PLAYER_ESCAPE:
 			if _did_score(zone):
-				_enter_player_turn()
+					pending_player_turn_after_escape_return = true
+					power_bar.set_restart_enabled(false)
 			else:
 				_enter_enemy_turn()
 		TurnPhase.ENEMY_TURN:
@@ -193,6 +212,7 @@ func _advance_enemy_phase() -> void:
 	enemy_speed = enemy_phase_two_speed
 	player_score = 0
 	enemy_score = 0
+	_clear_player_escape_state()
 	player_score_changed.emit(player_score)
 	enemy_score_changed.emit(enemy_score)
 	current_phase = TurnPhase.PLAYER_TURN
@@ -275,18 +295,76 @@ func _fly_slipper_to_can_side_then_enemy_turn() -> void:
 
 func _on_slipper_arrived() -> void:
 	print("[TumbangPreso] Slipper arrived at can")
+	if not pending_player_escape_sequence:
+		return
+
+	pending_player_escape_sequence = false
 	if can and can.has_method("on_slipper_hit"):
 		can.call("on_slipper_hit")
 
 	_move_can_to_hit_position()
+	_begin_player_escape_mode()
+	_run_player_escape_sequence()
+
+
+func _begin_player_escape_mode() -> void:
+	_enter_player_escape()
+	power_bar.start()
+	_start_player_escape_timeout()
+
+
+func _run_player_escape_sequence() -> void:
+	if totoy == null or not totoy.has_method("move_to_position"):
+		return
+
+	await totoy.move_to_position(slipper.position, 2.0, "run-up", 2)
+	_set_slipper_visibility(false)
+	totoy.play_pickup()
+	await get_tree().create_timer(1.0).timeout
+	await totoy.move_to_position(totoy_start_position, 2.0, "run-down", 2)
+	_set_totoy_idle()
+
+	if pending_player_turn_after_escape_return and current_phase == TurnPhase.PLAYER_ESCAPE:
+		pending_player_turn_after_escape_return = false
+		_enter_player_turn()
+		power_bar.start()
+
+
+func _start_player_escape_timeout() -> void:
+	player_escape_timeout_token += 1
+	var timeout_token := player_escape_timeout_token
+	await get_tree().create_timer(5.0).timeout
+	if timeout_token != player_escape_timeout_token:
+		return
+
+	if current_phase != TurnPhase.PLAYER_ESCAPE:
+		return
+
+	power_bar.force_stop("red")
+
+
+func _clear_player_escape_state() -> void:
+	pending_player_escape_sequence = false
+	pending_player_turn_after_escape_return = false
+	_cancel_player_escape_timeout()
+
+
+func _cancel_player_escape_timeout() -> void:
+	player_escape_timeout_token += 1
 
 
 func _record_slipper_and_can_positions() -> void:
+	_record_totoy_position()
 	if slipper:
 		slipper_start_position = slipper.position
 
 	if can:
 		can_start_position = can.position
+
+
+func _record_totoy_position() -> void:
+	if totoy:
+		totoy_start_position = totoy.position
 
 
 func _reset_slipper_and_can_positions() -> void:

@@ -143,6 +143,24 @@ func stop():
 	start()
 
 
+func force_stop(zone: String) -> void:
+	if not is_active:
+		return
+
+	is_active = false
+	stopped = true
+	stopped_position = arrow_position
+
+	print("[PowerBar] force_stop() -> pos=", stopped_position, " zone=", zone)
+	power_bar_stopped.emit(stopped_position * 100.0, zone)
+
+	if not restart_enabled:
+		return
+
+	await get_tree().create_timer(1).timeout
+	start()
+
+
 func _input(event):
 	if event.is_action_pressed("StopArrow"):
 		if is_active and not stopped:
