@@ -1,8 +1,26 @@
 [gd_resource type="Resource" script_class="PatinteroDifficulty" format=3 uid="uid://g45qgb5senpc"]
 
+[ext_resource type="Texture2D" uid="uid://bmffdgdrmej76" path="res://features/patintero/assets/guard1.png" id="1_butsj"]
 [ext_resource type="Script" uid="uid://bewp1r4jjfpe5" path="res://features/patintero/difficulty/patintero_difficulty.gd" id="1_dmd3c"]
+[ext_resource type="Texture2D" uid="uid://dsmrjnjp0m0cw" path="res://features/patintero/assets/guard2.png" id="2_vwfl4"]
+[ext_resource type="Texture2D" uid="uid://bcyap14s6enkg" path="res://features/patintero/assets/guard3.png" id="3_gctrn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxeug"]
+atlas = ExtResource("1_butsj")
+region = Rect2(3, 727, 326, 340)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2k6y"]
+atlas = ExtResource("3_gctrn")
+region = Rect2(3, 364, 326, 345)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xt85f"]
+atlas = ExtResource("2_vwfl4")
+region = Rect2(3, 7, 325, 344)
 
 [resource]
 script = ExtResource("1_dmd3c")
 tier_name = "Bronze Grunt"
+tier_color = Color(0.8039216, 0.49803922, 0.19607843, 1)
+guard_textures = Array[Texture2D]([SubResource("AtlasTexture_mxeug"), SubResource("AtlasTexture_c2k6y"), SubResource("AtlasTexture_xt85f")])
+guard_scale = Vector2(0.6, 0.6)
 metadata/_custom_type_script = "uid://bewp1r4jjfpe5"

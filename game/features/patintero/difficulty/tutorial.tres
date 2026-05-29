@@ -1,6 +1,21 @@
 [gd_resource type="Resource" script_class="PatinteroDifficulty" format=3 uid="uid://dn7mg4x1t1xwu"]
 
+[ext_resource type="Texture2D" uid="uid://docgnbp8qmwve" path="res://features/patintero/assets/guard5.png" id="1_4c5xy"]
 [ext_resource type="Script" uid="uid://bewp1r4jjfpe5" path="res://features/patintero/difficulty/patintero_difficulty.gd" id="1_gtisg"]
+[ext_resource type="Texture2D" uid="uid://bcyap14s6enkg" path="res://features/patintero/assets/guard3.png" id="2_b5xph"]
+[ext_resource type="Texture2D" uid="uid://bmffdgdrmej76" path="res://features/patintero/assets/guard1.png" id="3_oc1ei"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lbdd7"]
+atlas = ExtResource("1_4c5xy")
+region = Rect2(3, 20, 326, 331)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3y2cq"]
+atlas = ExtResource("2_b5xph")
+region = Rect2(3, 364, 326, 345)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmd4y"]
+atlas = ExtResource("3_oc1ei")
+region = Rect2(3, 12, 325, 339)
 
 [resource]
 script = ExtResource("1_gtisg")
@@ -9,4 +24,6 @@ sequence_length = 3
 reveal_time_per_arrow = 0.6
 hold_time = 4.0
 rounds_per_line = Array[int]([1, 1, 1])
+guard_textures = Array[Texture2D]([SubResource("AtlasTexture_lbdd7"), SubResource("AtlasTexture_3y2cq"), SubResource("AtlasTexture_hmd4y")])
+guard_scale = Vector2(0.6, 0.6)
 metadata/_custom_type_script = "uid://bewp1r4jjfpe5"

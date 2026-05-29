@@ -6,6 +6,7 @@ extends Resource
 
 ## Display name shown during the Intro state (e.g., "Bronze Grunt").
 @export var tier_name: String = ""
+@export var tier_color: Color = Color.WHITE
 
 ## Number of directional keys in each sequence.
 @export_range(2, 10) var sequence_length: int = 4
@@ -27,6 +28,16 @@ extends Resource
 
 ## Number of lives (hearts) the player starts with.
 @export_range(1, 10) var max_lives: int = 3
+
+## Guard sprite textures — one per line (must have exactly 3 elements).
+## Index 0 = Line 1, Index 1 = Line 2, Index 2 = Line 3.
+## For Champion difficulty: set index 2 to the boss sprite (Kapitana Kat).
+## Leave empty to fall back to a plain colored rectangle.
+@export var guard_textures: Array[Texture2D] = []
+
+## Uniform scale applied to all guard sprites for this difficulty.
+## Adjust so the guard fits the game view properly.
+@export var guard_scale: Vector2 = Vector2(0.3, 0.3)
 
 ## Calculated property: total execution time for this tier.
 func get_execution_time() -> float:

@@ -97,12 +97,12 @@ func _unhandled_input(event: InputEvent) -> void:
 ## Maps input actions to direction strings.
 ## Accepts both arrow keys and WASD because both are mapped to the same actions.
 func _get_direction_from_event(event: InputEvent) -> String:
-	if event.is_action_pressed("move_up"):
+	if event.is_action_pressed("up"):
 		return "up"
-	elif event.is_action_pressed("move_down"):
+	elif event.is_action_pressed("down"):
 		return "down"
-	elif event.is_action_pressed("move_left"):
+	elif event.is_action_pressed("left"):
 		return "left"
-	elif event.is_action_pressed("move_right"):
+	elif event.is_action_pressed("right"):
 		return "right"
 	return ""
