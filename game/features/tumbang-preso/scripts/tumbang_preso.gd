@@ -15,6 +15,7 @@ var setup_complete: bool = false
 var current_phase: TurnPhase = TurnPhase.PLAYER_TURN
 
 @onready var power_bar = $PowerBar
+@onready var totoy = $Totoy
 
 signal player_score_changed(score: int)
 signal enemy_score_changed(score: int)
@@ -26,6 +27,8 @@ signal phase_changed(text: String)
 func _ready() -> void:
 	if not power_bar.power_bar_stopped.is_connected(_on_power_bar_stopped):
 		power_bar.power_bar_stopped.connect(_on_power_bar_stopped)
+
+	_set_totoy_idle()
 
 	if setup_complete:
 		_apply_current_mode()
@@ -46,6 +49,7 @@ func setup(accuracy: int, speed: int, second_accuracy: int, second_speed: int) -
 	power_bar.reset()
 
 	if is_node_ready():
+		_set_totoy_idle()
 		_apply_current_mode()
 		power_bar.start()
 
@@ -117,10 +121,16 @@ func _enter_enemy_escape() -> void:
 	phase_changed.emit("Enemy's Escape Mode")
 
 
+func _set_totoy_idle() -> void:
+	if totoy and totoy.has_method("play_idle_with_slipper"):
+		totoy.play_idle_with_slipper()
+
+
 func _on_power_bar_stopped(_position: float, zone: String) -> void:
 	print("[TumbangPreso] _on_power_bar_stopped received -> position=", _position, " zone=", zone, " phase=", current_phase, " player_score=", player_score, " enemy_score=", enemy_score)
 	match current_phase:
 		TurnPhase.PLAYER_TURN:
+			_play_totoy_throw()
 			var scored := _did_score(zone)
 			if scored:
 				player_score += 1
@@ -144,6 +154,7 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 			else:
 				_enter_enemy_turn()
 		TurnPhase.ENEMY_TURN:
+			_play_totoy_throw()
 			var enemy_scored := _did_enemy_score(zone)
 			if enemy_scored:
 				enemy_score += 1
@@ -208,3 +219,8 @@ func _roll_half_chance() -> bool:
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
 	return rng.randi_range(0, 1) == 1
+
+
+func _play_totoy_throw() -> void:
+	if totoy and totoy.has_method("play_throw"):
+		totoy.play_throw()
