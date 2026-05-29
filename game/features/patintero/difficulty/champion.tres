@@ -1,12 +1,29 @@
 [gd_resource type="Resource" script_class="PatinteroDifficulty" format=3 uid="uid://p8wr6p1ckc71"]
 
 [ext_resource type="Script" uid="uid://bewp1r4jjfpe5" path="res://features/patintero/difficulty/patintero_difficulty.gd" id="1_6i81k"]
+[ext_resource type="Texture2D" uid="uid://dsmrjnjp0m0cw" path="res://features/patintero/assets/guard2.png" id="1_dypea"]
+[ext_resource type="Texture2D" uid="uid://crf7f7bovivsr" path="res://features/patintero/assets/guard4.png" id="2_wi8ct"]
+[ext_resource type="Texture2D" uid="uid://srcxvjqveqe" path="res://features/patintero/assets/bossguard.png" id="3_21hq3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lnwel"]
+atlas = ExtResource("1_dypea")
+region = Rect2(3, 7, 325, 344)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sw6lh"]
+atlas = ExtResource("2_wi8ct")
+region = Rect2(2, 8, 327, 343)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71c66"]
+atlas = ExtResource("3_21hq3")
+region = Rect2(3, 19, 661, 685)
 
 [resource]
 script = ExtResource("1_6i81k")
 tier_name = "Kalye Champion"
+tier_color = Color(0.83137256, 0.6862745, 0.21568628, 1)
 sequence_length = 6
 reveal_time_per_arrow = 0.30000000000000004
 hold_time = 2.5
 rounds_per_line = Array[int]([2, 2, 3])
+guard_textures = Array[Texture2D]([SubResource("AtlasTexture_lnwel"), SubResource("AtlasTexture_sw6lh"), SubResource("AtlasTexture_71c66")])
 metadata/_custom_type_script = "uid://bewp1r4jjfpe5"
