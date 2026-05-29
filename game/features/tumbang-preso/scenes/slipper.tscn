@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dn635m165pwq0"]
+
+[ext_resource type="Texture2D" uid="uid://duyvlytq7t0d8" path="res://features/tumbang-preso/assets/slipper.png" id="1_blli0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dpvsh"]
+radius = 134.0
+height = 468.0
+
+[node name="Slipper" type="Area2D" unique_id=1547711302]
+position = Vector2(570, 320)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=867940020]
+position = Vector2(2, 2)
+scale = Vector2(0.33842587, 0.40046296)
+texture = ExtResource("1_blli0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1808090084]
+shape = SubResource("CapsuleShape2D_dpvsh")
