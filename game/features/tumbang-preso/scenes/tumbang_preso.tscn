@@ -3,9 +3,27 @@
 [ext_resource type="PackedScene" uid="uid://cascibvb802lu" path="res://features/tumbang-preso/scenes/power_bar.tscn" id="1_gl814"]
 [ext_resource type="Script" uid="uid://bvrog5qlbphhu" path="res://features/tumbang-preso/scripts/tumbang_preso.gd" id="1_iiiae"]
 [ext_resource type="PackedScene" uid="uid://divalb05tbeer" path="res://features/tumbang-preso/scenes/ui.tscn" id="1_ui001"]
+[ext_resource type="Texture2D" uid="uid://cseipdqvewv8e" path="res://features/patintero/assets/patintero_bg.png" id="2_ksj71"]
+[ext_resource type="PackedScene" uid="uid://dnpexcdo5eaj1" path="res://features/tumbang-preso/scenes/Totoy.tscn" id="5_o3lf6"]
+[ext_resource type="PackedScene" uid="uid://ch74tm74m01q1" path="res://features/tumbang-preso/scenes/can.tscn" id="6_dd73v"]
 
 [node name="TumbangPreso" type="Node2D" unique_id=120766366]
 script = ExtResource("1_iiiae")
+
+[node name="Background" type="ColorRect" parent="." unique_id=261774326]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101960786, 0.101960786, 0.18039216, 1)
+
+[node name="Background2" type="Sprite2D" parent="." unique_id=1677211403]
+position = Vector2(576, 324)
+scale = Vector2(0.7731543, 0.7732698)
+texture = ExtResource("2_ksj71")
 
 [node name="PowerBar" parent="." unique_id=692389063 instance=ExtResource("1_gl814")]
 offset_left = 1055.0
@@ -16,3 +34,11 @@ offset_bottom = 504.0
 [node name="UI" parent="." unique_id=138204179 instance=ExtResource("1_ui001")]
 player_power_bar_path = NodePath("..")
 enemy_power_bar_path = NodePath("..")
+
+[node name="Totoy" parent="." unique_id=654115420 instance=ExtResource("5_o3lf6")]
+position = Vector2(582, 519)
+scale = Vector2(0.3, 0.3)
+
+[node name="Can" parent="." unique_id=898089351 instance=ExtResource("6_dd73v")]
+position = Vector2(569, 153)
+scale = Vector2(0.2, 0.2)
