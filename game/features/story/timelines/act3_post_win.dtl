@@ -10,10 +10,4 @@ Kiko: TOTOY! NARINIG MO YAN?! CHAMPION TAYO!
 Totoy: Hehe...
 [wait time="1.0"]
 Totoy: ...Sabi na nga ba eh.
-[background fade="2.0"]
-[wait time="2.0"]
-join Totoy center
-Totoy: ...
-[wait time="1.5"]
-Totoy: Bukas ulit.
-[signal value="roll_credits"]
+[signal value="end_act_3"]

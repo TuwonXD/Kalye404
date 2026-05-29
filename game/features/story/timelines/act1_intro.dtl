@@ -1,0 +1,13 @@
+[background fade="1.0"]
+join Totoy center
+Totoy: Ha?! Bakit nag-disconnect?! Patay... AFK na ko neto, minus credit score na naman ako!
+Totoy: Ano bang nangyari sa WiFi? Baka sira na naman yung router ni Kuya...
+join Mama left
+join Totoy right
+Mama: Totoy! Walang WiFi! Na-i-report na ni Aling Nena kanina pa. Pumunta ka sa tindahan, bumili ka ng suka. Mag-a-adobo ako!
+Totoy: Ma, baka bumalik din yung koneksyon... saka na lang 'ko—
+Mama: TOTOY.
+Totoy: ...Opo.
+leave Mama
+Totoy: Hays. Bilisan ko na to bago pa man bumalik yung koneksyon.
+[signal value="start_overworld_act1"]

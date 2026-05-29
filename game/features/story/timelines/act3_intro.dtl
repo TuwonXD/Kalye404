@@ -1,0 +1,10 @@
+[background fade="1.0"]
+join Mama left
+join Totoy right
+Mama: Totoy, may ipapabili sana ako...
+Totoy: Sige po Ma, saan po?
+Mama: Wala, wag na lang. Pakibigay na lang itong tupperware kay Aling Nena dun sa kabilang kanto malapit sa Court.
+Totoy: Ah... okay po.
+Mama: At wag masyadong magpagabi, ah?
+Totoy: Opo.
+[signal value="start_overworld_act3"]
