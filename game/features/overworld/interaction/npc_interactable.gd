@@ -26,26 +26,29 @@ func interact():
 				GameManager.StoryState.DAY2_OUTRO: Dialogic.start("act2_outro")
 				GameManager.StoryState.DAY3_INTRO: Dialogic.start("act3_intro")
 				GameManager.StoryState.EPILOGUE: Dialogic.start("epilogue")
-				_: print("Mama: Nagluluto pa ako.")
+				_: Dialogic.start("mama_default")
 					
 		NpcType.KIKO:
 			match state:
-				GameManager.StoryState.DAY1_ESKINITA: Dialogic.start("act1_eskinita")
 				GameManager.StoryState.DAY1_TUMBANG_TUTORIAL: Dialogic.start("tutorial_tumbang")
 				GameManager.StoryState.DAY2_PATINTERO_TUTORIAL: Dialogic.start("tutorial_patintero")
 				GameManager.StoryState.DAY3_LUKSONG_TUTORIAL: Dialogic.start("tutorial_luksong")
-				_: print("Kiko: Lods! Laro tayo sa Court!")
+				_: Dialogic.start("kiko_default")
 				
 		NpcType.BOY_TSINELAS:
 			match state:
 				GameManager.StoryState.DAY1_BOSS: Dialogic.start("act1_pre_game")
-				_: print("Boy Tsinelas: Bumalik ka pag handa ka na.")
+				_: Dialogic.start("tsinelas_default")
 					
 		NpcType.KAPITANA_KAT:
-			if state == GameManager.StoryState.DAY2_BOSS: Dialogic.start("act2_pre_game")
+			match state:
+				GameManager.StoryState.DAY2_BOSS: Dialogic.start("act2_pre_game")
+				_: Dialogic.start("kapitana_default")
 					
 		NpcType.KUYA_TALON:
-			if state == GameManager.StoryState.DAY3_BOSS: Dialogic.start("act3_pre_game")
+			match state:
+				GameManager.StoryState.DAY3_BOSS: Dialogic.start("act3_pre_game")
+				_: Dialogic.start("talon_default")
 					
 		NpcType.COURT_BOARD:
 			# Placeholder for the Court Board UI Menu
