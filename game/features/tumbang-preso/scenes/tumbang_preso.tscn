@@ -40,5 +40,5 @@ position = Vector2(582, 519)
 scale = Vector2(0.3, 0.3)
 
 [node name="Can" parent="." unique_id=898089351 instance=ExtResource("6_dd73v")]
-position = Vector2(569, 153)
+position = Vector2(567, 111)
 scale = Vector2(0.2, 0.2)
