@@ -267,6 +267,7 @@ func _fly_slipper_to_can_side_then_enemy_turn() -> void:
 	var target: Vector2 = can.position + Vector2(90.0 * side_offset_direction, 0.0)
 	var tween := _create_slipper_flight_tween(target, 90.0, 0.8)
 	await tween.finished
+	await get_tree().create_timer(0.5).timeout
 
 	_set_slipper_visibility(false)
 	_enter_enemy_turn()
