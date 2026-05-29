@@ -38,22 +38,20 @@ const RESULT_PAUSE := 0.8
 const INTRO_DURATION := 2.0
 const PRE_DUEL_PAUSE := 1.0
 
-## Placeholder guard colors — one per line. Artist replaces these in Session E.
-const GUARD_COLORS: Array[Color] = [
-	Color("#e94560"),  # Line 1 — red
-	Color("#f5a623"),  # Line 2 — orange
-	Color("#7b2d8b"),  # Line 3 — purple
-]
+## Center position of the guard Sprite2D at rest.
+## (ColorRect was offset 476,120 → 676,370 — center = 576,245)
+const GUARD_START_POS := Vector2(576.0, 200.0)
 
 # ── Node References ───────────────────────────────────────────────────────────
 
-@onready var current_guard: ColorRect       = $GameView/CurrentGuard
-@onready var totoy: ColorRect               = $GameView/Totoy
+@onready var current_guard: Sprite2D        = $GameView/CurrentGuard
+@onready var totoy: Sprite2D               = $GameView/TotoySprite
+#@onready var totoy: ColorRect               = $GameView/Totoy
 @onready var progress_label: Label          = $UI/UIRoot/ProgressLabel
 @onready var stamina_display: HBoxContainer = $UI/UIRoot/StaminaDisplay
 @onready var seq_display: SequenceDisplay   = $UI/UIRoot/SequenceDisplay
 @onready var input_feedback: HBoxContainer  = $UI/UIRoot/InputFeedback
-@onready var timer_bar: ProgressBar         = $UI/UIRoot/TimerBar
+@onready var timer_bar: ProgressBar         = $GameView/TimerBar
 @onready var result_label: Label            = $UI/UIRoot/ResultLabel
 @onready var game_over_screen: PanelContainer = $UI/UIRoot/GameOverScreen
 @onready var victory_screen: PanelContainer   = $UI/UIRoot/VictoryScreen
@@ -98,9 +96,9 @@ func _process(_delta: float) -> void:
 		if input_hdlr._time_remaining < 2.0 and input_hdlr._time_remaining > 0.0:
 			timer_bar.modulate = Color.RED if int(Engine.get_frames_drawn() / 10) % 2 == 0 else Color.WHITE
 		else:
-			timer_bar.modulate = Color.WHITE
+			timer_bar.modulate = Color.BLACK
 	elif _state != State.EXECUTION:
-		timer_bar.modulate = Color.WHITE
+		timer_bar.modulate = Color.BLACK
 
 # ── Tutorial System ───────────────────────────────────────────────────────────
 
@@ -202,6 +200,9 @@ func _enter_intro() -> void:
 	var intro_label := Label.new()
 	intro_label.text = difficulty.tier_name
 	intro_label.add_theme_font_size_override("font_size", 64)
+	intro_label.add_theme_color_override("font_color", difficulty.tier_color)
+	intro_label.add_theme_constant_override("outline_size", 6)
+	intro_label.add_theme_color_override("font_outline_color", Color.BLACK)
 	intro_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	intro_label.size = Vector2(1152, 100)
 	intro_label.position.y = 250
@@ -250,6 +251,8 @@ func _enter_observation() -> void:
 	var alert := Label.new()
 	alert.text = "Ready..."
 	alert.add_theme_font_size_override("font_size", 48)
+	alert.add_theme_constant_override("outline_size", 6)
+	alert.add_theme_color_override("font_outline_color", Color.BLACK)
 	alert.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	alert.size = Vector2(1152, 100)
 	alert.position.y = 280
@@ -283,6 +286,8 @@ func _enter_execution() -> void:
 	var go_label := Label.new()
 	go_label.text = "GO!"
 	go_label.add_theme_font_size_override("font_size", 80)
+	go_label.add_theme_constant_override("outline_size", 6)
+	go_label.add_theme_color_override("font_outline_color", Color.BLACK)
 	go_label.modulate = Color.GREEN
 	go_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	go_label.size = Vector2(1152, 100)
@@ -328,15 +333,17 @@ func _on_time_expired() -> void:
 func _on_key_pressed(direction: String, was_correct: bool) -> void:
 	# Add a ✓/✗ label to InputFeedback for each key press.
 	var label := Label.new()
+	
 	label.text = "✓" if was_correct else "✗"
-	label.add_theme_font_size_override("font_size", 36)
-	label.modulate = Color.GREEN if was_correct else Color.RED
+	label.add_theme_font_size_override("font_size", 40)
+	label.add_theme_constant_override("outline_size", 6)
+	label.add_theme_color_override("font_color", Color.GREEN if was_correct else Color.RED)
+	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	input_feedback.add_child(label)
 
 	# Juice: Advanced Character reactions
-	var totoy_start_x = 501.0
-	var totoy_start_y = 440.0
-	var guard_start_x = 476.0
+	var totoy_start_x = 575.0
+	var totoy_start_y = 470.0
 	var shift_x = 30.0 if direction == "right" else (-30.0 if direction == "left" else 0.0)
 	var shift_y = 30.0 if direction == "down" else (-30.0 if direction == "up" else 0.0)
 	
@@ -350,14 +357,13 @@ func _on_key_pressed(direction: String, was_correct: bool) -> void:
 		var g_tween := create_tween()
 		if shift_x != 0.0:
 			var guard_shift = shift_x * 1.5 # Wider sweep
-			g_tween.tween_property(current_guard, "position:x", guard_start_x + guard_shift, 0.1).set_delay(0.05)
-			g_tween.tween_property(current_guard, "position:x", guard_start_x, 0.15)
+			g_tween.tween_property(current_guard, "position:x", GUARD_START_POS.x + guard_shift, 0.1).set_delay(0.05)
+			g_tween.tween_property(current_guard, "position:x", GUARD_START_POS.x, 0.15)
 		else:
 			# Flinch opposite to Totoy's Y movement (e.g. Totoy moves Up, Guard flinches Down/Forward)
 			var guard_shift_y = shift_y * -0.6
-			var guard_start_y = 120.0
-			g_tween.tween_property(current_guard, "position:y", guard_start_y + guard_shift_y, 0.1).set_delay(0.05)
-			g_tween.tween_property(current_guard, "position:y", guard_start_y, 0.15)
+			g_tween.tween_property(current_guard, "position:y", GUARD_START_POS.y + guard_shift_y, 0.1).set_delay(0.05)
+			g_tween.tween_property(current_guard, "position:y", GUARD_START_POS.y, 0.15)
 
 # ── TAGGED ────────────────────────────────────────────────────────────────────
 
@@ -410,11 +416,11 @@ func _enter_fade_out() -> void:
 	
 	# Fix: Reset timer visually while screen is black
 	timer_bar.value = 1.0
-	timer_bar.modulate = Color.WHITE
+	timer_bar.modulate = Color.BLACK
 	
 	# Reset characters from the Tagged Evasion animation
-	current_guard.position = Vector2(476.0, 120.0)
-	totoy.position = Vector2(501.0, 440.0)
+	current_guard.position = GUARD_START_POS
+	totoy.position = Vector2(575.0, 470.0)
 	
 	await _fade(1.0, 0.0)      # Fade back in.
 	_change_state(State.PRE_DUEL)
@@ -440,7 +446,7 @@ func _enter_advancing() -> void:
 	
 	# Fix: Reset timer visually while screen is black
 	timer_bar.value = 1.0
-	timer_bar.modulate = Color.WHITE
+	timer_bar.modulate = Color.BLACK
 
 	if _current_line >= 3:
 		# All 3 lines cleared.
@@ -449,8 +455,8 @@ func _enter_advancing() -> void:
 		return
 
 	# Reset Totoy and swap guard (behind the fade).
-	totoy.position.x = 501.0
-	totoy.position.y = 440.0
+	totoy.position.x = 575.0
+	totoy.position.y = 470.0
 	_update_guard_visual()
 	await _fade(1.0, 0.0)      # Fade back in.
 	_change_state(State.PRE_DUEL)
@@ -493,6 +499,11 @@ func _fade(from_alpha: float, to_alpha: float) -> void:
 func _show_result(text: String, success: bool) -> void:
 	result_label.text = text
 	result_label.modulate = Color.GREEN if success else Color.RED
+	
+	result_label.add_theme_font_size_override("font_size", 48)
+	result_label.add_theme_constant_override("outline_size", 6)
+	result_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	
 	# Overwrite the input feedback position
 	result_label.position.y = input_feedback.position.y
 	result_label.visible = true
@@ -504,7 +515,7 @@ func _update_stamina_display() -> void:
 	for i in range(stamina_mgr.max_lives):
 		var heart := Label.new()
 		heart.text = "❤️" if i < stamina_mgr.current_lives else "🖤"
-		heart.add_theme_font_size_override("font_size", 24)
+		heart.add_theme_font_size_override("font_size", 32)
 		stamina_display.add_child(heart)
 
 func _clear_input_feedback() -> void:
@@ -512,8 +523,19 @@ func _clear_input_feedback() -> void:
 		child.queue_free()
 
 func _update_guard_visual() -> void:
-	if _current_line < GUARD_COLORS.size():
-		current_guard.color = GUARD_COLORS[_current_line]
+	# If the difficulty has textures assigned, swap the sprite.
+	# Falls back to invisible if textures aren't set yet (safe during dev).
+	if difficulty.guard_textures.size() > _current_line:
+		var tex: Texture2D = difficulty.guard_textures[_current_line]
+		if tex != null:
+			current_guard.texture = tex
+			current_guard.scale = difficulty.guard_scale
+			current_guard.visible = true
+		else:
+			current_guard.visible = false
+	else:
+		# No textures assigned — hide guard (dev placeholder)
+		current_guard.visible = false
 
 ## Called from the overworld in Session E to set the difficulty before starting.
 func setup(selected_difficulty: PatinteroDifficulty) -> void:

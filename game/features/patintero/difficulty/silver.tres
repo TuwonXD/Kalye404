@@ -1,12 +1,30 @@
 [gd_resource type="Resource" script_class="PatinteroDifficulty" format=3 uid="uid://dyq8r3notjnx3"]
 
 [ext_resource type="Script" uid="uid://bewp1r4jjfpe5" path="res://features/patintero/difficulty/patintero_difficulty.gd" id="1_rtkma"]
+[ext_resource type="Texture2D" uid="uid://crf7f7bovivsr" path="res://features/patintero/assets/guard4.png" id="2_obes4"]
+[ext_resource type="Texture2D" uid="uid://bcyap14s6enkg" path="res://features/patintero/assets/guard3.png" id="2_sxg1l"]
+[ext_resource type="Texture2D" uid="uid://docgnbp8qmwve" path="res://features/patintero/assets/guard5.png" id="3_4yxg1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dc6d1"]
+atlas = ExtResource("3_4yxg1")
+region = Rect2(3, 20, 326, 331)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_obes4"]
+atlas = ExtResource("2_sxg1l")
+region = Rect2(3, 364, 326, 345)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_klfxb"]
+atlas = ExtResource("2_obes4")
+region = Rect2(2, 8, 327, 343)
 
 [resource]
 script = ExtResource("1_rtkma")
 tier_name = "Silver Grunt"
+tier_color = Color(0.7529412, 0.7529412, 0.7529412, 1)
 sequence_length = 5
 reveal_time_per_arrow = 0.4
 hold_time = 2.0
 rounds_per_line = Array[int]([1, 2, 2])
+guard_textures = Array[Texture2D]([SubResource("AtlasTexture_dc6d1"), SubResource("AtlasTexture_obes4"), SubResource("AtlasTexture_klfxb")])
+guard_scale = Vector2(0.6, 0.6)
 metadata/_custom_type_script = "uid://bewp1r4jjfpe5"
