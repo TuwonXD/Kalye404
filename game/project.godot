@@ -17,9 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameManager="*uid://cjxt3fl2s3cg3"
-Dialogic="*uid://ds2q0uclmolvu"
 GameManager="*uid://b8ma71sv7jjr3"
+Dialogic="*uid://ds2q0uclmolvu"
 
 [dialogic]
 
@@ -48,10 +47,13 @@ directories/dtl_directory={
 "act3_post_win": "res://features/story/timelines/act3_post_win.dtl",
 "act3_pre_game": "res://features/story/timelines/act3_pre_game.dtl",
 "epilogue": "res://features/story/timelines/epilogue.dtl",
+"kapitana_champion": "res://features/story/timelines/kapitana_champion.dtl",
 "kapitana_default": "res://features/story/timelines/kapitana_default.dtl",
 "kiko_default": "res://features/story/timelines/kiko_default.dtl",
 "mama_default": "res://features/story/timelines/mama_default.dtl",
+"talon_champion": "res://features/story/timelines/talon_champion.dtl",
 "talon_default": "res://features/story/timelines/talon_default.dtl",
+"tsinelas_champion": "res://features/story/timelines/tsinelas_champion.dtl",
 "tsinelas_default": "res://features/story/timelines/tsinelas_default.dtl",
 "tutorial_fail": "res://features/luksong_baka/dialogues/tutorial_fail.dtl",
 "tutorial_intro": "res://features/luksong_baka/dialogues/tutorial_intro.dtl",

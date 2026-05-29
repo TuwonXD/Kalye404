@@ -38,17 +38,29 @@ func interact():
 		NpcType.BOY_TSINELAS:
 			match state:
 				GameManager.StoryState.DAY1_BOSS: Dialogic.start("act1_pre_game")
-				_: Dialogic.start("tsinelas_default")
+				_: 
+					if GameManager.game_progress.get("tumbang", 0) >= 4:
+						Dialogic.start("tsinelas_champion")
+					else:
+						Dialogic.start("tsinelas_default")
 					
 		NpcType.KAPITANA_KAT:
 			match state:
 				GameManager.StoryState.DAY2_BOSS: Dialogic.start("act2_pre_game")
-				_: Dialogic.start("kapitana_default")
+				_: 
+					if GameManager.game_progress.get("patintero", 0) >= 4:
+						Dialogic.start("kapitana_champion")
+					else:
+						Dialogic.start("kapitana_default")
 					
 		NpcType.KUYA_TALON:
 			match state:
 				GameManager.StoryState.DAY3_BOSS: Dialogic.start("act3_pre_game")
-				_: Dialogic.start("talon_default")
+				_: 
+					if GameManager.game_progress.get("luksong", 0) >= 4:
+						Dialogic.start("talon_champion")
+					else:
+						Dialogic.start("talon_default")
 					
 		NpcType.COURT_BOARD:
 			# Placeholder for the Court Board UI Menu
