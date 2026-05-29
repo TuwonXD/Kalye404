@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de4vky2wfi7y1"
-path="res://.godot/imported/idle bantay kapitana.png-9cca75e54e619ec130378cccd7b65d8a.ctex"
+uid="uid://docgnbp8qmwve"
+path="res://.godot/imported/guard5.png-72b24cbd52307fb6944d383dd19b3b1c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://features/overworld/sprites/kapitana kat/idle bantay kapitana.png"
-dest_files=["res://.godot/imported/idle bantay kapitana.png-9cca75e54e619ec130378cccd7b65d8a.ctex"]
+source_file="res://features/patintero/assets/guard5.png"
+dest_files=["res://.godot/imported/guard5.png-72b24cbd52307fb6944d383dd19b3b1c.ctex"]
 
 [params]
 
