@@ -76,6 +76,7 @@ difficulties = Array[ExtResource("2_ef3bs")]([ExtResource("3_axhk5"), ExtResourc
 position = Vector2(0, 700)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=1986950780]
+position = Vector2(-1, 6)
 shape = SubResource("RectangleShape2D_386hx")
 debug_color = Color(3.85046e-07, 0.6073009, 0.6579376, 0.41960785)
 
