@@ -3,9 +3,25 @@
 [ext_resource type="PackedScene" uid="uid://cascibvb802lu" path="res://features/tumbang-preso/scenes/power_bar.tscn" id="1_gl814"]
 [ext_resource type="Script" uid="uid://bvrog5qlbphhu" path="res://features/tumbang-preso/scripts/tumbang_preso.gd" id="1_iiiae"]
 [ext_resource type="PackedScene" uid="uid://divalb05tbeer" path="res://features/tumbang-preso/scenes/ui.tscn" id="1_ui001"]
+[ext_resource type="Texture2D" uid="uid://cseipdqvewv8e" path="res://features/patintero/assets/patintero_bg.png" id="2_ksj71"]
 
 [node name="TumbangPreso" type="Node2D" unique_id=120766366]
 script = ExtResource("1_iiiae")
+
+[node name="Background" type="ColorRect" parent="." unique_id=261774326]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101960786, 0.101960786, 0.18039216, 1)
+
+[node name="Background2" type="Sprite2D" parent="." unique_id=1677211403]
+position = Vector2(576, 324)
+scale = Vector2(0.7731543, 0.7732698)
+texture = ExtResource("2_ksj71")
 
 [node name="PowerBar" parent="." unique_id=692389063 instance=ExtResource("1_gl814")]
 offset_left = 1055.0
