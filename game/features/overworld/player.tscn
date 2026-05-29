@@ -1,18 +1,20 @@
 [gd_scene format=3 uid="uid://dnj2rcbp7dbn0"]
 
 [ext_resource type="Script" uid="uid://x64e8aut4wjf" path="res://features/overworld/character_body_3d.gd" id="1_cvnsp"]
-[ext_resource type="Texture2D" uid="uid://bgvwicfboulhf" path="res://features/overworld/sprites/totoy/idle left.png" id="2_3smsa"]
-[ext_resource type="Texture2D" uid="uid://duenjubxvt7vj" path="res://features/overworld/sprites/totoy/idle down.png" id="2_f1ek2"]
-[ext_resource type="Texture2D" uid="uid://b88r4ju73q3is" path="res://features/overworld/sprites/totoy/idle right.png" id="3_8erm5"]
-[ext_resource type="Texture2D" uid="uid://bdwsf8qtq71hm" path="res://features/overworld/sprites/totoy/walk down.png" id="4_f1ek2"]
-[ext_resource type="Texture2D" uid="uid://drgqn5du6uoh5" path="res://features/overworld/sprites/totoy/idle up.png" id="5_gymyn"]
-[ext_resource type="Texture2D" uid="uid://crit540si1if1" path="res://features/overworld/sprites/totoy/walk left.png" id="5_tx1dd"]
-[ext_resource type="Texture2D" uid="uid://b7huuh2rc16ad" path="res://features/overworld/sprites/totoy/run down.png" id="6_ea7fi"]
-[ext_resource type="Texture2D" uid="uid://bkb08dumxtktx" path="res://features/overworld/sprites/totoy/walk right.png" id="6_gymyn"]
-[ext_resource type="Texture2D" uid="uid://bt4ey8gpky88i" path="res://features/overworld/sprites/totoy/run left.png" id="7_hhuky"]
-[ext_resource type="Texture2D" uid="uid://db617j1uany7r" path="res://features/overworld/sprites/totoy/walk up.png" id="7_pu2lt"]
-[ext_resource type="Texture2D" uid="uid://bqii4cdh640it" path="res://features/overworld/sprites/totoy/run right.png" id="8_gxi6b"]
-[ext_resource type="Texture2D" uid="uid://c3kb88y2jo51e" path="res://features/overworld/sprites/totoy/run up.png" id="9_gq0vr"]
+[ext_resource type="Texture2D" uid="uid://bgvwicfboulhf" path="res://features/tumbang-preso/assets/totoy/idle left.png" id="2_3smsa"]
+[ext_resource type="Texture2D" uid="uid://duenjubxvt7vj" path="res://features/tumbang-preso/assets/totoy/idle down.png" id="2_f1ek2"]
+[ext_resource type="Texture2D" uid="uid://b88r4ju73q3is" path="res://features/tumbang-preso/assets/totoy/idle right.png" id="3_8erm5"]
+[ext_resource type="Texture2D" uid="uid://bdwsf8qtq71hm" path="res://features/tumbang-preso/assets/totoy/walk down.png" id="4_f1ek2"]
+[ext_resource type="Texture2D" uid="uid://drgqn5du6uoh5" path="res://features/tumbang-preso/assets/totoy/idle up.png" id="5_gymyn"]
+[ext_resource type="Texture2D" uid="uid://crit540si1if1" path="res://features/tumbang-preso/assets/totoy/walk left.png" id="5_tx1dd"]
+[ext_resource type="Texture2D" uid="uid://b7huuh2rc16ad" path="res://features/tumbang-preso/assets/totoy/run down.png" id="6_ea7fi"]
+[ext_resource type="Texture2D" uid="uid://bkb08dumxtktx" path="res://features/tumbang-preso/assets/totoy/walk right.png" id="6_gymyn"]
+[ext_resource type="Texture2D" uid="uid://bt4ey8gpky88i" path="res://features/tumbang-preso/assets/totoy/run left.png" id="7_hhuky"]
+[ext_resource type="Texture2D" uid="uid://db617j1uany7r" path="res://features/tumbang-preso/assets/totoy/walk up.png" id="7_pu2lt"]
+[ext_resource type="Texture2D" uid="uid://bqii4cdh640it" path="res://features/tumbang-preso/assets/totoy/run right.png" id="8_gxi6b"]
+[ext_resource type="Texture2D" uid="uid://c3kb88y2jo51e" path="res://features/tumbang-preso/assets/totoy/run up.png" id="9_gq0vr"]
+[ext_resource type="Script" uid="uid://bellvao2yk012" path="res://features/overworld/interaction/player_interaction.gd" id="14_hhuky"]
+[ext_resource type="Script" uid="uid://blq6jmd1dw73i" path="res://features/overworld/label.gd" id="15_gxi6b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ukyrk"]
 atlas = ExtResource("2_f1ek2")
@@ -2531,6 +2533,9 @@ animations = [{
 radius = 0.5126953
 height = 1.3764954
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_gxi6b"]
+radius = 0.7
+
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=763602366]
 script = ExtResource("1_cvnsp")
 
@@ -2558,3 +2563,29 @@ transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0.025729597, 0)
 shape = SubResource("CapsuleShape3D_fkybt")
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1578228778]
+
+[node name="InteractionScanner" type="Area3D" parent="." unique_id=706570613]
+script = ExtResource("14_hhuky")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionScanner" unique_id=1635814458]
+shape = SubResource("SphereShape3D_gxi6b")
+
+[node name="InteractUI" type="CanvasLayer" parent="." unique_id=977582980]
+
+[node name="Label" type="Label" parent="InteractUI" unique_id=1170026534]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.5
+offset_top = -98.0
+offset_right = 75.5
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Press [E] to Interact"
+script = ExtResource("15_gxi6b")
+
+[connection signal="prompt_updated" from="InteractionScanner" to="InteractUI/Label" method="_on_interaction_scanner_prompt_updated"]

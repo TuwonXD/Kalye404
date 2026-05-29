@@ -7,4 +7,4 @@ Kapitana_Kat: Pattern? Matalino ka rin pala, hindi lang paa mo. Eto. Ang Golden 
 join Kiko right
 Kiko: LODS. Covered Court na tayo! Nandoon na ang pinaka-matanda, pinaka-mataas... si Kuya Talon!
 Totoy: ...sige. Tara na.
-[signal value="end_act_2"]
+[signal arg="end_act_2"]

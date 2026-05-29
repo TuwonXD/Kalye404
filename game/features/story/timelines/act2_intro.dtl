@@ -8,4 +8,4 @@ Totoy: Opo...
 leave Totoy
 [wait time="0.5"]
 Mama: ...pero mag-ingat ka dun, ah. Wag magpapagutom.
-[signal value="start_overworld_act2"]
+[signal arg="start_overworld_act2"]

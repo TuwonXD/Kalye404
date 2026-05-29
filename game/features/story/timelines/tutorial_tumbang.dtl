@@ -11,4 +11,4 @@ Kiko: Pag nakalagpas ka sa Silver rank dun, saka mo harapin si Boy Tsinelas... a
 Totoy: Ah, kailangan mag-grind bago mag-boss? Game.
 Kiko: Ready ka na ba sa tutorial?
 Totoy: ...ready.
-[signal value="start_tutorial_tumbang_preso"]
+[signal arg="start_tutorial_tumbang_preso"]

@@ -10,4 +10,4 @@ Mama: TOTOY.
 Totoy: ...Opo.
 leave Mama
 Totoy: Hays. Bilisan ko na to bago pa man bumalik yung koneksyon.
-[signal value="start_overworld_act1"]
+[signal arg="start_overworld_act1"]

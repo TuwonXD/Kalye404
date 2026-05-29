@@ -2,4 +2,4 @@ join Kapitana_Kat center
 Kapitana_Kat: Ang mabilis mabilis mo... pero hindi pa sapat. Ulit.
 join Kiko right
 Kiko: Wag kang mabigo Lods! Memorize mo lang yung sequence, kaya mo yan!
-[signal value="retry_patintero"]
+[signal arg="retry_patintero"]

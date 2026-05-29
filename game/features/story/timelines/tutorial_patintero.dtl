@@ -8,4 +8,4 @@ Kiko: Oo! At kung madikit ka, babalik ka sa simula ng linya. Kapag ubos na ang s
 Totoy: Sige. Asan na yung Boy Tsinelas ng lugar na 'to?
 Kiko: Ssshh! Wag kang maingay Lods! Si Kapitana Kat ang may hawak dito. Sabi nila, parang pusa daw mata nun... walang nakakalusot.
 Kiko: Magpa-rank up ka muna ulit sa Board bago ka mapansin nun!
-[signal value="start_tutorial_patintero"]
+[signal arg="start_tutorial_patintero"]

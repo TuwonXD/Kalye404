@@ -1,10 +1,13 @@
 extends CharacterBody3D
+
 const WALKSPEED = 0.7
 const RUNSPEED = 1.5
 var current_speed: float = WALKSPEED
+
 @onready var animated_sprite = $AnimatedSprite3D
 @onready var raycast = $RayCast3D
 @onready var camera_pivot = $CameraPivot
+
 var camera_angle: float = 0.0
 const CAM_SNAP: float = 90.0
 var is_rotating: bool = false
@@ -12,11 +15,22 @@ var last_direction := "down"
 var direction_offset: float = 0.0
 
 func _physics_process(delta: float) -> void:
+	# Prevent moving while dialogue is active
+	if GameManager.is_dialogue_active:
+		velocity.x = 0
+		velocity.z = 0
+		animated_sprite.stop()
+		move_and_slide()
+		return
+	
 	handle_sprint()
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	
+	# --- CAMERA ROTATION INPUT ---
 	if Input.is_action_just_pressed("rotate_cam") and not is_rotating:
 		var target_angle = get_camera_angle_for_direction(last_direction)
+		
 		if target_angle != camera_angle:
 			direction_offset += target_angle - camera_angle
 			camera_angle = target_angle
@@ -24,10 +38,12 @@ func _physics_process(delta: float) -> void:
 			last_direction = "up"
 			var is_moving = velocity.x != 0 or velocity.z != 0
 			var is_sprinting = Input.is_action_pressed("sprint")
+			
 			if is_moving:
 				animated_sprite.play("run up" if is_sprinting else "walk up")
 			else:
 				animated_sprite.play("Idle up")
+				
 			var tween = create_tween()
 			tween.set_ease(Tween.EASE_OUT)
 			tween.set_trans(Tween.TRANS_CUBIC)
@@ -36,6 +52,7 @@ func _physics_process(delta: float) -> void:
 
 	var input_dir := Input.get_vector("left", "right", "up", "down")
 	var direction := Vector3.ZERO
+	
 	if input_dir != Vector2.ZERO:
 		var cam_forward = -camera_pivot.global_transform.basis.z
 		var cam_right = camera_pivot.global_transform.basis.x
@@ -44,11 +61,14 @@ func _physics_process(delta: float) -> void:
 		cam_forward = cam_forward.normalized()
 		cam_right = cam_right.normalized()
 		direction = (cam_right * input_dir.x + cam_forward * -input_dir.y).normalized()
+	
 	var is_sprinting = Input.is_action_pressed("sprint")
+	
 	if direction != Vector3.ZERO:
 		velocity.x = direction.x * current_speed
 		velocity.z = direction.z * current_speed
 		animated_sprite.flip_h = false
+		
 		if not is_rotating:
 			if input_dir.x > 0:
 				last_direction = "right"

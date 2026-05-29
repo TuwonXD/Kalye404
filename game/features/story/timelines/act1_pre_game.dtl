@@ -6,4 +6,4 @@ join Boy_Tsinelas center
 Boy_Tsinelas: Bago ka sa kalsada... pero may ibubuga rin pala. Narinig ko yung galing mo sa board.
 Totoy: Ikaw pala yung boss dito. Maliit nga ang lata mo. Kailangan talaga asintado 'to.
 Boy_Tsinelas: Wag ka nang mamili ng salita. Ihanda mo na 'yang tsinelas mo!
-[signal value="start_tumbang_preso_game"]
+[signal arg="start_tumbang_preso_game"]

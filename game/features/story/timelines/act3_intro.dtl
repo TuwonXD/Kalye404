@@ -7,4 +7,4 @@ Mama: Wala, wag na lang. Pakibigay na lang itong tupperware kay Aling Nena dun s
 Totoy: Ah... okay po.
 Mama: At wag masyadong magpagabi, ah?
 Totoy: Opo.
-[signal value="start_overworld_act3"]
+[signal arg="start_overworld_act3"]

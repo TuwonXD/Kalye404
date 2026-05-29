@@ -14,4 +14,4 @@ join Totoy center
 Totoy: ...
 [wait time="1.5"]
 Totoy: Bukas ulit.
-[signal value="fade_to_day_2"]
+[signal arg="fade_to_day_2"]

@@ -7,4 +7,4 @@ Kuya_Talon: Hoy hoy hoy... sino 'tong mga batang 'to? Ikaw ang kumatok sa pintua
 Totoy: Oo. Tapos na 'ko mag-practice. Handa na ako.
 Kuya_Talon: Hahahaha! Gusto ko ang kumpiyansa mo, bata. Pero alam mo bang hindi ako natatalunan ng sinuman dito sa loob ng dalawang taon? Malayo pa ang talon mo sa akin.
 Totoy: Sigurado ako.
-[signal value="start_luksong_baka_game"]
+[signal arg="start_luksong_baka_game"]

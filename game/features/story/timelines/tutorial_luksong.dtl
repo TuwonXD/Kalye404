@@ -8,4 +8,4 @@ Kiko: Exactly! Pag nagkamali ka o mabagal ka, sablay ang talon. Tatlong buhay ka
 Totoy: Okay. At sino ang final boss dito?
 Kiko: Si Kuya Talon. Hindi daw yun tao, Lods... sabi nila lumilipad daw yun eh! Dalawang taon na walang nakakatalo dun. 
 Kiko: Mag-grind ka muna sa Board hanggang Silver bago mo siya harapin!
-[signal value="start_tutorial_luksong_baka"]
+[signal arg="start_tutorial_luksong_baka"]

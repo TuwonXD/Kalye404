@@ -8,4 +8,4 @@ Totoy: Sinabi mo pa.
 Kapitana_Kat: Confident. Maganda. Pero dito sa kalsada ko, hindi reflexes lang ang kailangan. Kailangan din ng memorya. Handa ka na ba?
 Totoy: Memorya? Oo. Gets ko na yung pattern.
 Kapitana_Kat: Tingnan natin. Huwag kang madikit. Game na!
-[signal value="start_patintero_game"]
+[signal arg="start_patintero_game"]
