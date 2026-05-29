@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LuksongBakaDifficulty" format=3 uid="uid://cn4jw55h2d3op"]
+
+[ext_resource type="Script" uid="uid://c3vji5fe43e7f" path="res://features/luksong_baka/difficulty/luksong_baka_difficulty.gd" id="1_n0wyn"]
+
+[resource]
+script = ExtResource("1_n0wyn")
+tier_name = "Grunt2 Silver"
+sequence_length = 4
+time_per_level = Array[float]([6.0, 5.0, 4.0, 3.0, 2.5])
+metadata/_custom_type_script = "uid://c3vji5fe43e7f"

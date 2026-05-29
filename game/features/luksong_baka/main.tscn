@@ -1,0 +1,244 @@
+[gd_scene format=3 uid="uid://cxce6ukjaxlix"]
+
+[ext_resource type="Script" uid="uid://cf6n7dagbyg7i" path="res://features/luksong_baka/Main.gd" id="1_7q7uo"]
+[ext_resource type="Script" uid="uid://c3vji5fe43e7f" path="res://features/luksong_baka/difficulty/luksong_baka_difficulty.gd" id="2_ef3bs"]
+[ext_resource type="Script" uid="uid://cpo087rm2ma6" path="res://features/luksong_baka/Baka.gd" id="2_xwuh4"]
+[ext_resource type="Script" uid="uid://bcko52hbtdojg" path="res://features/luksong_baka/Player.gd" id="3_386hx"]
+[ext_resource type="Resource" uid="uid://cefgau2dtblgv" path="res://features/luksong_baka/difficulty/tutorial.tres" id="3_axhk5"]
+[ext_resource type="Script" uid="uid://hm6f1xqbt378" path="res://features/luksong_baka/QTEController.gd" id="4_1i6jf"]
+[ext_resource type="Resource" uid="uid://cw5n6d7vgr0c4" path="res://features/luksong_baka/difficulty/bronze.tres" id="4_cglsy"]
+[ext_resource type="Resource" uid="uid://cn4jw55h2d3op" path="res://features/luksong_baka/difficulty/silver.tres" id="5_68win"]
+[ext_resource type="Script" uid="uid://cxj1fq08aotdu" path="res://features/luksong_baka/HUD.gd" id="5_axibq"]
+[ext_resource type="Resource" uid="uid://btk7i768y2dow" path="res://features/luksong_baka/difficulty/gold.tres" id="6_t8yxc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_386hx"]
+size = Vector2(1280, 20)
+
+[sub_resource type="Animation" id="Animation_ef3bs"]
+resource_name = "level_1"
+
+[sub_resource type="Animation" id="Animation_axhk5"]
+resource_name = "level_2"
+
+[sub_resource type="Animation" id="Animation_cglsy"]
+resource_name = "level_3"
+
+[sub_resource type="Animation" id="Animation_68win"]
+resource_name = "level_4"
+
+[sub_resource type="Animation" id="Animation_t8yxc"]
+resource_name = "level_5"
+
+[sub_resource type="Animation" id="Animation_6uvrs"]
+resource_name = "rise"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o3c3j"]
+_data = {
+&"level_1": SubResource("Animation_ef3bs"),
+&"level_2": SubResource("Animation_axhk5"),
+&"level_3": SubResource("Animation_cglsy"),
+&"level_4": SubResource("Animation_68win"),
+&"level_5": SubResource("Animation_t8yxc"),
+&"rise": SubResource("Animation_6uvrs")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwuh4"]
+size = Vector2(60, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_axibq"]
+size = Vector2(40, 60)
+
+[sub_resource type="Animation" id="Animation_638ca"]
+resource_name = "fail"
+
+[sub_resource type="Animation" id="Animation_phgh6"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_ivhwm"]
+resource_name = "jump"
+
+[sub_resource type="Animation" id="Animation_pm1s6"]
+resource_name = "run"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vnee0"]
+_data = {
+&"fail": SubResource("Animation_638ca"),
+&"idle": SubResource("Animation_phgh6"),
+&"jump": SubResource("Animation_ivhwm"),
+&"run": SubResource("Animation_pm1s6")
+}
+
+[node name="Main" type="Node2D" unique_id=234204677]
+script = ExtResource("1_7q7uo")
+difficulties = Array[ExtResource("2_ef3bs")]([ExtResource("3_axhk5"), ExtResource("4_cglsy"), ExtResource("5_68win"), ExtResource("6_t8yxc")])
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=1864514781]
+position = Vector2(0, 700)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=1986950780]
+shape = SubResource("RectangleShape2D_386hx")
+debug_color = Color(3.85046e-07, 0.6073009, 0.6579376, 0.41960785)
+
+[node name="ColorRect" type="ColorRect" parent="Ground" unique_id=1739316158]
+offset_right = 1280.0
+offset_bottom = 20.0
+
+[node name="Baka" type="Node2D" parent="." unique_id=772252529 groups=["baka"]]
+position = Vector2(700, 700)
+script = ExtResource("2_xwuh4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Baka" unique_id=261791643]
+
+[node name="ColorRect" type="ColorRect" parent="Baka" unique_id=803150808]
+offset_left = -30.0
+offset_top = -60.0
+offset_right = 30.0
+color = Color(1, 0.18431373, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Baka" unique_id=510635480]
+libraries/ = SubResource("AnimationLibrary_o3c3j")
+
+[node name="HitArea" type="Area2D" parent="Baka" unique_id=358324573]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Baka/HitArea" unique_id=480977638]
+shape = SubResource("RectangleShape2D_xwuh4")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=204027149]
+position = Vector2(100, 700)
+script = ExtResource("3_386hx")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1115557841]
+
+[node name="ColorRect" type="ColorRect" parent="Player" unique_id=1731499590]
+offset_left = -20.0
+offset_top = -64.0
+offset_right = 20.0
+color = Color(0.16078432, 0.16470589, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1198590946]
+shape = SubResource("RectangleShape2D_axibq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player" unique_id=476822452]
+libraries/ = SubResource("AnimationLibrary_vnee0")
+
+[node name="QTEController" type="Node" parent="." unique_id=1692413474 node_paths=PackedStringArray("qte_panel", "hint_label", "timer_bar")]
+script = ExtResource("4_1i6jf")
+qte_panel = NodePath("../HUD/HUD_Root/QTE_Panel")
+hint_label = NodePath("../HUD/HUD_Root/QTE_Panel/HintLabel")
+timer_bar = NodePath("../HUD/HUD_Root/QTE_Panel/TimeBar")
+
+[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="QTEController" unique_id=665128870]
+
+[node name="FailSFX" type="AudioStreamPlayer2D" parent="QTEController" unique_id=1659616319]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=915954287]
+position = Vector2(640, 360)
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1365093929]
+script = ExtResource("5_axibq")
+
+[node name="HUD_Root" type="Control" parent="HUD" unique_id=1127152526]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeartsLabel" type="Label" parent="HUD/HUD_Root" unique_id=665728154]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 43.0
+
+[node name="LevelLabel" type="Label" parent="HUD/HUD_Root" unique_id=929943650]
+layout_mode = 0
+offset_left = 900.0
+offset_top = 20.0
+offset_right = 940.0
+offset_bottom = 43.0
+
+[node name="MessageLabel" type="Label" parent="HUD/HUD_Root" unique_id=1937947614]
+layout_mode = 0
+offset_left = 440.0
+offset_top = 340.0
+offset_right = 480.0
+offset_bottom = 363.0
+
+[node name="QTE_Panel" type="Control" parent="HUD/HUD_Root" unique_id=1071569174]
+anchors_preset = 0
+offset_left = 490.0
+offset_top = 290.0
+offset_right = 530.0
+offset_bottom = 330.0
+
+[node name="HintLabel" type="Label" parent="HUD/HUD_Root/QTE_Panel" unique_id=1348572881]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 60.0
+offset_right = 120.0
+offset_bottom = 127.0
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BG" type="ColorRect" parent="HUD/HUD_Root/QTE_Panel" unique_id=325103024]
+layout_mode = 0
+offset_top = 150.0
+offset_right = 200.0
+offset_bottom = 160.0
+color = Color(0.36847892, 0.36847895, 0.36847892, 1)
+
+[node name="TimeBar" type="ColorRect" parent="HUD/HUD_Root/QTE_Panel" unique_id=192674383]
+layout_mode = 0
+offset_top = 150.0
+offset_right = 200.0
+offset_bottom = 160.0
+color = Color(0.14901961, 0.8039216, 0.07450981, 1)
+
+[node name="TitleLabel" type="Label" parent="HUD/HUD_Root/QTE_Panel" unique_id=925876760]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 15.0
+offset_right = 157.0
+offset_bottom = 38.0
+text = "PRESS THE KEYS!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameOverPanel" type="Control" parent="HUD/HUD_Root" unique_id=808759378]
+anchors_preset = 0
+offset_left = 450.0
+offset_top = 260.0
+offset_right = 750.0
+offset_bottom = 410.0
+
+[node name="Label" type="Label" parent="HUD/HUD_Root/GameOverPanel" unique_id=876635424]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 10.0
+offset_right = 167.0
+offset_bottom = 33.0
+text = "GAME OVER!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="HUD/HUD_Root/GameOverPanel" unique_id=1067960724]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 60.0
+offset_right = 140.0
+offset_bottom = 91.0
+text = "Retry"
+
+[node name="OverworldButton" type="Button" parent="HUD/HUD_Root/GameOverPanel" unique_id=1608584103]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 100.0
+offset_right = 191.0
+offset_bottom = 131.0
+text = "Back to Overworld"
+
+[connection signal="pressed" from="HUD/HUD_Root/GameOverPanel/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="HUD/HUD_Root/GameOverPanel/OverworldButton" to="." method="_on_overworld_button_pressed"]

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="LuksongBakaDifficulty" format=3 uid="uid://cefgau2dtblgv"]
+
+[ext_resource type="Script" uid="uid://c3vji5fe43e7f" path="res://features/luksong_baka/difficulty/luksong_baka_difficulty.gd" id="1_qolim"]
+
+[resource]
+script = ExtResource("1_qolim")
+tier_name = "Tutorial"
+metadata/_custom_type_script = "uid://c3vji5fe43e7f"
