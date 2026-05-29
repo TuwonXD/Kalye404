@@ -3,12 +3,14 @@
 [ext_resource type="Script" uid="uid://wwopifxsaly0" path="res://features/patintero/sequence_display.gd" id="1_0uwwj"]
 [ext_resource type="Script" uid="uid://u2tc82puyxtn" path="res://features/patintero/patintero_game.gd" id="1_lujxl"]
 [ext_resource type="Script" uid="uid://bkyivxmoyfwd1" path="res://features/patintero/stamina_manager.gd" id="1_yllgc"]
-[ext_resource type="Resource" uid="uid://dn7mg4x1t1xwu" path="res://features/patintero/difficulty/tutorial.tres" id="2_epsbs"]
+[ext_resource type="Resource" uid="uid://g45qgb5senpc" path="res://features/patintero/difficulty/bronze.tres" id="2_i3sio"]
+[ext_resource type="Texture2D" uid="uid://cseipdqvewv8e" path="res://features/patintero/assets/patintero_bg.png" id="3_efa7q"]
 [ext_resource type="Script" uid="uid://duxfknawle4sp" path="res://features/patintero/input_handler.gd" id="3_lujxl"]
+[ext_resource type="Texture2D" uid="uid://1l0fux54n7gn" path="res://features/overworld/assets/totoy/3.png" id="4_i3sio"]
 
 [node name="PatinteroGame" type="Node2D" unique_id=399122401]
 script = ExtResource("1_lujxl")
-difficulty = ExtResource("2_epsbs")
+difficulty = ExtResource("2_i3sio")
 
 [node name="Background" type="ColorRect" parent="." unique_id=523426304]
 anchors_preset = 15
@@ -20,25 +22,47 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.101960786, 0.101960786, 0.18039216, 1)
 
+[node name="Background2" type="Sprite2D" parent="." unique_id=242399232]
+position = Vector2(576, 324)
+scale = Vector2(0.7731543, 0.7732698)
+texture = ExtResource("3_efa7q")
+
 [node name="GameView" type="Node2D" parent="." unique_id=1420628244]
 
-[node name="CurrentGuard" type="ColorRect" parent="GameView" unique_id=1568606469]
-offset_left = 476.0
-offset_top = 120.0
-offset_right = 676.0
-offset_bottom = 370.0
-color = Color(0.9137255, 0.27058825, 0.3764706, 1)
+[node name="CurrentGuard" type="Sprite2D" parent="GameView" unique_id=1749773172]
+position = Vector2(576, 200)
 
 [node name="LineBarrier" type="Line2D" parent="GameView" unique_id=665780177]
+visible = false
 points = PackedVector2Array(0, 400, 1152, 400)
 width = 4.0
 
 [node name="Totoy" type="ColorRect" parent="GameView" unique_id=1832794620]
+visible = false
 offset_left = 501.0
 offset_top = 440.0
 offset_right = 651.0
 offset_bottom = 640.0
 color = Color(0.05882353, 0.20392157, 0.3764706, 1)
+
+[node name="TotoySprite" type="Sprite2D" parent="GameView" unique_id=1878756155]
+z_index = 10
+position = Vector2(575, 470)
+scale = Vector2(0.211574, 0.20092595)
+texture = ExtResource("4_i3sio")
+region_enabled = true
+region_rect = Rect2(288.98425, 43.7424, 484.49194, 1036.2576)
+
+[node name="TimerBar" type="ProgressBar" parent="GameView" unique_id=834585959]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+offset_left = 225.0
+offset_top = 330.0
+offset_right = 925.0
+offset_bottom = 357.0
+max_value = 1.0
+value = 1.0
+show_percentage = false
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=174975430]
 
@@ -79,21 +103,11 @@ script = ExtResource("1_0uwwj")
 [node name="InputFeedback" type="HBoxContainer" parent="UI/UIRoot" unique_id=280428925]
 layout_mode = 0
 offset_left = 176.0
-offset_top = 340.0
+offset_top = 250.0
 offset_right = 976.0
-offset_bottom = 390.0
+offset_bottom = 300.0
 theme_override_constants/separation = 20
 alignment = 1
-
-[node name="TimerBar" type="ProgressBar" parent="UI/UIRoot" unique_id=834585959]
-layout_mode = 0
-offset_left = 176.0
-offset_top = 400.0
-offset_right = 976.0
-offset_bottom = 427.0
-max_value = 1.0
-value = 1.0
-show_percentage = false
 
 [node name="ResultLabel" type="Label" parent="UI/UIRoot" unique_id=1965204087]
 visible = false
