@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://c5eo77cer1wff"]
 
+[ext_resource type="Script" path="res://features/tumbang-preso/scripts/silver.gd" id="1_silver_script"]
 [ext_resource type="Texture2D" uid="uid://cjgo7ihjehqap" path="res://features/tumbang-preso/assets/boy tsinelas/boy tsinelas red/boy red tsinelas idle down.png" id="1_4f7hy"]
 [ext_resource type="Texture2D" uid="uid://dkr4u8qw8ph6d" path="res://features/tumbang-preso/assets/boy tsinelas/boy tsinelas red/red boy tsinelas idle.png" id="2_6ibar"]
 [ext_resource type="Texture2D" uid="uid://dsyikdixj2417" path="res://features/tumbang-preso/assets/boy tsinelas/boy tsinelas red/red boy tsinelas pickup.png" id="3_441e4"]
@@ -1186,6 +1187,7 @@ radius = 179.0
 height = 684.0
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=546484554]
+script = ExtResource("1_silver_script")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1967774936]
 sprite_frames = SubResource("SpriteFrames_bav8p")

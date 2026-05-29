@@ -9,6 +9,9 @@ extends Control
 @onready var custom_challenge_button = $ModifiedEnemy/ChallengeButton
 
 const TUMBANG_PRESO_SCENE := "res://features/tumbang-preso/scenes/tumbang_preso.tscn"
+const BRONZE_ENEMY_SCENE := "res://features/tumbang-preso/scenes/bronze.tscn"
+const SILVER_ENEMY_SCENE := "res://features/tumbang-preso/scenes/silver.tscn"
+const GOLD_ENEMY_SCENE := "res://features/tumbang-preso/scenes/gold.tscn"
 
 func _ready() -> void:
 	bronze_challenge_button.pressed.connect(_on_bronze_challenge_pressed)
@@ -23,28 +26,28 @@ func _ready() -> void:
 
 
 func _on_bronze_challenge_pressed() -> void:
-	_start_with_stats(50, 50, 60, 60)
+	_start_with_stats(50, 50, 60, 60, BRONZE_ENEMY_SCENE)
 
 
 func _on_silver_challenge_pressed() -> void:
-	_start_with_stats(80, 80, 90, 75)
+	_start_with_stats(80, 80, 90, 75, SILVER_ENEMY_SCENE)
 
 
 func _on_gold_challenge_pressed() -> void:
-	_start_with_stats(95, 90, 100, 100)
+	_start_with_stats(95, 90, 100, 100, GOLD_ENEMY_SCENE)
 
 
 func _on_custom_challenge_pressed() -> void:
 	var accuracy := _read_enemy_accuracy()
 	var speed := _read_enemy_speed()
-	_start_with_stats(accuracy, speed, accuracy, speed)
+	_start_with_stats(accuracy, speed, accuracy, speed, BRONZE_ENEMY_SCENE)
 
 
 func _on_custom_challenge_submitted(_text: String) -> void:
 	_on_custom_challenge_pressed()
 
 
-func _start_with_stats(accuracy: int, speed: int, second_accuracy: int, second_speed: int) -> void:
+func _start_with_stats(accuracy: int, speed: int, second_accuracy: int, second_speed: int, enemy_scene_path: String) -> void:
 	var packed_scene := load(TUMBANG_PRESO_SCENE) as PackedScene
 	if packed_scene == null:
 		return
@@ -54,7 +57,7 @@ func _start_with_stats(accuracy: int, speed: int, second_accuracy: int, second_s
 	get_tree().root.add_child(next_scene)
 	get_tree().current_scene = next_scene
 
-	next_scene.setup(clampi(accuracy, 0, 100), clampi(speed, 0, 100), clampi(second_accuracy, 0, 100), clampi(second_speed, 0, 100))
+	next_scene.setup(clampi(accuracy, 0, 100), clampi(speed, 0, 100), clampi(second_accuracy, 0, 100), clampi(second_speed, 0, 100), enemy_scene_path)
 
 	queue_free()
 

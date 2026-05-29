@@ -19,12 +19,15 @@ var player_escape_timeout_token: int = 0
 
 @onready var power_bar = $PowerBar
 @onready var totoy = $Totoy
+@onready var enemy_slot: Node2D = $Enemy
 @onready var slipper: Area2D = $Slipper
 @onready var can: Area2D = $Can
 
 var totoy_start_position: Vector2 = Vector2.ZERO
 var slipper_start_position: Vector2 = Vector2.ZERO
 var can_start_position: Vector2 = Vector2.ZERO
+var enemy_scene_path: String = ""
+var enemy_instance: Node = null
 
 signal player_score_changed(score: int)
 signal enemy_score_changed(score: int)
@@ -37,6 +40,7 @@ func _ready() -> void:
 	if not power_bar.power_bar_stopped.is_connected(_on_power_bar_stopped):
 		power_bar.power_bar_stopped.connect(_on_power_bar_stopped)
 
+	_spawn_selected_enemy()
 	_record_totoy_position()
 	_record_slipper_and_can_positions()
 	_set_slipper_visibility(false)
@@ -47,11 +51,12 @@ func _ready() -> void:
 		power_bar.start()
 
 
-func setup(accuracy: int, speed: int, second_accuracy: int, second_speed: int) -> void:
+func setup(accuracy: int, speed: int, second_accuracy: int, second_speed: int, selected_enemy_scene_path: String = "") -> void:
 	enemy_accuracy = clampi(accuracy, 0, 100)
 	enemy_speed = clampi(speed, 0, 100)
 	enemy_phase_two_accuracy = clampi(second_accuracy, 0, 100)
 	enemy_phase_two_speed = clampi(second_speed, 0, 100)
+	enemy_scene_path = selected_enemy_scene_path
 	player_score = 0
 	enemy_score = 0
 	enemy_phase = 1
@@ -61,6 +66,7 @@ func setup(accuracy: int, speed: int, second_accuracy: int, second_speed: int) -
 	power_bar.reset()
 
 	if is_node_ready():
+		_spawn_selected_enemy()
 		_record_totoy_position()
 		_record_slipper_and_can_positions()
 		_set_slipper_visibility(false)
@@ -86,6 +92,7 @@ func _enter_player_turn() -> void:
 	_clear_player_escape_state()
 	pending_player_turn_after_escape_return = false
 	power_bar.set_restart_enabled(true)
+	_set_enemy_idle_down()
 
 	var accuracy = 100 - ((float(enemy_accuracy) + float(enemy_speed)) / 2.0)
 	_apply_half_orange_zones(accuracy)
@@ -98,6 +105,7 @@ func _enter_player_turn() -> void:
 func _enter_player_escape() -> void:
 	current_phase = TurnPhase.PLAYER_ESCAPE
 	power_bar.set_restart_enabled(true)
+	_set_enemy_idle_with_slipper()
 	_apply_escape_mode(enemy_speed)
 	phase_changed.emit("Player's Escape Mode")
 
@@ -133,6 +141,7 @@ func _enter_enemy_turn() -> void:
 	_clear_player_escape_state()
 	pending_player_turn_after_escape_return = false
 	power_bar.set_restart_enabled(true)
+	_set_enemy_idle_with_slipper()
 	_apply_enemy_accuracy(enemy_accuracy)
 	phase_changed.emit("Enemy's Turn")
 
@@ -142,6 +151,7 @@ func _enter_enemy_escape() -> void:
 	_clear_player_escape_state()
 	pending_player_turn_after_escape_return = false
 	power_bar.set_restart_enabled(true)
+	_set_enemy_idle_with_slipper()
 	_apply_escape_mode(enemy_speed)
 	phase_changed.emit("Enemy's Escape Mode")
 
@@ -365,6 +375,44 @@ func _record_slipper_and_can_positions() -> void:
 func _record_totoy_position() -> void:
 	if totoy:
 		totoy_start_position = totoy.position
+
+
+func _spawn_selected_enemy() -> void:
+	if enemy_slot == null:
+		return
+
+	if enemy_instance and is_instance_valid(enemy_instance):
+		enemy_instance.queue_free()
+		enemy_instance = null
+
+	var resolved_scene_path := enemy_scene_path
+	if resolved_scene_path == "":
+		resolved_scene_path = "res://features/tumbang-preso/scenes/bronze.tscn"
+
+	var packed_scene := load(resolved_scene_path) as PackedScene
+	if packed_scene == null:
+		return
+
+	enemy_instance = packed_scene.instantiate()
+	enemy_slot.add_child(enemy_instance)
+	_set_enemy_idle_for_current_phase()
+
+
+func _set_enemy_idle_for_current_phase() -> void:
+	if current_phase == TurnPhase.PLAYER_TURN:
+		_set_enemy_idle_down()
+	else:
+		_set_enemy_idle_with_slipper()
+
+
+func _set_enemy_idle_down() -> void:
+	if enemy_instance and enemy_instance.has_method("play_idle_down"):
+		enemy_instance.call("play_idle_down")
+
+
+func _set_enemy_idle_with_slipper() -> void:
+	if enemy_instance and enemy_instance.has_method("play_idle_with_slipper"):
+		enemy_instance.call("play_idle_with_slipper")
 
 
 func _reset_slipper_and_can_positions() -> void:
