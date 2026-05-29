@@ -246,13 +246,8 @@ func _fly_slipper_to_can() -> void:
 	_set_slipper_visibility(true)
 	_reset_slipper_and_can_positions()
 
-	var start: Vector2 = slipper.position
 	var target: Vector2 = can.position
-	var mid: Vector2 = (start + target) * 0.5 + Vector2(0, -180)
-
-	var tween := get_tree().create_tween()
-	tween.tween_property(slipper, "position", mid, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(slipper, "position", target, 0.45).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	var tween := _create_slipper_flight_tween(target, 110.0, 0.8)
 	tween.tween_callback(Callable(self, "_on_slipper_arrived"))
 
 
@@ -270,11 +265,7 @@ func _fly_slipper_to_can_side_then_enemy_turn() -> void:
 		side_offset_direction = -1
 
 	var target: Vector2 = can.position + Vector2(90.0 * side_offset_direction, 0.0)
-	var mid: Vector2 = (slipper.position + target) * 0.5 + Vector2(0, -180)
-
-	var tween := get_tree().create_tween()
-	tween.tween_property(slipper, "position", mid, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(slipper, "position", target, 0.45).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	var tween := _create_slipper_flight_tween(target, 90.0, 0.8)
 	await tween.finished
 
 	_set_slipper_visibility(false)
@@ -308,6 +299,18 @@ func _reset_slipper_and_can_positions() -> void:
 func _set_slipper_visibility(is_visible: bool) -> void:
 	if slipper:
 		slipper.visible = is_visible
+
+
+func _create_slipper_flight_tween(target_position: Vector2, arc_height: float, duration: float) -> Tween:
+	var start_position: Vector2 = slipper.position
+	var tween := get_tree().create_tween()
+	tween.tween_method(func(progress: float) -> void:
+		var eased_progress := progress * progress * (3.0 - 2.0 * progress)
+		var base_position := start_position.lerp(target_position, eased_progress)
+		var arc_offset := sin(eased_progress * PI) * arc_height
+		slipper.position = base_position + Vector2(0.0, -arc_offset)
+	, 0.0, 1.0, duration)
+	return tween
 
 
 func _move_can_to_hit_position() -> void:
