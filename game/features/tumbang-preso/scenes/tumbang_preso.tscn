@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cseipdqvewv8e" path="res://features/patintero/assets/patintero_bg.png" id="2_ksj71"]
 [ext_resource type="PackedScene" uid="uid://dnpexcdo5eaj1" path="res://features/tumbang-preso/scenes/Totoy.tscn" id="5_o3lf6"]
 [ext_resource type="PackedScene" uid="uid://ch74tm74m01q1" path="res://features/tumbang-preso/scenes/can.tscn" id="6_dd73v"]
+[ext_resource type="PackedScene" uid="uid://dn635m165pwq0" path="res://features/tumbang-preso/scenes/slipper.tscn" id="7_x2rvg"]
 
 [node name="TumbangPreso" type="Node2D" unique_id=120766366]
 script = ExtResource("1_iiiae")
@@ -42,3 +43,7 @@ scale = Vector2(0.3, 0.3)
 [node name="Can" parent="." unique_id=898089351 instance=ExtResource("6_dd73v")]
 position = Vector2(567, 111)
 scale = Vector2(0.2, 0.2)
+
+[node name="Slipper" parent="." unique_id=1547711302 instance=ExtResource("7_x2rvg")]
+position = Vector2(633, 462)
+scale = Vector2(0.15, 0.15)

@@ -16,6 +16,11 @@ var current_phase: TurnPhase = TurnPhase.PLAYER_TURN
 
 @onready var power_bar = $PowerBar
 @onready var totoy = $Totoy
+@onready var slipper: Area2D = $Slipper
+@onready var can: Area2D = $Can
+
+var slipper_start_position: Vector2 = Vector2.ZERO
+var can_start_position: Vector2 = Vector2.ZERO
 
 signal player_score_changed(score: int)
 signal enemy_score_changed(score: int)
@@ -28,6 +33,8 @@ func _ready() -> void:
 	if not power_bar.power_bar_stopped.is_connected(_on_power_bar_stopped):
 		power_bar.power_bar_stopped.connect(_on_power_bar_stopped)
 
+	_record_slipper_and_can_positions()
+	_set_slipper_visibility(false)
 	_set_totoy_idle()
 
 	if setup_complete:
@@ -49,6 +56,8 @@ func setup(accuracy: int, speed: int, second_accuracy: int, second_speed: int) -
 	power_bar.reset()
 
 	if is_node_ready():
+		_record_slipper_and_can_positions()
+		_set_slipper_visibility(false)
 		_set_totoy_idle()
 		_apply_current_mode()
 		power_bar.start()
@@ -132,7 +141,10 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 		TurnPhase.PLAYER_TURN:
 			_play_totoy_throw()
 			var scored := _did_score(zone)
+
 			if scored:
+				_fly_slipper_to_can()
+
 				player_score += 1
 				print("[TumbangPreso] player scored -> new player_score=", player_score)
 				player_score_changed.emit(player_score)
@@ -147,14 +159,14 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 			if scored:
 				_enter_player_escape()
 			else:
-				_enter_enemy_turn()
+				_fly_slipper_to_can_side_then_enemy_turn()
 		TurnPhase.PLAYER_ESCAPE:
 			if _did_score(zone):
 				_enter_player_turn()
 			else:
 				_enter_enemy_turn()
 		TurnPhase.ENEMY_TURN:
-			_play_totoy_throw()
+			# _play_totoy_throw()
 			var enemy_scored := _did_enemy_score(zone)
 			if enemy_scored:
 				enemy_score += 1
@@ -224,3 +236,92 @@ func _roll_half_chance() -> bool:
 func _play_totoy_throw() -> void:
 	if totoy and totoy.has_method("play_throw"):
 		totoy.play_throw()
+
+
+func _fly_slipper_to_can() -> void:
+	if not (slipper and can):
+		return
+
+	await get_tree().create_timer(1.0).timeout
+	_set_slipper_visibility(true)
+	_reset_slipper_and_can_positions()
+
+	var start: Vector2 = slipper.position
+	var target: Vector2 = can.position
+	var mid: Vector2 = (start + target) * 0.5 + Vector2(0, -180)
+
+	var tween := get_tree().create_tween()
+	tween.tween_property(slipper, "position", mid, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(slipper, "position", target, 0.45).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.tween_callback(Callable(self, "_on_slipper_arrived"))
+
+
+func _fly_slipper_to_can_side_then_enemy_turn() -> void:
+	if not (slipper and can):
+		_enter_enemy_turn()
+		return
+
+	await get_tree().create_timer(1.0).timeout
+	_set_slipper_visibility(true)
+	_reset_slipper_and_can_positions()
+
+	var side_offset_direction: int = 1
+	if slipper_start_position.x < can.position.x:
+		side_offset_direction = -1
+
+	var target: Vector2 = can.position + Vector2(90.0 * side_offset_direction, 0.0)
+	var mid: Vector2 = (slipper.position + target) * 0.5 + Vector2(0, -180)
+
+	var tween := get_tree().create_tween()
+	tween.tween_property(slipper, "position", mid, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(slipper, "position", target, 0.45).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	await tween.finished
+
+	_set_slipper_visibility(false)
+	_enter_enemy_turn()
+
+
+func _on_slipper_arrived() -> void:
+	print("[TumbangPreso] Slipper arrived at can")
+	if can and can.has_method("on_slipper_hit"):
+		can.call("on_slipper_hit")
+
+	_move_can_to_hit_position()
+
+
+func _record_slipper_and_can_positions() -> void:
+	if slipper:
+		slipper_start_position = slipper.position
+
+	if can:
+		can_start_position = can.position
+
+
+func _reset_slipper_and_can_positions() -> void:
+	if slipper:
+		slipper.position = slipper_start_position
+
+	if can:
+		can.position = can_start_position
+
+
+func _set_slipper_visibility(is_visible: bool) -> void:
+	if slipper:
+		slipper.visible = is_visible
+
+
+func _move_can_to_hit_position() -> void:
+	if not can:
+		return
+
+	var hit_offset := Vector2(0.0, -100.0)
+	var tween := get_tree().create_tween()
+	tween.tween_property(can, "position", can_start_position + hit_offset, 0.22).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+
+func _restore_can_to_original_position() -> void:
+	if not can:
+		return
+
+	var tween := get_tree().create_tween()
+	tween.tween_property(can, "position", can_start_position, 0.18).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
