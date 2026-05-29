@@ -401,18 +401,23 @@ func _spawn_selected_enemy() -> void:
 func _set_enemy_idle_for_current_phase() -> void:
 	if current_phase == TurnPhase.PLAYER_TURN:
 		_set_enemy_idle_down()
-	else:
+	elif current_phase == TurnPhase.ENEMY_TURN:
 		_set_enemy_idle_with_slipper()
+	else:
+		_set_enemy_run_down()
 
 
 func _set_enemy_idle_down() -> void:
 	if enemy_instance and enemy_instance.has_method("play_idle_down"):
 		enemy_instance.call("play_idle_down")
 
-
 func _set_enemy_idle_with_slipper() -> void:
 	if enemy_instance and enemy_instance.has_method("play_idle_with_slipper"):
 		enemy_instance.call("play_idle_with_slipper")
+
+func _set_enemy_run_down() -> void:
+	if enemy_instance and enemy_instance.has_method("play_run_down"):
+		enemy_instance.call("play_run_down")
 
 
 func _reset_slipper_and_can_positions() -> void:
