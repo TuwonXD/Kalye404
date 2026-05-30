@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://by6htjtd70ico"]
+
+[ext_resource type="Script" uid="uid://brcwh0edqqi2b" path="res://core/autoloads/pause_menu.gd" id="1_pq48o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hv4wr"]
+bg_color = Color(0, 0, 0, 0.5)
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=342770644]
+process_mode = 3
+layer = 127
+script = ExtResource("1_pq48o")
+
+[node name="Panel" type="Panel" parent="." unique_id=1855080171]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hv4wr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1205455032]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -46.5
+offset_right = 74.0
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer" unique_id=789659220]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "PAUSED"
+
+[node name="ResumeBtn" type="Button" parent="Panel/VBoxContainer" unique_id=1009437704]
+layout_mode = 2
+text = "Resume"
+
+[node name="QuitBtn" type="Button" parent="Panel/VBoxContainer" unique_id=1163632742]
+layout_mode = 2
+text = "Quit to Overworld"

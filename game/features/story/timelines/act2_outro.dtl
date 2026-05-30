@@ -13,4 +13,5 @@ join Totoy center
 Totoy: ...
 [wait time="1.5"]
 Totoy: Masaya din pala.
+[background arg="#000000ff" fade="0.3"]
 [signal arg="fade_to_day_3"]

@@ -16,7 +16,7 @@ var current_level: int = 0
 var lives: int = 3
 
 func _ready() -> void:
-	GameManager.reset_progress()
+	# GameManager.reset_progress() # BUG FIX: Prevented script from clearing save data on load 
 	current_tier = GameManager.luksong_baka_selected_tier
 	lives = 3
 	current_level = 0
@@ -24,7 +24,12 @@ func _ready() -> void:
 	hud.restart_pressed.connect(_on_restart)
 	hud.overworld_pressed.connect(_on_overworld)
 	hud.next_tier_pressed.connect(_on_next_tier)
-	hud.show_tier_select()
+	
+	if GameManager.bypass_minigame_menu:
+		GameManager.bypass_minigame_menu = false
+		_on_tier_selected(current_tier)
+	else:
+		hud.show_tier_select()
 
 func _on_tier_selected(tier: int) -> void:
 	current_tier = tier

@@ -1,4 +1,4 @@
-[background fade="1.0"]
+[background arg="res://features/story/assets/bedroom.png" fade="0.0"]
 join Totoy center
 Totoy: Ha?! Bakit nag-disconnect?! Patay... AFK na ko neto, minus credit score na naman ako!
 Totoy: Ano bang nangyari sa WiFi? Baka sira na naman yung router ni Kuya...

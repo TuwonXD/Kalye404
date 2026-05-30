@@ -26,41 +26,35 @@ func interact():
 				GameManager.StoryState.DAY2_OUTRO: Dialogic.start("act2_outro")
 				GameManager.StoryState.DAY3_INTRO: Dialogic.start("act3_intro")
 				GameManager.StoryState.EPILOGUE: Dialogic.start("epilogue")
+				GameManager.StoryState.FINISHED: Dialogic.start("mama_default")
 				_: Dialogic.start("mama_default")
 					
 		NpcType.KIKO:
 			match state:
+				GameManager.StoryState.DAY1_ESKINITA: Dialogic.start("eskinita_intro")
 				GameManager.StoryState.DAY1_TUMBANG_TUTORIAL: Dialogic.start("tutorial_tumbang")
+				GameManager.StoryState.DAY2_SIMBAHAN: Dialogic.start("simbahan_intro")
 				GameManager.StoryState.DAY2_PATINTERO_TUTORIAL: Dialogic.start("tutorial_patintero")
 				GameManager.StoryState.DAY3_LUKSONG_TUTORIAL: Dialogic.start("tutorial_luksong")
 				_: Dialogic.start("kiko_default")
 				
 		NpcType.BOY_TSINELAS:
-			match state:
-				GameManager.StoryState.DAY1_BOSS: Dialogic.start("act1_pre_game")
-				_: 
-					if GameManager.game_progress.get("tumbang", 0) >= 4:
-						Dialogic.start("tsinelas_champion")
-					else:
-						Dialogic.start("tsinelas_default")
+			if GameManager.game_progress.get("tumbang", 0) >= 4:
+				Dialogic.start("tsinelas_champion")
+			else:
+				Dialogic.start("tsinelas_default")
 					
 		NpcType.KAPITANA_KAT:
-			match state:
-				GameManager.StoryState.DAY2_BOSS: Dialogic.start("act2_pre_game")
-				_: 
-					if GameManager.game_progress.get("patintero", 0) >= 4:
-						Dialogic.start("kapitana_champion")
-					else:
-						Dialogic.start("kapitana_default")
+			if GameManager.game_progress.get("patintero", 0) >= 4:
+				Dialogic.start("kapitana_champion")
+			else:
+				Dialogic.start("kapitana_default")
 					
 		NpcType.KUYA_TALON:
-			match state:
-				GameManager.StoryState.DAY3_BOSS: Dialogic.start("act3_pre_game")
-				_: 
-					if GameManager.game_progress.get("luksong", 0) >= 4:
-						Dialogic.start("talon_champion")
-					else:
-						Dialogic.start("talon_default")
+			if GameManager.game_progress.get("luksong", 0) >= 4:
+				Dialogic.start("talon_champion")
+			else:
+				Dialogic.start("talon_default")
 					
 		NpcType.COURT_BOARD:
 			# Placeholder for the Court Board UI Menu

@@ -14,7 +14,23 @@ var is_rotating: bool = false
 var last_direction := "down"
 var direction_offset: float = 0.0
 
+func _ready() -> void:
+	if GameManager.player_position != Vector3.ZERO:
+		global_position = GameManager.player_position
+	
+	# Listen for story state changes to teleport player at the start of a new day
+	GameManager.story_state_changed.connect(_on_story_state_changed)
+
+func _on_story_state_changed(state: GameManager.StoryState) -> void:
+	if state == GameManager.StoryState.DAY1_INTRO or state == GameManager.StoryState.DAY2_INTRO or state == GameManager.StoryState.DAY3_INTRO:
+		# Reset to the starting position requested by user
+		global_position = Vector3(8.663, 0.401, -6.381)
+		GameManager.player_position = global_position
+
 func _physics_process(delta: float) -> void:
+	# Keep GameManager updated with our exact position so we don't lose it if scenes change
+	GameManager.player_position = global_position
+	
 	# Prevent moving while dialogue is active
 	if GameManager.is_dialogue_active:
 		velocity.x = 0

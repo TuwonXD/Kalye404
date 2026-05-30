@@ -464,18 +464,20 @@ func _enter_advancing() -> void:
 # ── VICTORY ───────────────────────────────────────────────────────────────────
 
 func _enter_victory() -> void:
-	victory_screen.visible = true
-	progress_label.text = "You Won!"
-
-## Called by the "Continue" button on VictoryScreen.
-func continue_match() -> void:
+	# Bypass the "Continue" screen and just auto-emit win after a short delay
+	await _show_big_alert("You Win!", 1.5)
 	match_ended.emit("win")
+
+## Called by the "Continue" button on VictoryScreen (Now Unused, but kept for safety).
+func continue_match() -> void:
+	pass
 
 # ── GAME_OVER ─────────────────────────────────────────────────────────────────
 
 func _enter_game_over() -> void:
-	game_over_screen.visible = true
-	progress_label.text = "Game Over"
+	# Bypass the Game Over screen and just auto-emit lose after a short delay
+	await _show_big_alert("You Lose!", 1.5)
+	match_ended.emit("lose")
 
 ## Called by the "Try Again" button on GameOverScreen.
 func retry() -> void:
@@ -509,6 +511,24 @@ func _show_result(text: String, success: bool) -> void:
 	result_label.visible = true
 	_clear_input_feedback() # Clear the ✓/✗ marks so they are replaced
 
+func _show_big_alert(text: String, duration: float = 1.0) -> void:
+	var alert := Label.new()
+	alert.text = text
+	alert.add_theme_font_size_override("font_size", 64)
+	alert.add_theme_constant_override("outline_size", 8)
+	alert.add_theme_color_override("font_outline_color", Color.BLACK)
+	alert.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	alert.size = Vector2(1152, 100)
+	alert.position.y = 280
+	$UI/UIRoot.add_child(alert)
+	
+	var a_tween := create_tween()
+	a_tween.tween_property(alert, "modulate:a", 1.0, 0.2)
+	a_tween.tween_interval(duration)
+	a_tween.tween_property(alert, "modulate:a", 0.0, 0.2)
+	a_tween.tween_callback(alert.queue_free)
+	await a_tween.finished
+
 func _update_stamina_display() -> void:
 	for child in stamina_display.get_children():
 		child.queue_free()
@@ -529,7 +549,14 @@ func _update_guard_visual() -> void:
 		var tex: Texture2D = difficulty.guard_textures[_current_line]
 		if tex != null:
 			current_guard.texture = tex
-			current_guard.scale = difficulty.guard_scale
+			
+			# Auto-normalize scale based on the AtlasTexture region size!
+			# Standard grunts have a region height of ~344. Kapitana Kat is ~685.
+			# This math shrinks Kat automatically so she visually matches the 344 standard.
+			var base_scale = difficulty.guard_scale
+			var scale_ratio = 344.0 / float(tex.get_height())
+			current_guard.scale = base_scale * scale_ratio
+				
 			current_guard.visible = true
 		else:
 			current_guard.visible = false
