@@ -1021,7 +1021,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pt6fa")
 }],
-"loop": true,
+"loop": false,
 "name": &"run-up",
 "speed": 24.0
 }, {
