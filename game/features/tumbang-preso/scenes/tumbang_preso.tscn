@@ -45,7 +45,7 @@ position = Vector2(693, 123)
 scale = Vector2(0.3, 0.3)
 
 [node name="Slipper" parent="." unique_id=1547711302 instance=ExtResource("7_x2rvg")]
-position = Vector2(633, 462)
+position = Vector2(628, 429.00003)
 scale = Vector2(0.15, 0.15)
 
 [node name="Can" parent="." unique_id=898089351 instance=ExtResource("6_dd73v")]
