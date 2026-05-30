@@ -15,8 +15,10 @@ var current_tier: int = 0
 var current_level: int = 0
 var lives: int = 3
 
+signal match_ended(result: String)
+
 func _ready() -> void:
-	GameManager.reset_progress()
+	# GameManager.reset_progress() # BUG FIX: Prevented script from clearing save data on load 
 	current_tier = GameManager.luksong_baka_selected_tier
 	lives = 3
 	current_level = 0
@@ -24,7 +26,12 @@ func _ready() -> void:
 	hud.restart_pressed.connect(_on_restart)
 	hud.overworld_pressed.connect(_on_overworld)
 	hud.next_tier_pressed.connect(_on_next_tier)
-	hud.show_tier_select()
+	
+	if GameManager.bypass_minigame_menu:
+		GameManager.bypass_minigame_menu = false
+		_on_tier_selected(current_tier)
+	else:
+		hud.show_tier_select()
 
 func _on_tier_selected(tier: int) -> void:
 	current_tier = tier
@@ -94,21 +101,16 @@ func _advance_level() -> void:
 		if is_last:
 			_game_complete()
 			return
-		hud.show_tier_complete(is_last)
+		match_ended.emit("tier_complete")
 	else:
 		player.reset_position()
 		_start_level()
 
 func _game_over() -> void:
-	lives = 3
-	current_level = 0
-	player.reset_position()
-	hud.show_game_over()
+	match_ended.emit("lose")
 
 func _game_complete() -> void:
-	hud.show_message("YOU WIN! 🎉", 3.0)
-	await get_tree().create_timer(3.0).timeout
-	_on_overworld()
+	match_ended.emit("win")
 
 func _on_restart() -> void:
 	hud.get_node("HUD_Root/GameOverPanel").visible = false

@@ -1,0 +1,8 @@
+[background arg="res://features/story/assets/main street.png" fade="1.0"]
+join Totoy (Default) left
+Aling Nena: Salamat sa pag-sauli ng tupperware Totoy!
+Totoy (Excited): Walang anuman po!
+join Kiko (Excited) right
+Kiko (Excited): Uy Totoy! Laro tayo ng Luksong Baka sa court!
+leave Kiko
+[signal arg="errand_intro_done"]

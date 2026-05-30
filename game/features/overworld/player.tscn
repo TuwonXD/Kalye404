@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://db617j1uany7r" path="res://features/tumbang-preso/assets/totoy/walk up.png" id="7_pu2lt"]
 [ext_resource type="Texture2D" uid="uid://bqii4cdh640it" path="res://features/tumbang-preso/assets/totoy/run right.png" id="8_gxi6b"]
 [ext_resource type="Texture2D" uid="uid://c3kb88y2jo51e" path="res://features/tumbang-preso/assets/totoy/run up.png" id="9_gq0vr"]
+[ext_resource type="Script" uid="uid://bellvao2yk012" path="res://features/overworld/interaction/player_interaction.gd" id="14_hhuky"]
+[ext_resource type="Script" uid="uid://blq6jmd1dw73i" path="res://features/overworld/label.gd" id="15_gxi6b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ukyrk"]
 atlas = ExtResource("2_f1ek2")
@@ -2531,6 +2533,9 @@ animations = [{
 radius = 0.5126953
 height = 1.3764954
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_gxi6b"]
+radius = 0.7
+
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=763602366]
 script = ExtResource("1_cvnsp")
 
@@ -2558,3 +2563,29 @@ transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0.025729597, 0)
 shape = SubResource("CapsuleShape3D_fkybt")
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1578228778]
+
+[node name="InteractionScanner" type="Area3D" parent="." unique_id=706570613]
+script = ExtResource("14_hhuky")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionScanner" unique_id=1635814458]
+shape = SubResource("SphereShape3D_gxi6b")
+
+[node name="InteractUI" type="CanvasLayer" parent="." unique_id=977582980]
+
+[node name="Label" type="Label" parent="InteractUI" unique_id=1170026534]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.5
+offset_top = -98.0
+offset_right = 75.5
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Press [E] to Interact"
+script = ExtResource("15_gxi6b")
+
+[connection signal="prompt_updated" from="InteractionScanner" to="InteractUI/Label" method="_on_interaction_scanner_prompt_updated"]
