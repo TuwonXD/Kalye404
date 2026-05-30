@@ -62,7 +62,7 @@ func _on_story_state_changed(state: int):
 		GameManager.StoryState.EPILOGUE:
 			task_text += "Umuwi sa bahay."
 		GameManager.StoryState.FINISHED:
-			task_text += "Mag-enjoy!."
+			task_text += "Mag-enjoy!"
 		_:
 			task_text += "Mag-explore."
 			

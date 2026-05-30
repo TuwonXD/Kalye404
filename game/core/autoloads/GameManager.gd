@@ -305,6 +305,7 @@ func _on_dialogic_signal(argument: String):
 		"roll_credits":
 			print("GAME FINISHED! Roll Credits.")
 			if current_story_state == StoryState.EPILOGUE: advance_story_state()
+			get_tree().change_scene_to_file("res://features/main_menu/Credits.tscn")
 
 func advance_story_state():
 	if current_story_state < StoryState.FINISHED:
@@ -384,3 +385,56 @@ func load_game():
 			)
 			_sync_arrays_from_dict()
 			emit_signal("story_state_changed", current_story_state)
+
+func reset_game():
+	current_story_state = StoryState.DAY1_INTRO
+	game_progress = {"tumbang": 0, "patintero": 0, "luksong": 0}
+	player_position = Vector3(0, 0, 0) # Overworld starting position
+	_sync_arrays_from_dict()
+	save_game()
+
+func has_save_file() -> bool:
+	return FileAccess.file_exists(SAVE_PATH_JSON)
+
+# ==========================================
+# UNIVERSAL UI / INPUT HANDLING
+# ==========================================
+var quit_dialog: ConfirmationDialog = null
+
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel"):
+		if is_dialogue_active:
+			return
+		
+		# Prevent showing on Main Menu or Credits
+		if get_tree().current_scene and get_tree().current_scene.name in ["MainMenu", "Credits"]:
+			return
+			
+		quit_prompt()
+
+func quit_prompt():
+	if is_instance_valid(quit_dialog):
+		return
+		
+	get_tree().paused = true
+	quit_dialog = ConfirmationDialog.new()
+	quit_dialog.dialog_text = "Return to Main Menu?"
+	quit_dialog.get_ok_button().text = "Yes"
+	quit_dialog.get_cancel_button().text = "No"
+	
+	quit_dialog.confirmed.connect(_on_quit_confirmed)
+	quit_dialog.canceled.connect(_on_quit_canceled)
+	quit_dialog.close_requested.connect(_on_quit_canceled)
+	
+	quit_dialog.process_mode = Node.PROCESS_MODE_ALWAYS 
+	get_tree().root.add_child(quit_dialog)
+	quit_dialog.popup_centered()
+
+func _on_quit_confirmed():
+	get_tree().paused = false
+	quit_dialog.queue_free()
+	get_tree().change_scene_to_file("res://features/main_menu/main_menu.tscn")
+
+func _on_quit_canceled():
+	get_tree().paused = false
+	quit_dialog.queue_free()

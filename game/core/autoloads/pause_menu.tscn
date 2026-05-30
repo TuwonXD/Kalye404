@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://brcwh0edqqi2b" path="res://core/autoloads/pause_menu.gd" id="1_pq48o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hv4wr"]
-bg_color = Color(0, 0, 0, 0.5)
+bg_color = Color(0, 0, 0, 0.70000005)
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=342770644]
 process_mode = 3

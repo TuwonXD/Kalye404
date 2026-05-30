@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Kalye 404"
-run/main_scene="uid://cde5er00m0vfc"
+run/main_scene="uid://dpgjchsetxqai"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -204,3 +204,4 @@ interact={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
