@@ -1,7 +1,7 @@
 extends Node
 
 # Set this to true when testing minigames via F6 so the buttons aren't grayed out!
-const F6_TEST_MODE: bool = true
+const F6_TEST_MODE: bool = false
 
 signal story_state_changed(new_state)
 
@@ -58,18 +58,10 @@ func _ready() -> void:
 	_fade_rect.color = Color.BLACK
 	_fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_fade_rect.modulate.a = 1.0
+	_fade_rect.modulate.a = 0.0
 	canvas.add_child(_fade_rect)
 	add_child(canvas)
 	
-	# Fix for F6 direct scene testing (auto-fade out if not in overworld)
-	call_deferred("_check_f6_fade")
-
-func _check_f6_fade() -> void:
-	if get_tree().current_scene and get_tree().current_scene.name != "Overworld":
-		var tween = create_tween()
-		tween.tween_property(_fade_rect, "modulate:a", 0.0, 1.0)
-
 	# 2. Load & Sync
 	load_game()
 	_sync_arrays_from_dict() # Guarantee arrays sync even if no save exists
@@ -118,11 +110,20 @@ func fade_and_start_minigame(game_index: int, tier: int) -> void:
 		tween.tween_property(_fade_rect, "modulate:a", 1.0, 0.5)
 		await tween.finished
 		
+		if Dialogic:
+			Dialogic.clear()
+			
 		start_minigame(game_index, tier)
+		
+		# Wait for the scene to actually change and render
+		await get_tree().process_frame
+		await get_tree().process_frame
 		
 		var tween2 = create_tween()
 		tween2.tween_property(_fade_rect, "modulate:a", 0.0, 0.5)
 	else:
+		if Dialogic:
+			Dialogic.clear()
 		start_minigame(game_index, tier)
 
 func fade_and_change_scene(path: String) -> void:
@@ -133,11 +134,20 @@ func fade_and_change_scene(path: String) -> void:
 		tween.tween_property(_fade_rect, "modulate:a", 1.0, 0.5)
 		await tween.finished
 		
+		if Dialogic:
+			Dialogic.clear()
+			
 		get_tree().change_scene_to_file(path)
+		
+		# Wait for the scene to actually change and render
+		await get_tree().process_frame
+		await get_tree().process_frame
 		
 		var tween2 = create_tween()
 		tween2.tween_property(_fade_rect, "modulate:a", 0.0, 0.5)
 	else:
+		if Dialogic:
+			Dialogic.clear()
 		get_tree().change_scene_to_file(path)
 
 func start_minigame(game_index: int, tier: int):
@@ -156,27 +166,23 @@ func _start_tumbang_preso(tier: int) -> void:
 	var packed = load("res://features/tumbang-preso/scenes/tumbang_preso.tscn")
 	var scene = packed.instantiate()
 	
+	get_tree().root.add_child(scene)
+	get_tree().current_scene.queue_free()
+	get_tree().current_scene = scene
+	
 	if tier == 0: scene.setup(20, 20, 30, 30)
 	elif tier == 1: scene.setup(50, 50, 60, 60)
 	elif tier == 2: scene.setup(80, 80, 90, 75)
 	elif tier == 3: scene.setup(95, 90, 100, 100)
 	
-	get_tree().root.add_child(scene)
-	get_tree().current_scene.queue_free()
-	get_tree().current_scene = scene
-	
 	# Hook up win condition to auto-close
 	scene.player_max_score_reached.connect(func(_score):
-		complete_minigame_tier("tumbang", tier)
-		if tier == 0: pending_dialogue = "tutorial_tumbang_done"
-		elif tier == 3: pending_dialogue = "act1_post_win"
-		fade_and_change_scene("res://features/overworld/overworld.tscn")
+		show_result_and_exit(true, "tumbang", tier)
 	)
 	
 	# Hook up lose condition
 	scene.enemy_max_score_reached.connect(func(_score):
-		if tier == 3: pending_dialogue = "act1_lose"
-		fade_and_change_scene("res://features/overworld/overworld.tscn")
+		show_result_and_exit(false, "tumbang", tier)
 	)
 
 func _start_patintero(tier: int) -> void:
@@ -189,27 +195,92 @@ func _start_patintero(tier: int) -> void:
 	elif tier == 2: diff_res = load("res://features/patintero/difficulty/silver.tres")
 	elif tier == 3: diff_res = load("res://features/patintero/difficulty/champion.tres")
 	
+	get_tree().root.add_child(scene)
+	get_tree().current_scene.queue_free()
+	get_tree().current_scene = scene
+
 	if diff_res: scene.setup(diff_res)
 	else: scene.setup(load("res://features/patintero/difficulty/bronze.tres"))
+	
+	# Hook up match condition to auto-close
+	scene.match_ended.connect(func(result: String):
+		show_result_and_exit(result == "win", "patintero", tier)
+	)
+
+func start_luksong_baka(tier: int = 0) -> void:
+	luksong_baka_selected_tier = tier
+	var packed = load("res://features/luksong_baka/main.tscn")
+	var scene = packed.instantiate()
 	
 	get_tree().root.add_child(scene)
 	get_tree().current_scene.queue_free()
 	get_tree().current_scene = scene
 	
-	# Hook up match condition to auto-close
 	scene.match_ended.connect(func(result: String):
-		if result == "win":
-			complete_minigame_tier("patintero", tier)
-			if tier == 0: pending_dialogue = "tutorial_patintero_done"
-			elif tier == 3: pending_dialogue = "act2_post_win"
+		if result == "win" or result == "tier_complete":
+			show_result_and_exit(true, "luksong", tier)
 		else:
-			if tier == 3: pending_dialogue = "act2_lose"
-		fade_and_change_scene("res://features/overworld/overworld.tscn")
+			show_result_and_exit(false, "luksong", tier)
 	)
 
-func start_luksong_baka(tier: int = 0) -> void:
-	luksong_baka_selected_tier = tier
-	get_tree().change_scene_to_file("res://features/luksong_baka/main.tscn")
+func show_result_and_exit(is_win: bool, game_name: String, tier: int):
+	# 1. Update Game State
+	if is_win:
+		complete_minigame_tier(game_name, tier)
+		
+		# Set dialogue based on game and tier
+		if game_name == "tumbang":
+			if tier == 0: pending_dialogue = "timelines/tutorial_tumbang_done"
+			elif tier == 3: pending_dialogue = "act1_post_win"
+		elif game_name == "patintero":
+			if tier == 0: pending_dialogue = "timelines/tutorial_patintero_done"
+			elif tier == 3: pending_dialogue = "act2_post_win"
+		elif game_name == "luksong":
+			if tier == 0: pending_dialogue = "timelines/tutorial_luksong_done"
+			elif tier == 3: pending_dialogue = "act3_post_win"
+	else:
+		if tier == 3:
+			if game_name == "tumbang": pending_dialogue = "act1_lose"
+			elif game_name == "patintero": pending_dialogue = "act2_lose"
+			elif game_name == "luksong": pending_dialogue = "act3_lose"
+
+	# 2. Spawn the Result UI dynamically
+	var canvas = CanvasLayer.new()
+	canvas.layer = 100
+	get_tree().current_scene.add_child(canvas)
+	
+	var overlay = ColorRect.new()
+	overlay.color = Color(0, 0, 0, 0) # Start transparent
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	canvas.add_child(overlay)
+	
+	var label = Label.new()
+	label.text = "YOU WIN!" if is_win else "YOU LOSE!"
+	label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	
+	var label_settings = LabelSettings.new()
+	label_settings.font_size = 64
+	label_settings.font_color = Color.WHITE
+	label_settings.outline_size = 8
+	label_settings.outline_color = Color.BLACK
+	label.label_settings = label_settings
+	
+	label.modulate.a = 0
+	overlay.add_child(label)
+	
+	# 3. Animate the UI
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(overlay, "color:a", 0.85, 0.5)
+	tween.tween_property(label, "modulate:a", 1.0, 0.5)
+	
+	await tween.finished
+	await get_tree().create_timer(2.0).timeout
+	
+	# 4. Fade back to Overworld
+	fade_and_change_scene("res://features/overworld/overworld.tscn")
 
 # ==========================================
 # STATE FORMATTING ENGINE

@@ -56,25 +56,13 @@ func _transition_to_game(is_new_game: bool):
 	new_game_btn.disabled = true
 	quit_btn.disabled = true
 	
-	# Create a black rectangle to fade out the screen
-	var fade_rect = ColorRect.new()
-	fade_rect.color = Color(0, 0, 0, 0)
-	fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
-	fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(fade_rect)
-	
-	# Animate the fade
-	var tween = create_tween()
-	tween.tween_property(fade_rect, "color:a", 1.0, 0.5)
-	
-	await tween.finished
-	
-	# Execute logic while screen is black (hides the lag spike)
 	if is_new_game:
-		GameManager.reset_game()
-	else:
-		GameManager.load_game()
-		
+		GameManager.current_story_state = GameManager.StoryState.DAY1_INTRO
+		GameManager.game_progress = {"tumbang": 0, "patintero": 0, "luksong": 0}
+		GameManager.player_position = Vector3(0.0, 0.0, 0.0)
+		GameManager.save_game()
+	
+	# Go directly to overworld, no fade
 	get_tree().change_scene_to_file("res://features/overworld/overworld.tscn")
 
 func _cancel_new_game():

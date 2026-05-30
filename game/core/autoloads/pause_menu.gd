@@ -11,8 +11,14 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
-		if get_tree().current_scene.scene_file_path == "res://features/overworld/overworld.tscn":
-			# Let the overworld handle its own pause menu if it has one
+		if not get_tree().current_scene: return
+		
+		var current_path = get_tree().current_scene.scene_file_path
+		if current_path in [
+			"res://features/overworld/overworld.tscn",
+			"res://features/main_menu/main_menu.tscn",
+			"res://features/main_menu/Credits.tscn"
+		]:
 			return
 		_toggle_pause()
 

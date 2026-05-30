@@ -438,6 +438,11 @@ func _enter_advancing() -> void:
 	tween.tween_property(totoy, "position:y", totoy.position.y - 300.0, 0.4).set_trans(Tween.TRANS_SINE)
 	await tween.finished
 
+	if _current_line + 1 >= 3:
+		# All 3 lines cleared, instantly trigger victory without fading to black
+		_change_state(State.VICTORY)
+		return
+
 	await _fade(0.0, 1.0)      # Fade to black (hidden reset happens here).
 	_current_line += 1
 	_current_round = 0
@@ -447,12 +452,6 @@ func _enter_advancing() -> void:
 	# Fix: Reset timer visually while screen is black
 	timer_bar.value = 1.0
 	timer_bar.modulate = Color.BLACK
-
-	if _current_line >= 3:
-		# All 3 lines cleared.
-		await _fade(1.0, 0.0)
-		_change_state(State.VICTORY)
-		return
 
 	# Reset Totoy and swap guard (behind the fade).
 	totoy.position.x = 575.0
@@ -464,8 +463,6 @@ func _enter_advancing() -> void:
 # ── VICTORY ───────────────────────────────────────────────────────────────────
 
 func _enter_victory() -> void:
-	# Bypass the "Continue" screen and just auto-emit win after a short delay
-	await _show_big_alert("You Win!", 1.5)
 	match_ended.emit("win")
 
 ## Called by the "Continue" button on VictoryScreen (Now Unused, but kept for safety).
@@ -475,8 +472,6 @@ func continue_match() -> void:
 # ── GAME_OVER ─────────────────────────────────────────────────────────────────
 
 func _enter_game_over() -> void:
-	# Bypass the Game Over screen and just auto-emit lose after a short delay
-	await _show_big_alert("You Lose!", 1.5)
 	match_ended.emit("lose")
 
 ## Called by the "Try Again" button on GameOverScreen.
