@@ -228,6 +228,10 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				await _totoy_taya()
 				_enter_enemy_turn()
 				power_bar.start()
+			
+			
+			await get_tree().create_timer(1.0).timeout
+			can.global_position = can_start_position
 
 		TurnPhase.ENEMY_TURN:
 			_play_enemy_throw()
@@ -279,6 +283,10 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 			else:
 				pending_enemy_turn_after_escape_return = true
 				power_bar.set_restart_enabled(false)
+			
+			
+			await get_tree().create_timer(1.0).timeout
+			can.global_position = can_start_position
 
 func _did_win(zone: String) -> bool:
 	return zone == "green" or (zone == "orange" and _roll_half_chance())
