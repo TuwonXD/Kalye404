@@ -1,5 +1,6 @@
-join Kuya_Talon center
-Kuya_Talon: Hahahaha! Hindi pa sapat ang talon mo, bata. Ulit ka.
-join Kiko right
-Kiko: Timing lang Lods! Timing lang! Hawakan mo yung feeling, ulit!
+[background arg="res://features/story/assets/basketball court.png" fade="1.0"]
+join Kuya_Talon (Laughing) right
+Kuya_Talon (Laughing): Hahahaha! Hindi pa sapat ang talon mo, bata. Ulit ka.
+join Kiko (Panicking) left
+Kiko (Panicking): Timing lang Lods! Timing lang! Hawakan mo yung feeling, ulit!
 [signal arg="retry_luksong_baka"]

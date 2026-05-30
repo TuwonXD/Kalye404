@@ -1,11 +1,12 @@
-[background fade="1.0"]
-join Kiko left
-join Totoy right
-Kiko: Nandyan na siya Lods... si Kapitana Kat.
-join Kapitana_Kat center
-Kapitana_Kat: Aba, bumalik ang bagong mukha. Nakita ko yung laro mo sa board. Mabilis daw.
-Totoy: Sinabi mo pa.
-Kapitana_Kat: Confident. Maganda. Pero dito sa kalsada ko, hindi reflexes lang ang kailangan. Kailangan din ng memorya. Handa ka na ba?
-Totoy: Memorya? Oo. Gets ko na yung pattern.
-Kapitana_Kat: Tingnan natin. Huwag kang madikit. Game na!
+[background arg="res://features/story/assets/basketball court.png" fade="1.0"]
+join Kiko (Serious) right
+join Totoy (Determined) left
+Kiko (Serious): Nandyan na siya Lods... si Kapitana Kat.
+leave Kiko
+join Kapitana_Kat (Focused) right
+Kapitana_Kat (Focused): Aba, bumalik ang bagong mukha. Nakita ko yung laro mo sa board. Mabilis daw.
+Totoy (Determined): Sinabi mo pa.
+Kapitana_Kat (Focused): Confident. Maganda. Pero dito sa kalsada ko, hindi reflexes lang ang kailangan. Kailangan din ng memorya. Handa ka na ba?
+Totoy (Determined): Memorya? Oo. Gets ko na yung pattern.
+Kapitana_Kat (Focused): Tingnan natin. Huwag kang madikit. Game na!
 [signal arg="start_patintero_game"]

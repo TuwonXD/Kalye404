@@ -1,13 +1,14 @@
-[background fade="0.5"]
-join Kuya_Talon center
-Kuya_Talon: Huwaaaat?! Nalampasan mo talaga ang talon ko?! Dalawang taon! Dalawang taon na wala akong natalo, tapos ikaw—
-join Totoy left
-Totoy: Haa... haa... kailangan ko ng tubig.
-Kuya_Talon: Hahahaha! Mayroon ka talagang kalooban, bata. Alam mo kung ano ang masasabi ko sa'yo?
-Kuya_Talon: Ikaw na ang bagong hari ng Covered Court. Ikaw na ang pinaka-magaling sa Kalye 404.
-join Kiko right
-Kiko: TOTOY! NARINIG MO YAN?! CHAMPION TAYO!
-Totoy: Hehe...
+[background arg="res://features/story/assets/basketball court.png" fade="1.0"]
+join Kuya_Talon (Surprised) right
+Kuya_Talon (Surprised): Huwaaaat?! Nalampasan mo talaga ang talon ko?! Dalawang taon! Dalawang taon na wala akong natalo, tapos ikaw—
+join Totoy (Tired) left
+Totoy (Tired): Haa... haa... kailangan ko ng tubig.
+Kuya_Talon (Laughing): Hahahaha! Mayroon ka talagang kalooban, bata. Alam mo kung ano ang masasabi ko sa'yo?
+Kuya_Talon (Laughing): Ikaw na ang bagong hari ng Covered Court. Ikaw na ang pinaka-magaling sa Kalye 404.
+leave Kuya_Talon
+join Kiko (Excited) right
+Kiko (Excited): TOTOY! NARINIG MO YAN?! CHAMPION TAYO!
+Totoy (Excited): Hehe...
 [wait time="1.0"]
-Totoy: ...Sabi na nga ba eh.
+Totoy (Determined): ...Sabi na nga ba eh.
 [signal arg="end_act_3"]

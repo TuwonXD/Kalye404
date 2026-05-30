@@ -1,7 +1,0 @@
-join Totoy center
-Aling Nena\: Salamat sa pag-sauli ng tupperware Totoy!
-Totoy: Walang anuman po!
-join Kiko 1
-Kiko: Uy Totoy! Laro tayo ng Luksong Baka sa court!
-leave Kiko
-[signal arg="errand_intro_done"]

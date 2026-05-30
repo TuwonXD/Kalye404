@@ -1,17 +1,15 @@
-[background fade="1.0"]
-join Totoy center
-Totoy: Haa... bakit mas nakakapagod yata tumakbo kaysa magtapon ng tsinelas?
-join Mama left
-join Totoy right
-Totoy: Ma, eto na po yung pandesal...
-Mama: O, bakit ganyan ka? Pawis na pawis ka na naman!
-Totoy: Ah... mainit po kasi sa labas...
+[background arg="res://features/story/assets/sala.png" fade="1.0"]
+join Totoy (Tired) left
+Totoy (Tired): Haa... bakit mas nakakapagod yata tumakbo kaysa magtapon ng tsinelas?
+join Mama (Default) right
+Totoy (Tired): Ma, eto na po yung pandesal...
+Mama (Shocked): O, bakit ganyan ka? Pawis na pawis ka na naman!
+Totoy (Embarrassed): Ah... mainit po kasi sa labas...
+Mama (Happy): Sabi nang wag magtatakbo eh, ang likot mo talaga. O siya, kumain ka na para may lakas ka.
 leave Mama
-Mama: Sabi nang wag magtatakbo eh, ang likot mo talaga. O siya, kumain ka na para may lakas ka.
 [wait time="1.0"]
-join Totoy center
-Totoy: ...
+Totoy (Bored): ...
 [wait time="1.5"]
-Totoy: Masaya din pala.
+Totoy (Excited): Masaya din pala.
 [background arg="#000000ff" fade="0.3"]
 [signal arg="fade_to_day_3"]

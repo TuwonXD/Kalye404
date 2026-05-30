@@ -1,10 +1,11 @@
-[background fade="1.0"]
-join Kiko left
-join Totoy right
-Kiko: Lods... ang tangkad niya. Sigurado 'to?
-join Kuya_Talon center
-Kuya_Talon: Hoy hoy hoy... sino 'tong mga batang 'to? Ikaw ang kumatok sa pintuan ng Covered Court?
-Totoy: Oo. Tapos na 'ko mag-practice. Handa na ako.
-Kuya_Talon: Hahahaha! Gusto ko ang kumpiyansa mo, bata. Pero alam mo bang hindi ako natatalunan ng sinuman dito sa loob ng dalawang taon? Malayo pa ang talon mo sa akin.
-Totoy: Sigurado ako.
+[background arg="res://features/story/assets/basketball court.png" fade="1.0"]
+join Kiko (Panicking) right
+join Totoy (Determined) left
+Kiko (Panicking): Lods... ang tangkad niya. Sigurado 'to?
+leave Kiko
+join Kuya_Talon (Intimidating) right
+Kuya_Talon (Intimidating): Hoy hoy hoy... sino 'tong mga batang 'to? Ikaw ang kumatok sa pintuan ng Covered Court?
+Totoy (Determined): Oo. Tapos na 'ko mag-practice. Handa na ako.
+Kuya_Talon (Laughing): Hahahaha! Gusto ko ang kumpiyansa mo, bata. Pero alam mo bang hindi ako natatalunan ng sinuman dito sa loob ng dalawang taon? Malayo pa ang talon mo sa akin.
+Totoy (Determined): Sigurado ako.
 [signal arg="start_luksong_baka_game"]

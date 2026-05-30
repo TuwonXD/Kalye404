@@ -1,18 +1,21 @@
-[background fade="1.0"]
+[background arg="res://features/story/assets/sala.png" fade="1.0"]
 [wait time="1.0"]
-join Totoy center
-join Kiko right
-Kiko: Grabe Lods! Ibang klase yung laro mo kanina! Hanggang bukas pag-uusapan yun sa Court!
-Totoy: Haa... salamat, Kiko. Masaya rin pala sa labas.
-join Mama left
-Mama: Totoy, sakto ang uwi mo. Tumawag yung PLDT, naayos na daw nila yung linya. Bumalik na yung WiFi.
-Totoy: Talaga po?
-Mama: Oo. Gusto mo ba tulungan kitang i-set up yung computer mo para makapag-laro ka na ulit?
+join Totoy (Excited) left
+join Kiko (Excited) right
+Kiko (Excited): Grabe Lods! Ibang klase yung laro mo kanina! Hanggang bukas pag-uusapan yun sa Court!
+Totoy (Excited): Haa... salamat, Kiko. Masaya rin pala sa labas.
+leave Kiko
+join Mama (Happy) right
+Mama (Happy): Totoy, sakto ang uwi mo. Tumawag yung PLDT, naayos na daw nila yung linya. Bumalik na yung WiFi.
+Totoy (Surprised): Talaga po?
+Mama (Happy): Oo. Gusto mo ba tulungan kitang i-set up yung computer mo para makapag-laro ka na ulit?
 [wait time="1.5"]
-Totoy: ...
-Totoy: Ma... mamaya na po. May lalaruin pa kami sa labas.
-Mama: *(smiles)* O sige. Wag kayong magpapa-gabi ah.
-Kiko: YOWN! Tara Lods, Tumbang Preso ulit!
+Totoy (Default): ...
+Totoy (Excited): Ma... mamaya na po. May lalaruin pa kami sa labas.
+Mama (Happy): *(smiles)* O sige. Wag kayong magpapa-gabi ah.
+leave Mama
+join Kiko (Excited) right
+Kiko (Excited): YOWN! Tara Lods, Tumbang Preso ulit!
 [wait time="1.0"]
-[background fade="2.0"]
+[background arg="#000000ff" fade="2.0"]
 [signal arg="roll_credits"]

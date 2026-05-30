@@ -1,9 +1,10 @@
-[background fade="1.0"]
-join Kiko left
-join Totoy right
-Kiko: Lods, mag-ingat ka. Handa na siya... si Boy Tsinelas. Ang alamat ng Eskinita.
-join Boy_Tsinelas center
-Boy_Tsinelas: Bago ka sa kalsada... pero may ibubuga rin pala. Narinig ko yung galing mo sa board.
-Totoy: Ikaw pala yung boss dito. Maliit nga ang lata mo. Kailangan talaga asintado 'to.
-Boy_Tsinelas: Wag ka nang mamili ng salita. Ihanda mo na 'yang tsinelas mo!
+[background arg="res://features/story/assets/basketball court.png" fade="1.0"]
+join Kiko (Serious) right
+join Totoy (Determined) left
+Kiko (Serious): Lods, mag-ingat ka. Handa na siya... si Boy Tsinelas. Ang alamat ng Eskinita.
+leave Kiko
+join Boy_Tsinelas (Smug) right
+Boy_Tsinelas (Smug): Bago ka sa kalsada... pero may ibubuga rin pala. Narinig ko yung galing mo sa board.
+Totoy (Determined): Ikaw pala yung boss dito. Maliit nga ang lata mo. Kailangan talaga asintado 'to.
+Boy_Tsinelas (Angry): Wag ka nang mamili ng salita. Ihanda mo na 'yang tsinelas mo!
 [signal arg="start_tumbang_preso_game"]

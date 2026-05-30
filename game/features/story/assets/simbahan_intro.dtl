@@ -1,5 +1,0 @@
-join Kiko 1
-Kiko: Uy Totoy! Buti nandito ka sa Simbahan.
-Kiko: Gusto mong maglaro ng Patintero? Punta ka na sa Covered Court ha!
-leave Kiko
-[signal arg="simbahan_intro_done"]
