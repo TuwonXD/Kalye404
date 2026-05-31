@@ -61,6 +61,19 @@ func move_to_position(target_position: Vector2, duration: float, animation_name:
 	await tween.finished
 
 
+func play_animation_loops(animation_name: String, loop_count: int = 1) -> void:
+	if animated_sprite == null:
+		return
+
+	if animated_sprite.sprite_frames == null or not animated_sprite.sprite_frames.has_animation(animation_name):
+		return
+
+	for loop_index in range(max(loop_count, 1)):
+		play_animation(animation_name)
+		if loop_index < max(loop_count, 1) - 1:
+			await animated_sprite.animation_finished
+
+
 func play_animation_and_wait(animation_name: String) -> void:
 	if animated_sprite == null:
 		return
