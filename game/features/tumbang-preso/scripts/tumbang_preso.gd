@@ -230,7 +230,7 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				power_bar.start()
 			
 			
-			await get_tree().create_timer(1.0).timeout
+			await get_tree().create_timer(2.5).timeout
 			can.global_position = can_start_position
 
 		TurnPhase.ENEMY_TURN:
@@ -285,7 +285,7 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				power_bar.set_restart_enabled(false)
 			
 			
-			await get_tree().create_timer(1.0).timeout
+			await get_tree().create_timer(2.5).timeout
 			can.global_position = can_start_position
 
 func _did_win(zone: String) -> bool:
@@ -594,13 +594,31 @@ func _fly_slipper_to_miss_can() -> void:
 		map_width = 1152.0
 
 	var safe_margin := 64.0
-	var target_x := clampf(randf_range(safe_margin, map_width - safe_margin), safe_margin, map_width - safe_margin)
-	if side_offset_direction < 0 and target_x > can.position.x:
-		target_x = clampf(can.position.x - randf_range(64.0, 180.0), safe_margin, map_width - safe_margin)
-	elif side_offset_direction > 0 and target_x < can.position.x:
-		target_x = clampf(can.position.x + randf_range(64.0, 180.0), safe_margin, map_width - safe_margin)
+	var avoid_radius := 32.0
+	var target_x := 0.0
+	var target := Vector2.ZERO
+	var tries := 0
+	while true:
+		target_x = clampf(randf_range(safe_margin, map_width - safe_margin), safe_margin, map_width - safe_margin)
+		if side_offset_direction < 0 and target_x > can.position.x:
+			target_x = clampf(can.position.x - randf_range(64.0, 180.0), safe_margin, map_width - safe_margin)
+		elif side_offset_direction > 0 and target_x < can.position.x:
+			target_x = clampf(can.position.x + randf_range(64.0, 180.0), safe_margin, map_width - safe_margin)
 
-	var target: Vector2 = Vector2(target_x, can.position.y)
+		target = Vector2(target_x, can.position.y)
+		if target.distance_to(can_start_position) > avoid_radius:
+			break
+
+		tries += 1
+		if tries >= 6:
+			var fallback_offset := avoid_radius + 64.0
+			if target_x <= can_start_position.x:
+				target_x = clampf(can_start_position.x - fallback_offset, safe_margin, map_width - safe_margin)
+			else:
+				target_x = clampf(can_start_position.x + fallback_offset, safe_margin, map_width - safe_margin)
+			target = Vector2(target_x, can.position.y)
+			if target.distance_to(can_start_position) > avoid_radius:
+				break
 	var tween := _create_slipper_flight_tween(target, 90.0, 0.8)
 	await tween.finished
 	await get_tree().create_timer(0.5).timeout
@@ -614,8 +632,8 @@ func _totoy_taya() -> void:
 
 	totoy_is_taya = true
 
-	totoy.play_animation("run-up")
-	enemy_instance.play_animation("run-down")
+	totoy.play_animation_loops("run-up", 2)
+	enemy_instance.play_animation_loops("run-down", 2)
 
 	var tween := get_tree().create_tween().set_parallel(true)
 	tween.tween_property(totoy, "global_position", taya_position, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
@@ -632,8 +650,8 @@ func _enemy_taya() -> void:
 
 	totoy_is_taya = false
 
-	totoy.play_animation("run-down")
-	enemy_instance.play_animation("run-up")
+	totoy.play_animation_loops("run-down", 2)
+	enemy_instance.play_animation_loops("run-up", 2)
 
 	var tween := get_tree().create_tween().set_parallel(true)
 	tween.tween_property(totoy, "global_position", thrower_position, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
