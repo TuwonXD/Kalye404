@@ -112,6 +112,7 @@ func fade_and_start_minigame(game_index: int, tier: int) -> void:
 		
 		if Dialogic:
 			Dialogic.clear()
+			is_dialogue_active = false
 			
 		start_minigame(game_index, tier)
 		
@@ -127,16 +128,22 @@ func fade_and_start_minigame(game_index: int, tier: int) -> void:
 		start_minigame(game_index, tier)
 
 func fade_and_change_scene(path: String) -> void:
+	print("[DEBUG-FREEZE] fade_and_change_scene started! target: ", path)
 	# Save before leaving the overworld
 	save_game()
 	if _fade_rect:
+		print("[DEBUG-FREEZE] tweening fade to black...")
 		var tween = create_tween()
 		tween.tween_property(_fade_rect, "modulate:a", 1.0, 0.5)
 		await tween.finished
 		
+		print("[DEBUG-FREEZE] fade to black finished. Checking Dialogic...")
 		if Dialogic:
+			print("[DEBUG-FREEZE] calling Dialogic.clear()")
 			Dialogic.clear()
+			is_dialogue_active = false
 			
+		print("[DEBUG-FREEZE] calling get_tree().change_scene_to_file()")
 		get_tree().change_scene_to_file(path)
 		
 		# Wait for the scene to actually change and render
@@ -148,6 +155,7 @@ func fade_and_change_scene(path: String) -> void:
 	else:
 		if Dialogic:
 			Dialogic.clear()
+			is_dialogue_active = false
 		get_tree().change_scene_to_file(path)
 
 func start_minigame(game_index: int, tier: int):
@@ -170,10 +178,10 @@ func _start_tumbang_preso(tier: int) -> void:
 	get_tree().current_scene.queue_free()
 	get_tree().current_scene = scene
 	
-	if tier == 0: scene.setup(20, 20, 30, 30)
-	elif tier == 1: scene.setup(50, 50, 60, 60)
-	elif tier == 2: scene.setup(80, 80, 90, 75)
-	elif tier == 3: scene.setup(95, 90, 100, 100)
+	if tier == 0: scene.setup(20, 20, 30, 30, "res://features/tumbang-preso/scenes/bronze.tscn")
+	elif tier == 1: scene.setup(50, 50, 60, 60, "res://features/tumbang-preso/scenes/bronze.tscn")
+	elif tier == 2: scene.setup(80, 80, 90, 75, "res://features/tumbang-preso/scenes/silver.tscn")
+	elif tier == 3: scene.setup(95, 90, 100, 100, "res://features/tumbang-preso/scenes/gold.tscn")
 	
 	# Hook up win condition to auto-close
 	scene.player_max_score_reached.connect(func(_score):
@@ -224,22 +232,30 @@ func start_luksong_baka(tier: int = 0) -> void:
 	)
 
 func show_result_and_exit(is_win: bool, game_name: String, tier: int):
+	print("[DEBUG-FREEZE] show_result_and_exit called! is_win: ", is_win, ", game: ", game_name, ", tier: ", tier)
 	# 1. Update Game State
 	if is_win:
+		print("[DEBUG-FREEZE] Player won. Updating tier.")
 		complete_minigame_tier(game_name, tier)
 		
 		# Set dialogue based on game and tier
 		if game_name == "tumbang":
-			if tier == 0: pending_dialogue = "timelines/tutorial_tumbang_done"
+			if tier == 0: pending_dialogue = "tutorial_tumbang_done"
 			elif tier == 3: pending_dialogue = "act1_post_win"
 		elif game_name == "patintero":
-			if tier == 0: pending_dialogue = "timelines/tutorial_patintero_done"
+			if tier == 0: pending_dialogue = "tutorial_patintero_done"
 			elif tier == 3: pending_dialogue = "act2_post_win"
 		elif game_name == "luksong":
 			if tier == 0: pending_dialogue = "timelines/tutorial_luksong_done"
 			elif tier == 3: pending_dialogue = "act3_post_win"
+			
+		print("[DEBUG-FREEZE] pending_dialogue is now: ", pending_dialogue)
 	else:
 		if tier == 3:
+			print("[DEBUG-FREEZE] Player lost boss fight.")
+			pending_dialogue = "boss_loss_dialogue"
+		else:
+			print("[DEBUG-FREEZE] Player lost normal match.")
 			if game_name == "tumbang": pending_dialogue = "act1_lose"
 			elif game_name == "patintero": pending_dialogue = "act2_lose"
 			elif game_name == "luksong": pending_dialogue = "act3_lose"
@@ -276,9 +292,10 @@ func show_result_and_exit(is_win: bool, game_name: String, tier: int):
 	tween.tween_property(overlay, "color:a", 0.85, 0.5)
 	tween.tween_property(label, "modulate:a", 1.0, 0.5)
 	
-	await tween.finished
+	print("[DEBUG-FREEZE] show_result_and_exit overlay complete. Awaiting 2.0s timer...")
 	await get_tree().create_timer(2.0).timeout
 	
+	print("[DEBUG-FREEZE] 2.0s timer finished. Fading to Overworld!")
 	# 4. Fade back to Overworld
 	fade_and_change_scene("res://features/overworld/overworld.tscn")
 

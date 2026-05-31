@@ -471,7 +471,7 @@ func _fly_slipper_to_can() -> void:
 
 func _create_slipper_flight_tween(target_position: Vector2, arc_height: float, duration: float) -> Tween:
 	var start_position: Vector2 = slipper.position
-	var tween := get_tree().create_tween()
+	var tween := create_tween()
 
 	tween.tween_method(func(progress: float) -> void:
 		var eased_progress := progress * progress * (3.0 - 2.0 * progress)
@@ -500,7 +500,7 @@ func _move_can_to_hit_position() -> void:
 		return
 
 	var hit_offset := Vector2(0.0, -100.0)
-	var tween := get_tree().create_tween()
+	var tween := create_tween()
 
 	tween.tween_property(can, "position", can_start_position + hit_offset, 0.22).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
@@ -669,7 +669,7 @@ func _totoy_taya() -> void:
 	totoy.play_animation_loops("run-up", 2)
 	enemy_instance.play_animation_loops("run-down", 2)
 
-	var tween := get_tree().create_tween().set_parallel(true)
+	var tween := create_tween().set_parallel(true)
 	tween.tween_property(totoy, "global_position", taya_position, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(enemy_instance, "global_position", thrower_position, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	await tween.finished
@@ -687,7 +687,7 @@ func _enemy_taya() -> void:
 	totoy.play_animation_loops("run-down", 2)
 	enemy_instance.play_animation_loops("run-up", 2)
 
-	var tween := get_tree().create_tween().set_parallel(true)
+	var tween := create_tween().set_parallel(true)
 	tween.tween_property(totoy, "global_position", thrower_position, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(enemy_instance, "global_position", taya_position, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	await tween.finished

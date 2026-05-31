@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bvrog5qlbphhu" path="res://features/tumbang-preso/scripts/tumbang_preso.gd" id="1_iiiae"]
 [ext_resource type="PackedScene" uid="uid://divalb05tbeer" path="res://features/tumbang-preso/scenes/ui.tscn" id="1_ui001"]
 [ext_resource type="Texture2D" uid="uid://cseipdqvewv8e" path="res://features/patintero/assets/patintero_bg.png" id="2_ksj71"]
-[ext_resource type="PackedScene" uid="uid://dnpexcdo5eaj1" path="res://features/tumbang-preso/scenes/Totoy.tscn" id="5_o3lf6"]
+[ext_resource type="PackedScene" uid="uid://bl2txsguxnht3" path="res://features/tumbang-preso/scenes/Totoy.tscn" id="5_o3lf6"]
 [ext_resource type="PackedScene" uid="uid://ch74tm74m01q1" path="res://features/tumbang-preso/scenes/can.tscn" id="6_dd73v"]
 [ext_resource type="PackedScene" uid="uid://dn635m165pwq0" path="res://features/tumbang-preso/scenes/slipper.tscn" id="7_x2rvg"]
 
