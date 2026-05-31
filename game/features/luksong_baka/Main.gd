@@ -22,16 +22,13 @@ func _ready() -> void:
 	current_tier = GameManager.luksong_baka_selected_tier
 	lives = 3
 	current_level = 0
-	hud.tier_selected.connect(_on_tier_selected)
 	hud.restart_pressed.connect(_on_restart)
 	hud.overworld_pressed.connect(_on_overworld)
 	hud.next_tier_pressed.connect(_on_next_tier)
 	
 	if GameManager.bypass_minigame_menu:
 		GameManager.bypass_minigame_menu = false
-		_on_tier_selected(current_tier)
-	else:
-		hud.show_tier_select()
+	_on_tier_selected(current_tier)
 
 func _on_tier_selected(tier: int) -> void:
 	current_tier = tier
@@ -50,6 +47,8 @@ func _reset_tutorial_flags() -> void:
 func _start_level() -> void:
 	var difficulty = difficulties[current_tier]
 	hud.update_display(lives, difficulty.tier_name, current_level + 1)
+	baka.set_tier(current_tier)  # add this
+	baka.rise_to_level(current_level)
 	player.start_running()
 
 func _play_dialogue(timeline: String) -> void:
@@ -68,7 +67,6 @@ func on_player_reached_baka() -> void:
 
 func on_qte_success() -> void:
 	player.do_jump()
-	baka.rise_to_level(current_level)
 	if current_tier == 0 and not tutorial_first_success_done:
 		tutorial_first_success_done = true
 		await get_tree().create_timer(1.5).timeout
@@ -84,12 +82,12 @@ func on_qte_fail() -> void:
 	if current_tier == 0 and not tutorial_first_fail_done:
 		tutorial_first_fail_done = true
 		await _play_dialogue("res://features/luksong_baka/dialogues/tutorial_fail.dtl")
-	await get_tree().create_timer(0.6).timeout
+	await get_tree().create_timer(3.6).timeout
 	if lives <= 0:
 		_game_over()
 	else:
 		player.reset_position()
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(3.0).timeout
 		_start_level()
 
 func _advance_level() -> void:
