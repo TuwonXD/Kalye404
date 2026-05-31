@@ -4,6 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://cbtqe7f0fi4h4" path="res://features/tumbang-preso/assets/can.png" id="2_24g5n"]
 [ext_resource type="Texture2D" uid="uid://dvcxssguappkm" path="res://features/tumbang-preso/assets/man-icon.png" id="2_qo4hs"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_qo4hs"]
+font_size = 32
+font_color = Color(0, 0, 0, 1)
+outline_size = 2
+
 [node name="UI" type="Control" unique_id=1296784210]
 layout_mode = 3
 anchors_preset = 0
@@ -107,6 +112,7 @@ offset_right = 684.0
 offset_bottom = 324.0
 grow_horizontal = 2
 grow_vertical = 2
+label_settings = SubResource("LabelSettings_qo4hs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
