@@ -115,7 +115,7 @@ func _enter_player_turn() -> void:
 	var arrow_speed := ((float(enemy_accuracy) + float(enemy_speed)) / 15.0) * 100.0
 
 	power_bar.set_arrow_speed(arrow_speed)
-	phase_changed.emit("Player's Turn")
+	phase_changed.emit("Your Turn")
 
 func _enter_enemy_turn() -> void:
 	current_phase = TurnPhase.ENEMY_TURN
@@ -129,13 +129,13 @@ func _enter_enemy_turn() -> void:
 	_set_enemy_idle_with_slipper()
 
 	_apply_enemy_accuracy(enemy_accuracy)
-	phase_changed.emit("Enemy's Turn")
+	phase_changed.emit("Enemy Turn")
 
 func _enter_player_escape() -> void:
 	current_phase = TurnPhase.PLAYER_ESCAPE
 	power_bar.set_restart_enabled(true)
 	_apply_escape_mode(enemy_speed)
-	phase_changed.emit("Player's Escape Mode")
+	phase_changed.emit("Escape!")
 
 func _enter_enemy_escape() -> void:
 	current_phase = TurnPhase.ENEMY_ESCAPE
@@ -145,7 +145,7 @@ func _enter_enemy_escape() -> void:
 
 	power_bar.set_restart_enabled(true)
 	_apply_escape_mode(enemy_speed)
-	phase_changed.emit("Enemy's Escape Mode")
+	phase_changed.emit("Enemy Escape!")
 
 func _apply_half_orange_zones(value: int) -> void:
 	var half_of_orange := (value / 2.0) / 2.0
@@ -350,7 +350,7 @@ func _advance_enemy_phase() -> void:
 
 	current_phase = TurnPhase.PLAYER_TURN
 	_apply_current_mode()
-	phase_changed.emit("Enemy's Second Phase")
+	phase_changed.emit("Phase Two")
 
 func _get_phase_two_enemy_scene_path(base_scene_path: String) -> String:
 	match base_scene_path:
