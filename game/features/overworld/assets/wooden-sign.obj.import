@@ -9,7 +9,6 @@ path="res://.godot/imported/wooden-sign.obj-fe22d5fff1e29424a1898843ba766d3f.mes
 [deps]
 
 files=["res://.godot/imported/wooden-sign.obj-fe22d5fff1e29424a1898843ba766d3f.mesh"]
-
 source_file="res://features/overworld/assets/wooden-sign.obj"
 dest_files=["res://.godot/imported/wooden-sign.obj-fe22d5fff1e29424a1898843ba766d3f.mesh", "res://.godot/imported/wooden-sign.obj-fe22d5fff1e29424a1898843ba766d3f.mesh"]
 
