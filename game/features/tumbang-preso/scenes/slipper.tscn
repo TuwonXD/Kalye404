@@ -4,15 +4,16 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dpvsh"]
 radius = 134.0
-height = 468.0
+height = 400.0
 
 [node name="Slipper" type="Area2D" unique_id=1547711302]
 position = Vector2(570, 320)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=867940020]
-position = Vector2(2, 2)
-scale = Vector2(0.33842587, 0.40046296)
+position = Vector2(9.999939, 6)
+scale = Vector2(0.10244603, 0.10579539)
 texture = ExtResource("1_blli0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1808090084]
+position = Vector2(1, 0)
 shape = SubResource("CapsuleShape2D_dpvsh")

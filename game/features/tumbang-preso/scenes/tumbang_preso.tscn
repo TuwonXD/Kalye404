@@ -26,24 +26,28 @@ position = Vector2(576, 324)
 scale = Vector2(0.7731543, 0.7732698)
 texture = ExtResource("2_ksj71")
 
-[node name="PowerBar" parent="." unique_id=692389063 instance=ExtResource("1_gl814")]
-offset_left = 1055.0
-offset_top = 104.0
-offset_right = 1105.0
-offset_bottom = 504.0
-
-[node name="UI" parent="." unique_id=138204179 instance=ExtResource("1_ui001")]
-player_power_bar_path = NodePath("..")
-enemy_power_bar_path = NodePath("..")
-
-[node name="Totoy" parent="." unique_id=654115420 instance=ExtResource("5_o3lf6")]
-position = Vector2(582, 519)
-scale = Vector2(0.3, 0.3)
-
 [node name="Can" parent="." unique_id=898089351 instance=ExtResource("6_dd73v")]
 position = Vector2(567, 111)
 scale = Vector2(0.2, 0.2)
 
 [node name="Slipper" parent="." unique_id=1547711302 instance=ExtResource("7_x2rvg")]
-position = Vector2(633, 462)
+position = Vector2(628, 429.00003)
 scale = Vector2(0.15, 0.15)
+
+[node name="Enemy" type="Node2D" parent="." unique_id=1143015340]
+position = Vector2(693, 123)
+scale = Vector2(0.3, 0.3)
+
+[node name="Totoy" parent="." unique_id=654115420 instance=ExtResource("5_o3lf6")]
+position = Vector2(582, 519)
+scale = Vector2(0.3, 0.3)
+
+[node name="UI" parent="." unique_id=138204179 instance=ExtResource("1_ui001")]
+player_power_bar_path = NodePath("..")
+enemy_power_bar_path = NodePath("..")
+
+[node name="PowerBar" parent="." unique_id=692389063 instance=ExtResource("1_gl814")]
+offset_left = 1055.0
+offset_top = 104.0
+offset_right = 1105.0
+offset_bottom = 504.0

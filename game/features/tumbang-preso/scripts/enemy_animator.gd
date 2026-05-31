@@ -39,8 +39,14 @@ func play_pickup() -> void:
 func play_run_down() -> void:
 	play_animation("run-down")
 
+
+func play_idle() -> void:
+	play_animation("idle-w-slipper")
+
+
 func play_idle_down() -> void:
 	play_animation("idle-down")
+
 
 func play_idle_with_slipper() -> void:
 	play_animation("idle-w-slipper")
