@@ -1,0 +1,16 @@
+[background arg="res://features/story/assets/eskinita.png" fade="1.0"]
+join Totoy (Tired) left
+Totoy (Tired): Ang init... at ang ingay. Gusto ko na bumalik sa kwarto ko...
+[wait time="0.5"]
+[signal value="play_sfx_slipper_thud"]
+[wait time="0.3"]
+Totoy (Surprised): ARAY! Ano ba—
+join Kiko (Excited) right
+Kiko (Excited): Uy! Oy, ikaw! Pa-abot nga ng Spartan ko!
+Totoy (Default): Ah... heto oh.
+Kiko (Laughing): Salamat! Bago ka rito, 'no? Ako si Kiko! Sali ka sa laro?
+Totoy (Bored): Ah... hindi kaya, bibili lang ako ng suka saka babalik na 'ko—
+Kiko (Excited): Kunsabagay! Kulang nga kami ng isa. Halika dito, laro muna bago ka pumunta sa tindahan!
+leave Kiko
+leave Totoy
+[signal arg="eskinita_intro_done"]

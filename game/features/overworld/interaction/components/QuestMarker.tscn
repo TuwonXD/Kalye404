@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cytmh8pbyeoj4"]
+
+[ext_resource type="Script" uid="uid://d4cuhy2p40lt2" path="res://features/overworld/interaction/components/quest_marker.gd" id="1_p5crc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hj4po"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.8548469, 0.24780053, 0.25)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_p5crc"]
+material = SubResource("StandardMaterial3D_hj4po")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 100.0
+
+[node name="QuestMarker" type="MeshInstance3D" unique_id=1142745732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0)
+mesh = SubResource("CylinderMesh_p5crc")
+script = ExtResource("1_p5crc")

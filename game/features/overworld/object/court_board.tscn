@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://l0yum27b8i3t"]
+
+[ext_resource type="ArrayMesh" uid="uid://cicpcpeo71al6" path="res://features/overworld/assets/wooden-sign.obj" id="1_ckjb2"]
+[ext_resource type="Script" uid="uid://dqgiiwchhtpw1" path="res://features/overworld/object/board_interact.gd" id="1_v6ac5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ckjb2"]
+size = Vector3(0.7, 1.2, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v6ac5"]
+size = Vector3(0.5, 1, 1)
+
+[node name="CourtBoard" type="Node3D" unique_id=1678111179]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1836959898]
+transform = Transform3D(0.27, 0, 0, 0, 0.27, 0, 0, 0, 0.27, 0, -0.62059903, -0.05787444)
+mesh = ExtResource("1_ckjb2")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1710163521]
+script = ExtResource("1_v6ac5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=78575814]
+shape = SubResource("BoxShape3D_ckjb2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=496214399]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1944224999]
+shape = SubResource("BoxShape3D_v6ac5")

@@ -1,10 +1,11 @@
-[background fade="0.5"]
-join Kapitana_Kat center
-join Totoy left
-Kapitana_Kat: Grabe ang footwork mo! Kahit minsan, hindi ka man lang nadikit. Paano mo nagawa 'yan?
-Totoy: Haa... haa... tinanggap ko lang na may pattern 'yung galaw mo. Binasa ko.
-Kapitana_Kat: Pattern? Matalino ka rin pala, hindi lang paa mo. Eto. Ang Golden Chalk. Ito ang magbubukas ng daan papunta sa Covered Court. Maingatan mo 'yan.
-join Kiko right
-Kiko: LODS. Covered Court na tayo! Nandoon na ang pinaka-matanda, pinaka-mataas... si Kuya Talon!
-Totoy: ...sige. Tara na.
-[signal value="end_act_2"]
+[background arg="res://features/story/assets/basketball court.png" fade="1.0"]
+join Kapitana_Kat (Impressed) right
+join Totoy (Tired) left
+Kapitana_Kat (Impressed): Grabe ang footwork mo! Kahit minsan, hindi ka man lang nadikit. Paano mo nagawa 'yan?
+Totoy (Tired): Haa... haa... tinanggap ko lang na may pattern 'yung galaw mo. Binasa ko.
+Kapitana_Kat (Default): Pattern? Matalino ka rin pala, hindi lang paa mo. Eto. Ang Golden Chalk. Ito ang magbubukas ng daan papunta sa Covered Court. Maingatan mo 'yan.
+leave Kapitana_Kat
+join Kiko (Excited) right
+Kiko (Excited): LODS. Covered Court na tayo! Nandoon na ang pinaka-matanda, pinaka-mataas... si Kuya Talon!
+Totoy (Determined): ...sige. Tara na.
+[signal arg="end_act_2"]

@@ -12,7 +12,12 @@ var is_waiting: bool = false
 func _ready():
 	nav_agent = $NavigationAgent3D
 	start_position = global_position
+			
 	_pick_new_target()
+
+func _physics_process(delta):
+	if is_waiting:
+		return
 
 	if nav_agent.is_navigation_finished():
 		_start_waiting()

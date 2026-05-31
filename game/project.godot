@@ -11,14 +11,15 @@ config_version=5
 [application]
 
 config/name="Kalye 404"
-run/main_scene="uid://cde5er00m0vfc"
+run/main_scene="uid://dpgjchsetxqai"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Dialogic="*uid://ds2q0uclmolvu"
 GameManager="*uid://b8ma71sv7jjr3"
+Dialogic="*uid://ds2q0uclmolvu"
+PauseMenuOverlay="*uid://by6htjtd70ico"
 
 [dialogic]
 
@@ -31,18 +32,35 @@ directories/dch_directory={
 "Totoy": "res://features/story/characters/Totoy.dch"
 }
 directories/dtl_directory={
+"act1_eskinita": "res://features/story/timelines/act1_eskinita.dtl",
+"act1_intro": "res://features/story/timelines/act1_intro.dtl",
 "act1_lose": "res://features/story/timelines/act1_lose.dtl",
+"act1_outro": "res://features/story/timelines/act1_outro.dtl",
 "act1_post_win": "res://features/story/timelines/act1_post_win.dtl",
 "act1_pre_game": "res://features/story/timelines/act1_pre_game.dtl",
+"act2_intro": "res://features/story/timelines/act2_intro.dtl",
 "act2_lose": "res://features/story/timelines/act2_lose.dtl",
+"act2_outro": "res://features/story/timelines/act2_outro.dtl",
 "act2_post_win": "res://features/story/timelines/act2_post_win.dtl",
 "act2_pre_game": "res://features/story/timelines/act2_pre_game.dtl",
+"act3_intro": "res://features/story/timelines/act3_intro.dtl",
 "act3_lose": "res://features/story/timelines/act3_lose.dtl",
 "act3_post_win": "res://features/story/timelines/act3_post_win.dtl",
 "act3_pre_game": "res://features/story/timelines/act3_pre_game.dtl",
-"prologue_day1_end": "res://features/story/timelines/prologue_day1_end.dtl",
-"prologue_eskinita": "res://features/story/timelines/prologue_eskinita.dtl",
-"prologue_intro": "res://features/story/timelines/prologue_intro.dtl",
+"epilogue": "res://features/story/timelines/epilogue.dtl",
+"errand_intro": "res://features/story/timelines/errand_intro.dtl",
+"kapitana_champion": "res://features/story/timelines/kapitana_champion.dtl",
+"kapitana_default": "res://features/story/timelines/kapitana_default.dtl",
+"kiko_default": "res://features/story/timelines/kiko_default.dtl",
+"mama_default": "res://features/story/timelines/mama_default.dtl",
+"talon_champion": "res://features/story/timelines/talon_champion.dtl",
+"talon_default": "res://features/story/timelines/talon_default.dtl",
+"timelines/simbahan_intro": "res://features/story/timelines/simbahan_intro.dtl",
+"timelines/tutorial_luksong_done": "res://features/story/timelines/tutorial_luksong_done.dtl",
+"timelines/tutorial_patintero_done": "res://features/story/timelines/tutorial_patintero_done.dtl",
+"timelines/tutorial_tumbang_done": "res://features/story/timelines/tutorial_tumbang_done.dtl",
+"tsinelas_champion": "res://features/story/timelines/tsinelas_champion.dtl",
+"tsinelas_default": "res://features/story/timelines/tsinelas_default.dtl",
 "tutorial_fail": "res://features/luksong_baka/dialogues/tutorial_fail.dtl",
 "tutorial_intro": "res://features/luksong_baka/dialogues/tutorial_intro.dtl",
 "tutorial_luksong": "res://features/story/timelines/tutorial_luksong.dtl",
@@ -100,30 +118,38 @@ window/stretch/mode="canvas_items"
 
 enabled=PackedStringArray("res://addons/dialogic/plugin.cfg")
 
+[global_group]
+
+Player=""
+
 [input]
 
 up={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":119,"location":0,"echo":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":1,"axis_value":-1.0,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194320,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 down={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"location":0,"echo":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":1,"axis_value":1.0,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194322,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 left={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"key_label":0,"unicode":97,"location":0,"echo":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":-1.0,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194319,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 right={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"location":0,"echo":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":1.0,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194321,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 jump={
@@ -153,6 +179,21 @@ dialogic_default_action={
 StopArrow={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+dev_skip={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194343,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+dev_reverse={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194342,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+interact={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
 ]
 }
 
