@@ -12,6 +12,7 @@ var is_waiting: bool = false
 func _ready():
 	nav_agent = $NavigationAgent3D
 	start_position = global_position
+			
 	_pick_new_target()
 
 func _physics_process(delta):
