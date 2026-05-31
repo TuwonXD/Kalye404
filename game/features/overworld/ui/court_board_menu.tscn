@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://oekxuswegyey"]
+
+[ext_resource type="Script" uid="uid://d20qnyk30lkvk" path="res://features/overworld/ui/court_board_menu.gd" id="1_lxaph"]
+
+[node name="CourtBoardMenu" type="Control" unique_id=79670980]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lxaph")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=523046003]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.70000005)
+
+[node name="Panel" type="Panel" parent="." unique_id=2017569339]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -250.0
+offset_right = 200.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameSelector" type="OptionButton" parent="Panel" unique_id=1496566846]
+layout_mode = 1
+offset_right = 350.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=802514852]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -130.0
+offset_right = 150.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="TutorialButton" type="Button" parent="Panel/VBoxContainer" unique_id=374778084]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Play Tutorial"
+
+[node name="BronzeButton" type="Button" parent="Panel/VBoxContainer" unique_id=25600067]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Play Bronze"
+
+[node name="SilverButton" type="Button" parent="Panel/VBoxContainer" unique_id=710453861]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Play Silver"
+
+[node name="ChampionButton" type="Button" parent="Panel/VBoxContainer" unique_id=1514260039]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Play Champion"
+
+[node name="CloseButton" type="Button" parent="Panel" unique_id=53277218]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -50.0
+offset_bottom = 50.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "X"

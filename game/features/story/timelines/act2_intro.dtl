@@ -1,0 +1,11 @@
+[background arg="res://features/story/assets/sala.png" fade="1.0"]
+join Mama (Default) right
+join Totoy (Bored) left
+Mama (Default): Totoy, bumili ka nga ng pandesal dun sa panaderya malapit sa Simbahan.
+Totoy (Bored): Sige po, Ma.
+Mama (Strict): At wag ka nang makipag-harutan sa kalsada, kalalaba ko lang ng damit mo!
+Totoy (Embarrassed): Opo...
+leave Totoy
+[wait time="0.5"]
+Mama (Happy): ...pero mag-ingat ka dun, ah. Wag magpapagutom.
+[signal arg="start_overworld_act2"]

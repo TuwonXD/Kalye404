@@ -1,9 +1,14 @@
-[background fade="1.0"]
-join Kiko left
-join Totoy right
-Kiko: Okay Lods, pakinggan mo muna ako. Ito ang Tumbang Preso. Simple lang.
-Kiko: May dalawang power bar ang lalabas. Isa para sa lakas ng ihagis, isa para sa direksyon. I-time mo ng tama ang bawat isa.
-Totoy: Parang shooting mechanic?
-Kiko: Halos ganun! Ang unang makasampal ng lima sa lata, siya ang mananalo. Ready ka na ba?
-Totoy: ...ready.
-[signal value="start_tutorial_tumbang_preso"]
+[background arg="res://features/story/assets/basketball court.png" fade="1.0"]
+join Kiko (Excited) left
+join Totoy (Default) right
+Kiko (Excited): Okay Lods, pakinggan mo muna ako. Ito ang Tumbang Preso. Simple lang.
+Kiko (Serious): May dalawang power bar ang lalabas. Isa para sa lakas ng ihagis, isa para sa direksyon. I-time mo ng tama ang bawat isa.
+Totoy (Default): Parang shooting mechanic?
+Kiko (Excited): Halos ganun! Ang unang makasampal ng lima sa lata, siya ang mananalo.
+Totoy (Determined): Game. Sino ba makakalaban ko?
+Kiko (Serious): Wag ka muna mag-hangad ng malaki, Lods! Kailangan mo munang magpa-rank up sa Board natin dun sa Covered Court. 
+Kiko (Serious): Pag nakalagpas ka sa Silver rank dun, saka mo harapin si Boy Tsinelas... ang alamat ng Eskinita.
+Totoy (Default): Ah, kailangan mag-grind bago mag-boss? Game.
+Kiko (Excited): Ready ka na ba sa tutorial?
+Totoy (Determined): ...ready.
+[signal arg="start_tutorial_tumbang_preso"]
