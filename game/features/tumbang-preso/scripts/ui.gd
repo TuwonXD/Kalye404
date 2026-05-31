@@ -6,6 +6,9 @@ extends Control
 @onready var player_can_row = $PlayerCanRow
 @onready var enemy_can_row = $EnemyCanRow
 @onready var result_label = $ResultLabel
+@onready var enemy_portrait: TextureRect = $Enemy
+@onready var escape_label = $EscapeTimer
+@onready var escape_timer: Timer = Timer.new()
 
 var player_can_icons: Array[TextureRect] = []
 var enemy_can_icons: Array[TextureRect] = []
@@ -19,6 +22,15 @@ func _ready() -> void:
 	set_result_text("")
 	_bind_player_score_source()
 	_bind_enemy_score_source()
+
+	# Prepare escape countdown timer (1s ticks)
+	escape_timer.wait_time = 1.0
+	escape_timer.one_shot = false
+	escape_timer.autostart = false
+	escape_timer.name = "EscapeTimerTimer"
+	add_child(escape_timer)
+	escape_timer.timeout.connect(_on_escape_tick)
+	escape_label.visible = false
 
 
 func _collect_can_icons(row: Node) -> Array[TextureRect]:
@@ -101,6 +113,11 @@ func set_enemy_score(score: int) -> void:
 	_set_can_row_score(enemy_can_icons, score)
 
 
+func set_enemy_portrait(texture: Texture2D) -> void:
+	if enemy_portrait:
+		enemy_portrait.texture = texture
+
+
 func set_result_text(text: String) -> void:
 	result_label.text = text
 	result_label.visible = not text.is_empty()
@@ -125,8 +142,40 @@ func _on_enemy_max_score_reached(score: int) -> void:
 func _on_phase_changed(text: String) -> void:
 	if result_locked:
 		return
-
 	set_result_text(text)
+	if text == "Escape!":
+		_start_escape_countdown(5)
+	elif text == "Enemy Escape!":
+		_start_escape_countdown(5)
+	else:
+		_stop_escape_countdown()
+
+
+func _start_escape_countdown(seconds: int) -> void:
+	# show countdown in seconds
+	var secs : int = max(0, seconds)
+	escape_label.text = str(secs)
+	escape_label.visible = true
+	escape_label.modulate = Color(1, 0.8, 0.2)
+	self.set_meta("escape_remaining", secs)
+	escape_timer.start()
+
+
+func _stop_escape_countdown() -> void:
+	if escape_timer.is_stopped() == false:
+		escape_timer.stop()
+	escape_label.visible = false
+	self.set_meta("escape_remaining", null)
+
+
+func _on_escape_tick() -> void:
+	var rem = int(self.get_meta("escape_remaining")) if self.has_meta("escape_remaining") else 0
+	rem -= 1
+	if rem <= 0:
+		_stop_escape_countdown()
+		return
+	self.set_meta("escape_remaining", rem)
+	escape_label.text = str(rem)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

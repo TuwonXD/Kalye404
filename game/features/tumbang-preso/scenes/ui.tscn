@@ -2,10 +2,17 @@
 
 [ext_resource type="Script" uid="uid://86lxojr2q2rf" path="res://features/tumbang-preso/scripts/ui.gd" id="1_m6e0p"]
 [ext_resource type="Texture2D" uid="uid://cbtqe7f0fi4h4" path="res://features/tumbang-preso/assets/can.png" id="2_24g5n"]
-[ext_resource type="Texture2D" uid="uid://dvcxssguappkm" path="res://features/tumbang-preso/assets/man-icon.png" id="2_qo4hs"]
+[ext_resource type="Texture2D" uid="uid://qqj2tqx8kc44" path="res://features/tumbang-preso/assets/totoy/totoy-profile.png" id="2_ivb06"]
+[ext_resource type="Texture2D" uid="uid://cbiijk20o3guh" path="res://features/tumbang-preso/assets/boy tsinelas/bronze-profile.png" id="4_ivb06"]
+[ext_resource type="Texture2D" uid="uid://dvcxssguappkm" path="res://features/tumbang-preso/assets/man-icon.png" id="5_x7a9m"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qo4hs"]
 font_size = 32
+font_color = Color(0, 0, 0, 1)
+outline_size = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_ivb06"]
+font_size = 64
 font_color = Color(0, 0, 0, 1)
 outline_size = 2
 
@@ -18,19 +25,18 @@ script = ExtResource("1_m6e0p")
 
 [node name="Totoy" type="TextureRect" parent="." unique_id=1991847451]
 layout_mode = 0
-offset_left = 13.0
 offset_top = 7.0
-offset_right = 63.0
-offset_bottom = 57.0
-texture = ExtResource("2_qo4hs")
+offset_right = 128.0
+offset_bottom = 128.0
+texture = ExtResource("2_ivb06")
 expand_mode = 1
 
 [node name="PlayerCanRow" type="HBoxContainer" parent="." unique_id=184429430]
 layout_mode = 0
-offset_left = 75.0
-offset_top = 5.0
-offset_right = 341.0
-offset_bottom = 55.0
+offset_left = 120.0
+offset_top = 50.0
+offset_right = 386.0
+offset_bottom = 100.0
 
 [node name="Can1" type="TextureRect" parent="PlayerCanRow" unique_id=1661710735]
 custom_minimum_size = Vector2(50, 50)
@@ -64,10 +70,10 @@ expand_mode = 1
 
 [node name="EnemyCanRow" type="HBoxContainer" parent="." unique_id=184377764]
 layout_mode = 0
-offset_left = 75.0
-offset_top = 75.0
-offset_right = 341.0
-offset_bottom = 125.0
+offset_left = 120.0
+offset_top = 170.0
+offset_right = 386.0
+offset_bottom = 220.0
 
 [node name="Can1" type="TextureRect" parent="EnemyCanRow" unique_id=64651968]
 custom_minimum_size = Vector2(50, 50)
@@ -116,11 +122,27 @@ label_settings = SubResource("LabelSettings_qo4hs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="EscapeTimer" type="Label" parent="." unique_id=-1234860944]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 76.0
+offset_top = 412.0
+offset_right = 216.0
+offset_bottom = 497.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_ivb06")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Enemy" type="TextureRect" parent="." unique_id=1187471564]
 layout_mode = 0
-offset_left = 13.0
-offset_top = 74.0
-offset_right = 63.0
-offset_bottom = 124.0
-texture = ExtResource("2_qo4hs")
+offset_top = 128.0
+offset_right = 128.0
+offset_bottom = 256.0
+texture = ExtResource("5_x7a9m")
 expand_mode = 1

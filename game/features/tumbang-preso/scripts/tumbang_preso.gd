@@ -35,6 +35,7 @@ var totoy_is_taya: bool = false
 
 @onready var power_bar = $PowerBar
 @onready var totoy = $Totoy
+@onready var ui = $UI
 @onready var enemy_slot: Node2D = $Enemy
 @onready var slipper: Area2D = $Slipper
 @onready var can: Area2D = $Can
@@ -48,6 +49,9 @@ var enemy_scene_path: String = ""
 var enemy_phase_two_scene_path: String = ""
 var enemy_instance: Node = null
 
+const DEFAULT_ENEMY_PORTRAIT: Texture2D = preload("res://features/tumbang-preso/assets/man-icon.png")
+const BRONZE_ENEMY_PORTRAIT: Texture2D = preload("res://features/tumbang-preso/assets/boy tsinelas/bronze-profile.png")
+
 signal player_score_changed(score: int)
 signal enemy_score_changed(score: int)
 signal player_max_score_reached(score: int)
@@ -60,6 +64,7 @@ func _ready() -> void:
 		power_bar.power_bar_stopped.connect(_on_power_bar_stopped)
 
 	_spawn_selected_enemy()
+	_apply_enemy_portrait()
 	_record_starting_positions()
 	_set_slipper_visibility(false)
 	_set_totoy_idle_with_slipper()
@@ -90,6 +95,7 @@ func setup(accuracy: int, speed: int, second_accuracy: int, second_speed: int, s
 
 	if is_node_ready():
 		_spawn_selected_enemy()
+		_apply_enemy_portrait()
 		_record_starting_positions()
 		_set_slipper_visibility(false)
 		_set_totoy_idle_with_slipper()
@@ -330,6 +336,17 @@ func _spawn_selected_enemy(use_phase_two_scene: bool = false) -> void:
 	enemy_instance = packed_scene.instantiate()
 	enemy_slot.add_child(enemy_instance)
 	_set_enemy_idle_for_current_phase()
+
+
+func _apply_enemy_portrait() -> void:
+	if ui == null or not ui.has_method("set_enemy_portrait"):
+		return
+
+	var portrait := DEFAULT_ENEMY_PORTRAIT
+	if enemy_scene_path.ends_with("bronze.tscn"):
+		portrait = BRONZE_ENEMY_PORTRAIT
+
+	ui.set_enemy_portrait(portrait)
 
 func _advance_enemy_phase() -> void:
 	slipper_flight_token += 1
