@@ -10,11 +10,12 @@
 [ext_resource type="Resource" uid="uid://cn4jw55h2d3op" path="res://features/luksong_baka/difficulty/silver.tres" id="5_68win"]
 [ext_resource type="Script" uid="uid://cxj1fq08aotdu" path="res://features/luksong_baka/HUD.gd" id="5_axibq"]
 [ext_resource type="Resource" uid="uid://btk7i768y2dow" path="res://features/luksong_baka/difficulty/gold.tres" id="6_t8yxc"]
+[ext_resource type="Texture2D" uid="uid://b55umr7eebx01" path="res://features/overworld/assets/LBBG.png" id="7_6uvrs"]
 [ext_resource type="Texture2D" uid="uid://v3xuhwt4h0r2" path="res://features/overworld/assets/luksong baka kids a-e level 1-5/kid a/kid A level 1.png" id="8_cglsy"]
 [ext_resource type="Texture2D" uid="uid://bbjrlganaglu0" path="res://features/overworld/sprites/totoy/jump totoy 1.png" id="9_ef3bs"]
 [ext_resource type="Texture2D" uid="uid://bpd5iww4fv7hr" path="res://features/overworld/sprites/totoy/totoy nadapa 1.png" id="10_t8yxc"]
-[ext_resource type="Texture2D" uid="uid://bgvwicfboulhf" path="res://features/overworld/sprites/totoy/idle left.png" id="11_6uvrs"]
-[ext_resource type="Texture2D" uid="uid://bt4ey8gpky88i" path="res://features/overworld/sprites/totoy/run left.png" id="13_o3c3j"]
+[ext_resource type="Texture2D" uid="uid://bgvwicfboulhf" path="res://features/tumbang-preso/assets/totoy/idle left.png" id="11_6uvrs"]
+[ext_resource type="Texture2D" uid="uid://bt4ey8gpky88i" path="res://features/tumbang-preso/assets/totoy/run left.png" id="13_o3c3j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_386hx"]
 size = Vector2(1280, 20)
@@ -883,6 +884,13 @@ animations = [{
 [node name="Main" type="Node2D" unique_id=234204677]
 script = ExtResource("1_7q7uo")
 difficulties = Array[ExtResource("2_ef3bs")]([ExtResource("3_axhk5"), ExtResource("4_cglsy"), ExtResource("5_68win"), ExtResource("6_t8yxc")])
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1486357184]
+offset_left = -228.0
+offset_top = 31.0
+offset_right = 1360.0
+offset_bottom = 887.0
+texture = ExtResource("7_6uvrs")
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=1864514781]
 position = Vector2(0, 700)

@@ -37,6 +37,8 @@ func _on_tier_selected(tier: int) -> void:
 	_reset_tutorial_flags()
 	if current_tier == 0:
 		await _play_dialogue("res://features/luksong_baka/dialogues/tutorial_intro.dtl")
+	elif current_tier == 3:
+		await _play_dialogue("res://features/luksong_baka/dialogues/champion_intro.dtl")
 	_start_level()
 
 func _reset_tutorial_flags() -> void:
@@ -69,8 +71,12 @@ func on_qte_success() -> void:
 	player.do_jump()
 	if current_tier == 0 and not tutorial_first_success_done:
 		tutorial_first_success_done = true
-		await get_tree().create_timer(1.5).timeout
+		await get_tree().create_timer(1.0).timeout
 		await _play_dialogue("res://features/luksong_baka/dialogues/tutorial_success.dtl")
+	elif current_tier == 3 and not tutorial_first_success_done:
+		tutorial_first_success_done = true
+		await get_tree().create_timer(1.0).timeout
+		await _play_dialogue("res://features/luksong_baka/dialogues/champion_success.dtl")
 	else:
 		await get_tree().create_timer(1.5).timeout
 	_advance_level()
@@ -82,12 +88,15 @@ func on_qte_fail() -> void:
 	if current_tier == 0 and not tutorial_first_fail_done:
 		tutorial_first_fail_done = true
 		await _play_dialogue("res://features/luksong_baka/dialogues/tutorial_fail.dtl")
-	await get_tree().create_timer(3.6).timeout
+	elif current_tier == 3 and not tutorial_first_fail_done:
+		tutorial_first_fail_done = true
+		await _play_dialogue("res://features/luksong_baka/dialogues/champion_fail.dtl")
+	await get_tree().create_timer(2.5).timeout
 	if lives <= 0:
 		_game_over()
 	else:
 		player.reset_position()
-		await get_tree().create_timer(3.0).timeout
+		await get_tree().create_timer(1.0).timeout
 		_start_level()
 
 func _advance_level() -> void:
