@@ -1,0 +1,16 @@
+[background arg="res://features/story/assets/sala.png" fade="1.0"]
+join Totoy (Tired) left
+Totoy (Tired): Haa... haa... ang sakit ng binti ko. Grabe, mas hirap pa 'to sa mga boss fights sa loob ng game...
+join Mama (Default) right
+Mama (Default): O, bakit ganyan ka? Inabot ka yata ng siyam-siyam sa pagbili ng suka?
+Totoy (Embarrassed): Ah... eto po Ma.
+Mama (Strict): At bakit dusty-dusty ka? Natumba ka ba daan?
+Totoy (Default): Hindi naman po... nadapa lang ng konti.
+Mama (Happy): O siya. Mag-punas ka na ng pawis mo. Malapit na ang hapunan.
+leave Mama
+[wait time="1.0"]
+Totoy (Bored): ...
+[wait time="1.5"]
+Totoy (Determined): Bukas ulit.
+[background arg="#000000ff" fade="0.3"]
+[signal arg="fade_to_day_2"]

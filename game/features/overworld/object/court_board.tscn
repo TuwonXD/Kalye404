@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://l0yum27b8i3t"]
+
+[ext_resource type="Script" uid="uid://dqgiiwchhtpw1" path="res://features/overworld/object/board_interact.gd" id="1_v6ac5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ay8yc"]
+size = Vector3(0.5, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ckjb2"]
+size = Vector3(0.7, 1.2, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v6ac5"]
+size = Vector3(0.5, 1, 1)
+
+[node name="CourtBoard" type="Node3D" unique_id=1678111179]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1836959898]
+mesh = SubResource("BoxMesh_ay8yc")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1710163521]
+script = ExtResource("1_v6ac5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=78575814]
+shape = SubResource("BoxShape3D_ckjb2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=496214399]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1944224999]
+shape = SubResource("BoxShape3D_v6ac5")

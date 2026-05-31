@@ -1,0 +1,7 @@
+[background arg="res://features/story/assets/main street.png" fade="1.0"]
+join Kiko (Excited) right
+join Totoy (Surprised) left
+Kiko (Excited): Uy Totoy! Buti nandito ka sa Simbahan.
+Kiko (Excited): Gusto mong maglaro ng Patintero? Punta ka na sa Covered Court ha!
+leave Kiko
+[signal arg="simbahan_intro_done"]

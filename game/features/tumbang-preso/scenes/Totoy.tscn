@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dnpexcdo5eaj1"]
+[gd_scene format=3 uid="uid://bl2txsguxnht3"]
 
 [ext_resource type="Script" uid="uid://c5ihou8mibbcb" path="res://features/tumbang-preso/scripts/totoy.gd" id="1_0otoy"]
 [ext_resource type="Texture2D" uid="uid://be3vl1rpoaphk" path="res://features/overworld/sprites/totoy/idle with slipper.png" id="1_j3vw0"]

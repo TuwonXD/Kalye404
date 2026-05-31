@@ -438,6 +438,11 @@ func _enter_advancing() -> void:
 	tween.tween_property(totoy, "position:y", totoy.position.y - 300.0, 0.4).set_trans(Tween.TRANS_SINE)
 	await tween.finished
 
+	if _current_line + 1 >= 3:
+		# All 3 lines cleared, instantly trigger victory without fading to black
+		_change_state(State.VICTORY)
+		return
+
 	await _fade(0.0, 1.0)      # Fade to black (hidden reset happens here).
 	_current_line += 1
 	_current_round = 0
@@ -447,12 +452,6 @@ func _enter_advancing() -> void:
 	# Fix: Reset timer visually while screen is black
 	timer_bar.value = 1.0
 	timer_bar.modulate = Color.BLACK
-
-	if _current_line >= 3:
-		# All 3 lines cleared.
-		await _fade(1.0, 0.0)
-		_change_state(State.VICTORY)
-		return
 
 	# Reset Totoy and swap guard (behind the fade).
 	totoy.position.x = 575.0
@@ -464,18 +463,16 @@ func _enter_advancing() -> void:
 # ── VICTORY ───────────────────────────────────────────────────────────────────
 
 func _enter_victory() -> void:
-	victory_screen.visible = true
-	progress_label.text = "You Won!"
-
-## Called by the "Continue" button on VictoryScreen.
-func continue_match() -> void:
 	match_ended.emit("win")
+
+## Called by the "Continue" button on VictoryScreen (Now Unused, but kept for safety).
+func continue_match() -> void:
+	pass
 
 # ── GAME_OVER ─────────────────────────────────────────────────────────────────
 
 func _enter_game_over() -> void:
-	game_over_screen.visible = true
-	progress_label.text = "Game Over"
+	match_ended.emit("lose")
 
 ## Called by the "Try Again" button on GameOverScreen.
 func retry() -> void:
@@ -509,6 +506,24 @@ func _show_result(text: String, success: bool) -> void:
 	result_label.visible = true
 	_clear_input_feedback() # Clear the ✓/✗ marks so they are replaced
 
+func _show_big_alert(text: String, duration: float = 1.0) -> void:
+	var alert := Label.new()
+	alert.text = text
+	alert.add_theme_font_size_override("font_size", 64)
+	alert.add_theme_constant_override("outline_size", 8)
+	alert.add_theme_color_override("font_outline_color", Color.BLACK)
+	alert.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	alert.size = Vector2(1152, 100)
+	alert.position.y = 280
+	$UI/UIRoot.add_child(alert)
+	
+	var a_tween := create_tween()
+	a_tween.tween_property(alert, "modulate:a", 1.0, 0.2)
+	a_tween.tween_interval(duration)
+	a_tween.tween_property(alert, "modulate:a", 0.0, 0.2)
+	a_tween.tween_callback(alert.queue_free)
+	await a_tween.finished
+
 func _update_stamina_display() -> void:
 	for child in stamina_display.get_children():
 		child.queue_free()
@@ -529,7 +544,14 @@ func _update_guard_visual() -> void:
 		var tex: Texture2D = difficulty.guard_textures[_current_line]
 		if tex != null:
 			current_guard.texture = tex
-			current_guard.scale = difficulty.guard_scale
+			
+			# Auto-normalize scale based on the AtlasTexture region size!
+			# Standard grunts have a region height of ~344. Kapitana Kat is ~685.
+			# This math shrinks Kat automatically so she visually matches the 344 standard.
+			var base_scale = difficulty.guard_scale
+			var scale_ratio = 344.0 / float(tex.get_height())
+			current_guard.scale = base_scale * scale_ratio
+				
 			current_guard.visible = true
 		else:
 			current_guard.visible = false
