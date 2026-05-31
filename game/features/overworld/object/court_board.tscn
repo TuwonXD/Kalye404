@@ -1,9 +1,7 @@
 [gd_scene format=3 uid="uid://l0yum27b8i3t"]
 
+[ext_resource type="ArrayMesh" uid="uid://cicpcpeo71al6" path="res://features/overworld/assets/wooden-sign.obj" id="1_ckjb2"]
 [ext_resource type="Script" uid="uid://dqgiiwchhtpw1" path="res://features/overworld/object/board_interact.gd" id="1_v6ac5"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_ay8yc"]
-size = Vector3(0.5, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ckjb2"]
 size = Vector3(0.7, 1.2, 1.2)
@@ -14,7 +12,8 @@ size = Vector3(0.5, 1, 1)
 [node name="CourtBoard" type="Node3D" unique_id=1678111179]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1836959898]
-mesh = SubResource("BoxMesh_ay8yc")
+transform = Transform3D(0.27, 0, 0, 0, 0.27, 0, 0, 0, 0.27, 0, -0.62059903, -0.05787444)
+mesh = ExtResource("1_ckjb2")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=1710163521]
 script = ExtResource("1_v6ac5")
