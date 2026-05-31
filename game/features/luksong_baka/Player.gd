@@ -5,7 +5,7 @@ const RUN_SPEED = 200.0
 const JUMP_FORCE = -600.0
 const JUMP_TRIGGER_X = -60.0  # distance from Baka where player stops
 
-@onready var anim_player = $AnimationPlayer
+@onready var anim_player = $Sprite2D
 
 var is_running: bool = false
 var is_jumping: bool = false

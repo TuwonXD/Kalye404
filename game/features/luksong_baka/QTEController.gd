@@ -9,6 +9,7 @@ const LETTERS = ["A", "S", "D", "F", "J", "K", "L"]
 @export var qte_panel: Control
 @export var hint_label: Label
 @export var timer_bar: ColorRect
+@export var hint_sprite: TextureRect
 
 var sequence: Array[String] = []
 var current_index: int = 0
@@ -63,7 +64,8 @@ func start_qte(seq_length: int, limit: float) -> void:
 	_show_current_letter()
 
 func _show_current_letter() -> void:
-	hint_label.text = sequence[current_index]
+	var letter = sequence[current_index]
+	hint_sprite.texture = load("res://features/overworld/assets/Keycaps/" + letter + ".png")
 
 func _on_correct_key() -> void:
 	current_index += 1
@@ -75,6 +77,7 @@ func _on_correct_key() -> void:
 func _on_success() -> void:
 	is_active = false
 	qte_panel.visible = false
+	hint_sprite.texture = null  # add this
 	if success_sfx.stream:
 		success_sfx.play()
 	get_parent().on_qte_success()
@@ -82,6 +85,7 @@ func _on_success() -> void:
 func _on_fail() -> void:
 	is_active = false
 	qte_panel.visible = false
+	hint_sprite.texture = null  # add this
 	if fail_sfx.stream:
 		fail_sfx.play()
 	get_parent().on_qte_fail()
