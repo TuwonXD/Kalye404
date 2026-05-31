@@ -29,6 +29,8 @@ var enemy_escape_timeout_token: int = 0
 var player_escape_sequence_token: int = 0
 var enemy_escape_sequence_token: int = 0
 
+var slipper_flight_token: int = 0
+
 var totoy_is_taya: bool = false
 
 @onready var power_bar = $PowerBar
@@ -43,6 +45,7 @@ var slipper_start_position: Vector2 = Vector2.ZERO
 var can_start_position: Vector2 = Vector2.ZERO
 
 var enemy_scene_path: String = ""
+var enemy_phase_two_scene_path: String = ""
 var enemy_instance: Node = null
 
 signal player_score_changed(score: int)
@@ -73,6 +76,7 @@ func setup(accuracy: int, speed: int, second_accuracy: int, second_speed: int, s
 	enemy_phase_two_speed = clampi(second_speed, 0, 100)
 	
 	enemy_scene_path = selected_enemy_scene_path
+	enemy_phase_two_scene_path = _get_phase_two_enemy_scene_path(enemy_scene_path)
 
 	player_score = 0
 	enemy_score = 0
@@ -195,6 +199,9 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 					_cancel_player_escape_timeout()
 					if enemy_phase == 1:
 						_advance_enemy_phase()
+
+						_set_slipper_visibility(false)
+						slipper.global_position = slipper_start_position
 						return
 					power_bar.set_restart_enabled(false)
 					player_max_score_reached.emit(player_score)
@@ -304,7 +311,7 @@ func _apply_current_mode() -> void:
 		TurnPhase.ENEMY_ESCAPE:
 			_enter_enemy_escape()
 
-func _spawn_selected_enemy() -> void:
+func _spawn_selected_enemy(use_phase_two_scene: bool = false) -> void:
 	if enemy_slot == null:
 		return
 
@@ -312,7 +319,7 @@ func _spawn_selected_enemy() -> void:
 		enemy_instance.queue_free()
 		enemy_instance = null
 
-	var resolved_scene_path := enemy_scene_path
+	var resolved_scene_path := enemy_phase_two_scene_path if use_phase_two_scene else enemy_scene_path
 	if resolved_scene_path == "":
 		resolved_scene_path = "res://features/tumbang-preso/scenes/bronze.tscn"
 
@@ -325,6 +332,8 @@ func _spawn_selected_enemy() -> void:
 	_set_enemy_idle_for_current_phase()
 
 func _advance_enemy_phase() -> void:
+	slipper_flight_token += 1
+
 	enemy_phase = 2
 
 	enemy_accuracy = enemy_phase_two_accuracy
@@ -334,6 +343,7 @@ func _advance_enemy_phase() -> void:
 	enemy_score = 0
 
 	_clear_player_escape_state()
+	_spawn_selected_enemy(true)
 
 	player_score_changed.emit(player_score)
 	enemy_score_changed.emit(enemy_score)
@@ -341,6 +351,19 @@ func _advance_enemy_phase() -> void:
 	current_phase = TurnPhase.PLAYER_TURN
 	_apply_current_mode()
 	phase_changed.emit("Enemy's Second Phase")
+
+func _get_phase_two_enemy_scene_path(base_scene_path: String) -> String:
+	match base_scene_path:
+		"res://features/tumbang-preso/scenes/bronze.tscn":
+			return "res://features/tumbang-preso/scenes/bronze-saiyan.tscn"
+		"res://features/tumbang-preso/scenes/silver.tscn":
+			return "res://features/tumbang-preso/scenes/silver-saiyan.tscn"
+		"res://features/tumbang-preso/scenes/gold.tscn":
+			return "res://features/tumbang-preso/scenes/gold-saiyan.tscn"
+		_:
+			if base_scene_path.ends_with(".tscn"):
+				return base_scene_path.trim_suffix(".tscn") + "-saiyan.tscn"
+			return base_scene_path
 
 func _set_enemy_idle_for_current_phase() -> void:
 	if current_phase == TurnPhase.PLAYER_TURN:
@@ -415,10 +438,14 @@ func _fly_slipper_to_can() -> void:
 	if not (slipper and can):
 		return
 
-	await get_tree().create_timer(1.0).timeout
-	_set_slipper_visibility(true)
+	slipper_flight_token += 1
+	var my_token := slipper_flight_token
 
-	# _reset_slipper_and_can_positions()
+	await get_tree().create_timer(1.0).timeout
+	if my_token != slipper_flight_token:  
+		return
+
+	_set_slipper_visibility(true)
 
 	var target: Vector2 = can.position
 

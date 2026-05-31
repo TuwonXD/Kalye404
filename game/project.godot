@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameManager="*uid://b8ma71sv7jjr3"
 Dialogic="*uid://ds2q0uclmolvu"
+GameManager="*uid://b8ma71sv7jjr3"
 PauseMenuOverlay="*uid://by6htjtd70ico"
 
 [dialogic]
@@ -53,20 +53,20 @@ directories/dtl_directory={
 "kapitana_default": "res://features/story/timelines/kapitana_default.dtl",
 "kiko_default": "res://features/story/timelines/kiko_default.dtl",
 "mama_default": "res://features/story/timelines/mama_default.dtl",
+"simbahan_intro": "res://features/story/timelines/simbahan_intro.dtl",
 "talon_champion": "res://features/story/timelines/talon_champion.dtl",
 "talon_default": "res://features/story/timelines/talon_default.dtl",
-"timelines/simbahan_intro": "res://features/story/timelines/simbahan_intro.dtl",
-"timelines/tutorial_luksong_done": "res://features/story/timelines/tutorial_luksong_done.dtl",
-"timelines/tutorial_patintero_done": "res://features/story/timelines/tutorial_patintero_done.dtl",
-"timelines/tutorial_tumbang_done": "res://features/story/timelines/tutorial_tumbang_done.dtl",
 "tsinelas_champion": "res://features/story/timelines/tsinelas_champion.dtl",
 "tsinelas_default": "res://features/story/timelines/tsinelas_default.dtl",
 "tutorial_fail": "res://features/luksong_baka/dialogues/tutorial_fail.dtl",
 "tutorial_intro": "res://features/luksong_baka/dialogues/tutorial_intro.dtl",
 "tutorial_luksong": "res://features/story/timelines/tutorial_luksong.dtl",
+"tutorial_luksong_done": "res://features/story/timelines/tutorial_luksong_done.dtl",
 "tutorial_patintero": "res://features/story/timelines/tutorial_patintero.dtl",
+"tutorial_patintero_done": "res://features/story/timelines/tutorial_patintero_done.dtl",
 "tutorial_success": "res://features/luksong_baka/dialogues/tutorial_success.dtl",
-"tutorial_tumbang": "res://features/story/timelines/tutorial_tumbang.dtl"
+"tutorial_tumbang": "res://features/story/timelines/tutorial_tumbang.dtl",
+"tutorial_tumbang_done": "res://features/story/timelines/tutorial_tumbang_done.dtl"
 }
 layout/style_directory={
 "": "res://shared/ui/dialogue/KalyeVNStyle.tres",
