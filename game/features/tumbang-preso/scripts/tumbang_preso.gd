@@ -214,13 +214,8 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				power_bar.set_restart_enabled(false)
 			else:
 				power_bar.set_restart_enabled(false)
-
 				player_escape_sequence_token += 1
 
-				totoy.global_position = taya_position if totoy_is_taya else thrower_position
-
-				enemy_instance.global_position = thrower_position if totoy_is_taya else taya_position
-				
 				_set_slipper_visibility(false)
 				slipper.global_position = slipper_start_position
 				can.global_position = can_start_position
@@ -266,11 +261,6 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 
 				# Cancel the running escape sequence
 				enemy_escape_sequence_token += 1
-
-				# Snap characters to known positions before swapping
-				# so the taya starts clean regardless of where the sequence left them
-				totoy.global_position = taya_position if totoy_is_taya else thrower_position
-				enemy_instance.global_position = thrower_position if totoy_is_taya else taya_position
 
 				_set_slipper_visibility(false)
 				slipper.global_position = slipper_start_position
