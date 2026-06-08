@@ -104,16 +104,24 @@ func unlock_luksong_baka_tier(tier: int) -> void:
 
 var bypass_minigame_menu: bool = false
 
+# Clears Dialogic state AND removes any lingering layout nodes.
+# Dialogic.clear() alone does NOT remove the layout CanvasLayer, which
+# remains in the root scene tree and eats all mouse input as a ghost node.
+func _clear_dialogic() -> void:
+	if Dialogic:
+		Dialogic.clear()
+	is_dialogue_active = false
+	for child in get_tree().root.get_children():
+		if child.name.begins_with("DialogicLayout"):
+			child.queue_free()
+
 func fade_and_start_minigame(game_index: int, tier: int) -> void:
 	if _fade_rect:
 		var tween = create_tween()
 		tween.tween_property(_fade_rect, "modulate:a", 1.0, 0.5)
 		await tween.finished
 		
-		if Dialogic:
-			Dialogic.clear()
-			is_dialogue_active = false
-			
+		_clear_dialogic()
 		start_minigame(game_index, tier)
 		
 		# Wait for the scene to actually change and render
@@ -123,8 +131,7 @@ func fade_and_start_minigame(game_index: int, tier: int) -> void:
 		var tween2 = create_tween()
 		tween2.tween_property(_fade_rect, "modulate:a", 0.0, 0.5)
 	else:
-		if Dialogic:
-			Dialogic.clear()
+		_clear_dialogic()
 		start_minigame(game_index, tier)
 
 func fade_and_change_scene(path: String) -> void:
@@ -137,13 +144,7 @@ func fade_and_change_scene(path: String) -> void:
 		tween.tween_property(_fade_rect, "modulate:a", 1.0, 0.5)
 		await tween.finished
 		
-		print("[DEBUG-FREEZE] fade to black finished. Checking Dialogic...")
-		if Dialogic:
-			print("[DEBUG-FREEZE] calling Dialogic.clear()")
-			Dialogic.clear()
-			is_dialogue_active = false
-			
-		print("[DEBUG-FREEZE] calling get_tree().change_scene_to_file()")
+		_clear_dialogic()
 		get_tree().change_scene_to_file(path)
 		
 		# Wait for the scene to actually change and render
@@ -153,9 +154,7 @@ func fade_and_change_scene(path: String) -> void:
 		var tween2 = create_tween()
 		tween2.tween_property(_fade_rect, "modulate:a", 0.0, 0.5)
 	else:
-		if Dialogic:
-			Dialogic.clear()
-			is_dialogue_active = false
+		_clear_dialogic()
 		get_tree().change_scene_to_file(path)
 
 func start_minigame(game_index: int, tier: int):
@@ -203,12 +202,14 @@ func _start_patintero(tier: int) -> void:
 	elif tier == 2: diff_res = load("res://features/patintero/difficulty/silver.tres")
 	elif tier == 3: diff_res = load("res://features/patintero/difficulty/champion.tres")
 	
+	# Set difficulty BEFORE add_child so _ready() sees the correct resource.
+	# If set after, _ready() runs the intro splash with the wrong (Inspector-assigned) difficulty.
+	var resolved_diff = diff_res if diff_res else load("res://features/patintero/difficulty/bronze.tres")
+	scene.difficulty = resolved_diff
+	
 	get_tree().root.add_child(scene)
 	get_tree().current_scene.queue_free()
 	get_tree().current_scene = scene
-
-	if diff_res: scene.setup(diff_res)
-	else: scene.setup(load("res://features/patintero/difficulty/bronze.tres"))
 	
 	# Hook up match condition to auto-close
 	scene.match_ended.connect(func(result: String):
