@@ -254,12 +254,12 @@ func show_result_and_exit(is_win: bool, game_name: String, tier: int):
 	else:
 		if tier == 3:
 			print("[DEBUG-FREEZE] Player lost boss fight.")
-			pending_dialogue = "boss_loss_dialogue"
-		else:
-			print("[DEBUG-FREEZE] Player lost normal match.")
 			if game_name == "tumbang": pending_dialogue = "act1_lose"
 			elif game_name == "patintero": pending_dialogue = "act2_lose"
 			elif game_name == "luksong": pending_dialogue = "act3_lose"
+		else:
+			print("[DEBUG-FREEZE] Player lost normal match.")
+			pending_dialogue = ""
 
 	# 2. Spawn the Result UI dynamically
 	var canvas = CanvasLayer.new()
