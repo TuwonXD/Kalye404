@@ -50,7 +50,7 @@ var enemy_phase_two_scene_path: String = ""
 var enemy_instance: Node = null
 
 const DEFAULT_ENEMY_PORTRAIT: Texture2D = preload("res://features/tumbang-preso/assets/man-icon.png")
-const BRONZE_ENEMY_PORTRAIT: Texture2D = preload("res://features/tumbang-preso/assets/boy tsinelas/bronze-profile.png")
+const GOLD_ENEMY_PORTRAIT: Texture2D = preload("res://features/tumbang-preso/assets/boy tsinelas/bronze-profile.png")
 
 signal player_score_changed(score: int)
 signal enemy_score_changed(score: int)
@@ -343,8 +343,8 @@ func _apply_enemy_portrait() -> void:
 		return
 
 	var portrait := DEFAULT_ENEMY_PORTRAIT
-	if enemy_scene_path.ends_with("bronze.tscn"):
-		portrait = BRONZE_ENEMY_PORTRAIT
+	if enemy_scene_path.ends_with("gold.tscn"):
+		portrait = GOLD_ENEMY_PORTRAIT
 
 	ui.set_enemy_portrait(portrait)
 
