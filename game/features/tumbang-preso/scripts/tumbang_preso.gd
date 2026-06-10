@@ -1,5 +1,10 @@
 extends Node2D
 
+# Fix the swap taya after premature stoppage of arrow bug in escape mode.
+# In player escape mode, when arrow is stopped with failure before totoy pickup the slipper.
+# In enemy escape mode, when arrow is stopped with success before enemy pickup the slipper.
+# Temporary fix in _enter_player_turn and _enter_enemy_turn 
+
 enum TurnPhase { PLAYER_TURN, PLAYER_ESCAPE, ENEMY_TURN, ENEMY_ESCAPE }
 
 @export var max_score: int = 5
@@ -33,6 +38,9 @@ var slipper_flight_token: int = 0
 
 var totoy_is_taya: bool = false
 
+# Tracks where the can landed after being hit, for taya pickup
+var can_hit_position: Vector2 = Vector2.ZERO
+
 @onready var power_bar = $PowerBar
 @onready var totoy = $Totoy
 @onready var ui = $UI
@@ -44,6 +52,7 @@ var thrower_position: Vector2 = Vector2.ZERO
 var taya_position: Vector2 = Vector2.ZERO
 var slipper_start_position: Vector2 = Vector2.ZERO
 var can_start_position: Vector2 = Vector2.ZERO
+var slipper_missed_land_position: Vector2 = Vector2.ZERO  # where the slipper landed on a missed throw
 
 var enemy_scene_path: String = ""
 var enemy_phase_two_scene_path: String = ""
@@ -105,6 +114,10 @@ func setup(accuracy: int, speed: int, second_accuracy: int, second_speed: int, s
 
 func _enter_player_turn() -> void:
 	current_phase = TurnPhase.PLAYER_TURN
+	
+	# temporary fix for the premature stoppage of arrow in escape mode
+	_set_slipper_visibility(false)
+	slipper.global_position = slipper_start_position
 
 	_clear_player_escape_state()
 	_clear_enemy_escape_state()
@@ -126,6 +139,10 @@ func _enter_player_turn() -> void:
 func _enter_enemy_turn() -> void:
 	current_phase = TurnPhase.ENEMY_TURN
 
+	# temporary fix for the premature stoppage of arrow in escape mode
+	_set_slipper_visibility(false)
+	slipper.global_position = slipper_start_position
+
 	_clear_player_escape_state()
 	_clear_enemy_escape_state()
 
@@ -145,9 +162,6 @@ func _enter_player_escape() -> void:
 
 func _enter_enemy_escape() -> void:
 	current_phase = TurnPhase.ENEMY_ESCAPE
-
-	# _clear_player_escape_state()
-	# pending_player_turn_after_escape_return = false
 
 	power_bar.set_restart_enabled(true)
 	_apply_escape_mode(enemy_speed)
@@ -215,8 +229,10 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				# bar stays off — _begin_player_escape_mode() owns restarting it
 
 			else:
+				# Miss: thrower picks up slipper, taya picks up can, then roles swap
 				power_bar.set_restart_enabled(false)
 				await _fly_slipper_to_miss_can()
+				await _reset_props_with_animations_player_missed()
 				await _totoy_taya()
 				_enter_enemy_turn()
 				power_bar.start()
@@ -229,17 +245,11 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				power_bar.set_restart_enabled(false)
 				player_escape_sequence_token += 1
 
-				_set_slipper_visibility(false)
-				slipper.global_position = slipper_start_position
-				can.global_position = can_start_position
-
+				# Failed escape: taya (enemy) picks up can, thrower (totoy) picks up slipper, then swap
+				await _reset_props_with_animations_player_escape_failed()
 				await _totoy_taya()
 				_enter_enemy_turn()
 				power_bar.start()
-			
-			
-			await get_tree().create_timer(2.5).timeout
-			can.global_position = can_start_position
 
 		TurnPhase.ENEMY_TURN:
 			_play_enemy_throw()
@@ -262,8 +272,10 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				# bar stays off — _begin_enemy_escape_mode() owns restarting it
 
 			else:
+				# Miss: thrower (enemy) picks up slipper, taya (totoy) picks up can, then roles swap
 				power_bar.set_restart_enabled(false)
 				await _fly_slipper_to_miss_can()
+				await _reset_props_with_animations_enemy_missed()
 				await _enemy_taya()
 				_enter_player_turn()
 				power_bar.start()
@@ -275,10 +287,8 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 				# Cancel the running escape sequence
 				enemy_escape_sequence_token += 1
 
-				_set_slipper_visibility(false)
-				slipper.global_position = slipper_start_position
-				can.global_position = can_start_position
-
+				# Failed enemy escape (player caught): totoy (taya) picks up can, enemy picks up slipper, then swap
+				await _reset_props_with_animations_enemy_escape_failed()
 				await _enemy_taya()
 				_enter_player_turn()
 				power_bar.start()
@@ -286,10 +296,6 @@ func _on_power_bar_stopped(_position: float, zone: String) -> void:
 			else:
 				pending_enemy_turn_after_escape_return = true
 				power_bar.set_restart_enabled(false)
-			
-			
-			await get_tree().create_timer(2.5).timeout
-			can.global_position = can_start_position
 
 func _did_win(zone: String) -> bool:
 	return zone == "green" or (zone == "orange" and _roll_half_chance())
@@ -435,6 +441,10 @@ func _set_slipper_visibility(is_visible: bool) -> void:
 	if slipper:
 		slipper.visible = is_visible
 
+func _set_can_visibility(is_visible: bool) -> void:
+	if can:
+		can.visible = is_visible
+
 func _clear_player_escape_state() -> void:
 	pending_player_escape_sequence = false
 	pending_player_turn_after_escape_return = false
@@ -450,6 +460,104 @@ func _cancel_player_escape_timeout() -> void:
 
 func _cancel_enemy_escape_timeout() -> void:
 	enemy_escape_timeout_token += 1
+
+
+func _taya_pickup_can(node: Node, is_local: bool) -> void:
+	if node == null or not node.has_method("move_to_position"):
+		# Fallback: just reset the can instantly
+		_set_can_visibility(false)
+		can.global_position = can_start_position
+		_set_can_visibility(true)
+		return
+
+	# Step 1 — run to where the can is now (hit position)
+	var target_hit: Vector2
+	var target_start: Vector2
+	var target_taya_home: Vector2
+	if is_local:
+		target_hit = node.get_parent().to_local(can.global_position)
+		target_start = node.get_parent().to_local(can_start_position)
+		target_taya_home = node.get_parent().to_local(taya_position)
+	else:
+		target_hit = can.global_position
+		target_start = can_start_position
+		target_taya_home = taya_position
+
+	await node.move_to_position(target_hit, 2.0, "run-up", 2)
+
+	# Step 2 — pickup animation, hide can
+	node.play_pickup()
+	_set_can_visibility(false)
+	await get_tree().create_timer(0.5).timeout
+
+	# Step 3 — run back to the can's original position
+	await node.move_to_position(target_start, 2.0, "run-down", 2)
+
+	# Step 4 — pickup animation again, show can at start position
+	can.global_position = can_start_position
+	node.play_pickup()
+	await get_tree().create_timer(0.3).timeout
+	_set_can_visibility(true)
+
+	# Step 5 — taya returns to their initial standing position
+	await node.move_to_position(target_taya_home, 2.0, "run-down", 2)
+	node.play_idle_down()
+
+
+func _thrower_pickup_slipper_missed(node: Node, is_local: bool) -> void:
+	if node == null or not node.has_method("move_to_position"):
+		_set_slipper_visibility(false)
+		slipper.global_position = slipper_start_position
+		return
+
+	# Use the saved land position — slipper.global_position is already reset at this point
+	var target_slipper: Vector2
+	if is_local:
+		target_slipper = node.get_parent().to_local(slipper_missed_land_position)
+	else:
+		target_slipper = slipper_missed_land_position
+
+	# Move slipper node to land position and show it so the thrower visually walks to it
+	slipper.global_position = slipper_missed_land_position
+	_set_slipper_visibility(true)
+
+	# Run to slipper
+	await node.move_to_position(target_slipper, 2.0, "run-up", 2)
+
+	# Pickup, hide slipper, reset to start
+	node.play_pickup()
+	_set_slipper_visibility(false)
+	slipper.global_position = slipper_start_position
+	await get_tree().create_timer(0.5).timeout
+	# Swap begins immediately from here — no return walk
+
+
+# ─────────────────────────────────────────────
+# PROP RESET HELPERS — called before role swap
+#
+# MISS scenarios: the can was never knocked so only the thrower
+# needs to retrieve their slipper. The taya does nothing.
+#
+# ESCAPE FAILED scenarios: the thrower already picked up the slipper
+# during the escape sequence, so only the taya resets the can.
+# ─────────────────────────────────────────────
+
+# Totoy missed throw → only Totoy picks up slipper; can is untouched
+func _reset_props_with_animations_player_missed() -> void:
+	await _thrower_pickup_slipper_missed(totoy, false)
+
+# Enemy missed throw → only Enemy picks up slipper; can is untouched
+func _reset_props_with_animations_enemy_missed() -> void:
+	await _thrower_pickup_slipper_missed(enemy_instance, true)
+
+# Player failed escape → slipper already held by Totoy; only Enemy (taya) resets the can
+func _reset_props_with_animations_player_escape_failed() -> void:
+	await _taya_pickup_can(enemy_instance, true)
+
+# Enemy failed escape → slipper already held by Enemy; only Totoy (taya) resets the can
+func _reset_props_with_animations_enemy_escape_failed() -> void:
+	await _taya_pickup_can(totoy, false)
+
 
 func _fly_slipper_to_can() -> void:
 	if not (slipper and can):
@@ -485,6 +593,9 @@ func _on_slipper_arrived() -> void:
 	print("[TumbangPreso] Slipper arrived at can")
 	if not pending_player_escape_sequence and not pending_enemy_escape_sequence:
 		return
+
+	# Record where the can ended up after being hit — taya needs this for pickup
+	can_hit_position = can.global_position
 
 	_move_can_to_hit_position()
 
@@ -548,12 +659,14 @@ func _run_player_escape_sequence() -> void:
 
 	var slipper_target := slipper.global_position
 
+	# Totoy (thrower) runs to slipper
 	await totoy.move_to_position(slipper_target, 2.0, "run-up", 2)
 	if my_token != player_escape_sequence_token:
-		return  # sequence was cancelled, taya swap took over
+		return
 
 	totoy.play_pickup()
 	_set_slipper_visibility(false)
+	slipper.global_position = slipper_start_position  # reset immediately so swap always finds slipper at home
 
 	await get_tree().create_timer(1.0).timeout
 	if my_token != player_escape_sequence_token:
@@ -563,7 +676,9 @@ func _run_player_escape_sequence() -> void:
 	if my_token != player_escape_sequence_token:
 		return
 
-	slipper.global_position = slipper_start_position
+	# Taya (enemy) picks up the can and resets it before next turn starts
+	await _taya_pickup_can(enemy_instance, true)
+
 	_set_totoy_idle_with_slipper()
 
 	if pending_player_turn_after_escape_return:
@@ -583,12 +698,14 @@ func _run_enemy_escape_sequence() -> void:
 
 	var slipper_target: Vector2 = enemy_instance.get_parent().to_local(slipper.global_position)
 
+	# Enemy (thrower) runs to slipper
 	await enemy_instance.move_to_position(slipper_target, 2.0, "run-up", 2)
 	if my_token != enemy_escape_sequence_token:
 		return
 
 	enemy_instance.play_pickup()
 	_set_slipper_visibility(false)
+	slipper.global_position = slipper_start_position  # reset immediately so swap always finds slipper at home
 
 	await get_tree().create_timer(1.0).timeout
 	if my_token != enemy_escape_sequence_token:
@@ -599,7 +716,9 @@ func _run_enemy_escape_sequence() -> void:
 	if my_token != enemy_escape_sequence_token:
 		return
 
-	slipper.global_position = slipper_start_position
+	# Taya (totoy) picks up the can and resets it before next turn starts
+	await _taya_pickup_can(totoy, false)
+
 	_set_enemy_idle_with_slipper()
 
 	if pending_enemy_turn_after_escape_return and current_phase == TurnPhase.ENEMY_ESCAPE:
@@ -613,52 +732,24 @@ func _run_enemy_escape_sequence() -> void:
 
 func _fly_slipper_to_miss_can() -> void:
 	if not (slipper and can):
-		_enter_enemy_turn()
 		return
 
 	await get_tree().create_timer(1.0).timeout
 	_set_slipper_visibility(true)
 
-	var side_offset_direction: int = 1
-	if slipper_start_position.x < can.position.x:
-		side_offset_direction = -1
+	# Land the slipper close to the can — random offset within 40–100px on either side
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var offset_x := rng.randf_range(40.0, 100.0) * (1.0 if rng.randi_range(0, 1) == 0 else -1.0)
+	var offset_y := rng.randf_range(-20.0, 20.0)
+	var target := Vector2(can.global_position.x + offset_x, can.global_position.y + offset_y)
 
-	var map_width := get_viewport_rect().size.x
-	if map_width <= 0.0:
-		map_width = 1152.0
-
-	var safe_margin := 64.0
-	var avoid_radius := 32.0
-	var target_x := 0.0
-	var target := Vector2.ZERO
-	var tries := 0
-	while true:
-		target_x = clampf(randf_range(safe_margin, map_width - safe_margin), safe_margin, map_width - safe_margin)
-		if side_offset_direction < 0 and target_x > can.position.x:
-			target_x = clampf(can.position.x - randf_range(64.0, 180.0), safe_margin, map_width - safe_margin)
-		elif side_offset_direction > 0 and target_x < can.position.x:
-			target_x = clampf(can.position.x + randf_range(64.0, 180.0), safe_margin, map_width - safe_margin)
-
-		target = Vector2(target_x, can.position.y)
-		if target.distance_to(can_start_position) > avoid_radius:
-			break
-
-		tries += 1
-		if tries >= 6:
-			var fallback_offset := avoid_radius + 64.0
-			if target_x <= can_start_position.x:
-				target_x = clampf(can_start_position.x - fallback_offset, safe_margin, map_width - safe_margin)
-			else:
-				target_x = clampf(can_start_position.x + fallback_offset, safe_margin, map_width - safe_margin)
-			target = Vector2(target_x, can.position.y)
-			if target.distance_to(can_start_position) > avoid_radius:
-				break
 	var tween := _create_slipper_flight_tween(target, 90.0, 0.8)
 	await tween.finished
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.3).timeout
 
-	_set_slipper_visibility(false)
-	slipper.global_position = slipper_start_position
+	# Save where it landed so the thrower knows where to run
+	slipper_missed_land_position = slipper.global_position
 
 func _totoy_taya() -> void:
 	if totoy == null or enemy_instance == null:
